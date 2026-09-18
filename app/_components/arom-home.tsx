@@ -3,16 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Activity,
   Angry,
-  BookOpen,
   CheckCircle2,
   ChevronRight,
   CirclePlay,
   Flower2,
   Frown,
   Heart,
-  Home,
   Laugh,
   Meh,
   NotebookPen,
@@ -23,13 +20,7 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
-
-type NavigationItem = {
-  label: string;
-  icon: LucideIcon;
-  active?: boolean;
-  emphasized?: boolean;
-};
+import { AromBrand, DesktopNavigation, MobileNavigation } from "./app-navigation";
 
 type PlanItem = {
   title: string;
@@ -42,14 +33,6 @@ type Mood = {
   label: string;
   icon: LucideIcon;
 };
-
-const navigationItems: NavigationItem[] = [
-  { label: "Home", icon: Home, active: true },
-  { label: "MindGuide", icon: BookOpen },
-  { label: "Detection", icon: Activity, emphasized: true },
-  { label: "Therapist", icon: Heart },
-  { label: "Community", icon: UsersRound },
-];
 
 const planItems: PlanItem[] = [
   {
@@ -89,69 +72,6 @@ const moods: Mood[] = [
 ];
 
 const easeOut = [0.23, 1, 0.32, 1] as const;
-
-function Brand({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className="flex items-center gap-2">
-      <Image
-        src="/brand/arom-mark.svg"
-        alt=""
-        width={40}
-        height={32}
-        className="h-8 w-10 shrink-0"
-        unoptimized
-      />
-      <div>
-        <p className="text-[1.45rem] font-bold leading-none tracking-[-0.04em] text-arom">
-          AROM
-        </p>
-        {!compact && (
-          <p className="mt-2 text-xs font-medium tracking-[-0.01em] text-ink-muted">
-            A calmer mind, a brighter you
-          </p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function DesktopNavigation() {
-  return (
-    <aside className="sticky top-0 hidden h-screen flex-col border-r border-arom-border bg-white px-5 py-8 lg:flex">
-      <div className="px-2">
-        <Brand compact />
-      </div>
-
-      <nav aria-label="Primary" className="mt-14 flex flex-col gap-2">
-        {navigationItems.map(({ label, icon: Icon, active }) => (
-          <a
-            key={label}
-            href="#"
-            aria-current={active ? "page" : undefined}
-            className={`group flex min-h-12 items-center gap-3 rounded-2xl px-4 text-sm font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom ${
-              active
-                ? "bg-arom-soft text-arom"
-                : "text-ink-muted hover:bg-arom-wash hover:text-arom"
-            }`}
-          >
-            <Icon aria-hidden="true" size={21} strokeWidth={active ? 2.4 : 2} />
-            {label}
-          </a>
-        ))}
-      </nav>
-
-      <div className="mt-auto rounded-3xl bg-arom p-5 text-white">
-        <div className="mb-4 flex size-10 items-center justify-center rounded-full bg-white/14">
-          <Heart aria-hidden="true" size={20} />
-        </div>
-        <p className="text-sm font-semibold">Make space for yourself.</p>
-        <p className="mt-1 text-xs leading-5 text-white/70">
-          A small check-in can change the shape of your day.
-        </p>
-      </div>
-    </aside>
-  );
-}
 
 function DailyPlanCard() {
   return (
@@ -277,39 +197,6 @@ function MoodCheckIn() {
   );
 }
 
-function MobileNavigation() {
-  return (
-    <nav
-      aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-20 border-t border-arom-border bg-white/96 px-3 pb-[calc(0.55rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-12px_35px_rgba(15,80,65,0.06)] backdrop-blur-xl lg:hidden"
-    >
-      <div className="mx-auto grid max-w-md grid-cols-5">
-        {navigationItems.map(({ label, icon: Icon, active, emphasized }) => (
-          <a
-            key={label}
-            href="#"
-            aria-current={active ? "page" : undefined}
-            className={`relative flex min-h-[52px] flex-col items-center justify-end gap-1 rounded-xl text-[0.66rem] font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-arom ${
-              active || emphasized ? "text-arom" : "text-ink"
-            }`}
-          >
-            <span
-              className={
-                emphasized
-                  ? "absolute -top-6 flex size-12 items-center justify-center rounded-full bg-arom text-white shadow-[0_8px_22px_rgba(31,111,91,0.26)] ring-4 ring-white"
-                  : "flex h-7 items-center justify-center"
-              }
-            >
-              <Icon aria-hidden="true" size={emphasized ? 25 : 24} strokeWidth={active ? 2.5 : 2} />
-            </span>
-            <span className={emphasized ? "mt-7" : ""}>{label}</span>
-          </a>
-        ))}
-      </div>
-    </nav>
-  );
-}
-
 export function AromHome() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -339,7 +226,7 @@ export function AromHome() {
 
   return (
     <div className="min-h-screen bg-canvas lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]">
-      <DesktopNavigation />
+      <DesktopNavigation active="Home" />
 
       <div className="min-w-0">
         <motion.main
@@ -350,7 +237,7 @@ export function AromHome() {
         >
           <motion.header variants={itemVariants} className="flex items-start justify-between gap-4">
             <div className="lg:hidden">
-              <Brand />
+              <AromBrand />
             </div>
             <div className="hidden lg:block">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-arom-accent">
@@ -404,7 +291,7 @@ export function AromHome() {
         </motion.main>
       </div>
 
-      <MobileNavigation />
+      <MobileNavigation active="Home" />
     </div>
   );
 }
