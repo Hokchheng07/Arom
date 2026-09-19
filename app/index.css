@@ -31,7 +31,7 @@
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --font-sans: var(--font-inter);
-  --font-khmer: var(--font-noto-khmer);
+  --font-khmer: var(--font-kantumruy-pro);
   --shadow-card: 0 18px 50px rgba(25, 87, 72, 0.08);
   --shadow-auth: 0 30px 80px rgba(20, 68, 57, 0.1);
 }
@@ -52,6 +52,22 @@ body {
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
+html[data-language="km"] body {
+  font-family: var(--font-kantumruy-pro), sans-serif;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0;
+}
+
+.font-khmer {
+  font-synthesis: none;
+}
+
+html[data-language="km"] :where(h1, h2, h3) {
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
 ::selection {
   background: var(--arom-soft);
   color: var(--arom-deep);
@@ -69,6 +85,10 @@ button {
 
 button:disabled {
   cursor: not-allowed;
+}
+
+body[data-immersive="true"] .language-switcher {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

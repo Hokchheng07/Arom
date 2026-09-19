@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_Khmer } from "next/font/google";
+import { Inter, Kantumruy_Pro } from "next/font/google";
 import "./index.css";
+import { LanguageProvider } from "./_components/language-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -8,8 +9,8 @@ const inter = Inter({
   display: "swap",
 });
 
-const notoSansKhmer = Noto_Sans_Khmer({
-  variable: "--font-noto-khmer",
+const kantumruyPro = Kantumruy_Pro({
+  variable: "--font-kantumruy-pro",
   subsets: ["khmer", "latin"],
   display: "swap",
 });
@@ -24,8 +25,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${notoSansKhmer.variable} antialiased`}>
-      <body>{children}</body>
+    <html lang="en" className={`${inter.variable} ${kantumruyPro.variable} antialiased`} suppressHydrationWarning>
+      <body><LanguageProvider>{children}</LanguageProvider></body>
     </html>
   );
 }

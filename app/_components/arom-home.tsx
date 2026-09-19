@@ -21,6 +21,7 @@ import {
 import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { AromBrand, DesktopNavigation, MobileNavigation } from "./app-navigation";
+import { useLanguage } from "./language-provider";
 
 type PlanItem = {
   title: string;
@@ -74,13 +75,15 @@ const moods: Mood[] = [
 const easeOut = [0.23, 1, 0.32, 1] as const;
 
 function DailyPlanCard() {
+  const { language } = useLanguage();
+  const km = language === "km";
   return (
     <section
       aria-labelledby="daily-plan-title"
       className="rounded-[1.4rem] bg-arom px-4 pb-4 pt-3.5 text-white shadow-[0_18px_50px_rgba(25,87,72,0.14)] sm:px-5 sm:pb-5"
     >
       <h2 id="daily-plan-title" className="px-3 text-sm font-medium sm:text-base">
-        Your Plan For Today
+        {km ? "ផែនការរបស់អ្នកសម្រាប់ថ្ងៃនេះ" : "Your Plan For Today"}
       </h2>
 
       <div aria-label="Two of five activities complete" className="mt-3 flex gap-1">
@@ -108,7 +111,13 @@ function DailyPlanCard() {
             </span>
             <span className="min-w-0 flex-1">
               <span className="block text-[0.78rem] font-medium leading-4 sm:text-sm">
-                {title}
+                {km ? ({
+                  "Mood check-in": "ពិនិត្យអារម្មណ៍",
+                  "MindGuide lesson": "មេរៀនមគ្គុទ្ទេសក៍ចិត្ត",
+                  "Guided meditation": "សមាធិដោយមានការណែនាំ",
+                  "Daily mission": "បេសកកម្មប្រចាំថ្ងៃ",
+                  "Explore community": "ស្វែងយល់ពីសហគមន៍",
+                } as Record<string, string>)[title] : title}
               </span>
               <span className="mt-0.5 block truncate text-[0.68rem] leading-4 text-white/68 sm:text-xs">
                 {description}
@@ -127,13 +136,14 @@ function DailyPlanCard() {
 }
 
 function EncouragementCard() {
+  const { language } = useLanguage();
   return (
     <aside className="flex min-h-[60px] items-center gap-3 rounded-2xl bg-arom-soft px-3.5 py-3 text-arom sm:px-5">
       <Quote aria-hidden="true" size={25} strokeWidth={1.8} className="shrink-0" />
       <p className="flex-1 text-sm font-medium leading-[1.25rem]">
-        Progress is still progress,
+        {language === "km" ? "ការរីកចម្រើននៅតែជាការរីកចម្រើន" : "Progress is still progress,"}
         <br />
-        no matter how small.
+        {language === "km" ? "ទោះបីតិចតួចក៏ដោយ។" : "no matter how small."}
       </p>
       <Heart aria-hidden="true" size={25} className="shrink-0" />
     </aside>
@@ -141,6 +151,7 @@ function EncouragementCard() {
 }
 
 function MoodCheckIn() {
+  const { language } = useLanguage();
   const [selectedMood, setSelectedMood] = useState("Good");
   const shouldReduceMotion = useReducedMotion();
 
@@ -149,10 +160,10 @@ function MoodCheckIn() {
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-arom-accent">
-            Daily check-in
+            {language === "km" ? "ការពិនិត្យប្រចាំថ្ងៃ" : "Daily check-in"}
           </p>
           <h2 id="mood-title" className="mt-1.5 text-sm font-semibold text-arom sm:text-base">
-            How are you feeling today?
+            {language === "km" ? "ថ្ងៃនេះអ្នកមានអារម្មណ៍យ៉ាងដូចម្តេច?" : "How are you feeling today?"}
           </h2>
         </div>
         <span className="hidden rounded-full bg-arom-wash px-3 py-1 text-xs font-medium text-arom sm:block xl:hidden 2xl:block">
@@ -198,6 +209,7 @@ function MoodCheckIn() {
 }
 
 export function AromHome() {
+  const { language } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
 
   const containerVariants = {
@@ -241,9 +253,11 @@ export function AromHome() {
             </div>
             <div className="hidden lg:block">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-arom-accent">
-                Your wellness space
+                {language === "km" ? "កន្លែងសុខុមាលភាពរបស់អ្នក" : "Your wellness space"}
               </p>
-              <p className="mt-1 text-sm text-ink-muted">A calmer mind, a brighter you</p>
+              <p className="mt-1 text-sm text-ink-muted">
+                {language === "km" ? "ចិត្តស្ងប់ស្ងាត់ ជីវិតកាន់តែភ្លឺស្វាង" : "A calmer mind, a brighter you"}
+              </p>
             </div>
 
             <Link
@@ -267,9 +281,11 @@ export function AromHome() {
             className="mt-8 sm:mt-10 lg:mt-12 xl:mx-auto xl:w-full xl:max-w-[28rem]"
           >
             <p className="text-2xl font-bold tracking-[-0.035em] text-arom sm:text-[1.75rem]">
-              Good morning Muoyly!
+              {language === "km" ? "អរុណសួស្តី Muoyly!" : "Good morning Muoyly!"}
             </p>
-            <p className="mt-1.5 text-sm text-ink sm:text-base">How are you feeling today?</p>
+            <p className="mt-1.5 text-sm text-ink sm:text-base">
+              {language === "km" ? "ថ្ងៃនេះអ្នកមានអារម្មណ៍យ៉ាងដូចម្តេច?" : "How are you feeling today?"}
+            </p>
           </motion.section>
 
           <div className="mt-4 grid items-start gap-4 sm:mt-6 sm:gap-5 md:grid-cols-[minmax(0,1.2fr)_minmax(17rem,0.8fr)] lg:grid-cols-[minmax(0,1.28fr)_minmax(19rem,0.82fr)] lg:gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(25rem,28rem)_minmax(0,1fr)]">

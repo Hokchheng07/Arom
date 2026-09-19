@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -8,6 +10,7 @@ import {
   UsersRound,
   type LucideIcon,
 } from "lucide-react";
+import { useLanguage } from "./language-provider";
 
 export type NavigationLabel =
   | "Home"
@@ -25,13 +28,22 @@ type NavigationItem = {
 
 const navigationItems: NavigationItem[] = [
   { label: "Home", icon: Home, href: "/" },
-  { label: "MindGuide", icon: BookOpen, href: "#" },
+  { label: "MindGuide", icon: BookOpen, href: "/mindguide" },
   { label: "Detection", icon: Activity, href: "#", emphasized: true },
   { label: "Therapist", icon: Heart, href: "/therapist" },
   { label: "Community", icon: UsersRound, href: "#" },
 ];
 
+const khmerNavigation: Record<NavigationLabel, string> = {
+  Home: "ទំព័រដើម",
+  MindGuide: "មគ្គុទ្ទេសក៍ចិត្ត",
+  Detection: "ពិនិត្យសុខភាព",
+  Therapist: "អ្នកប្រឹក្សា",
+  Community: "សហគមន៍",
+};
+
 export function AromBrand({ compact = false }: { compact?: boolean }) {
+  const { language } = useLanguage();
   return (
     <Link
       href="/"
@@ -52,7 +64,7 @@ export function AromBrand({ compact = false }: { compact?: boolean }) {
         </span>
         {!compact && (
           <span className="mt-2 block text-xs font-medium tracking-[-0.01em] text-ink-muted">
-            A calmer mind, a brighter you
+            {language === "km" ? "ចិត្តស្ងប់ស្ងាត់ ជីវិតកាន់តែភ្លឺស្វាង" : "A calmer mind, a brighter you"}
           </span>
         )}
       </span>
@@ -61,6 +73,7 @@ export function AromBrand({ compact = false }: { compact?: boolean }) {
 }
 
 export function DesktopNavigation({ active }: { active: NavigationLabel }) {
+  const { language } = useLanguage();
   return (
     <aside className="sticky top-0 hidden h-screen flex-col border-r border-arom-border bg-white px-5 py-8 lg:flex">
       <div className="px-2">
@@ -82,7 +95,7 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
               }`}
             >
               <Icon aria-hidden="true" size={21} strokeWidth={isActive ? 2.4 : 2} />
-              {label}
+              {language === "km" ? khmerNavigation[label] : label}
             </Link>
           );
         })}
@@ -92,9 +105,13 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
         <div className="mb-4 flex size-10 items-center justify-center rounded-full bg-white/14">
           <Heart aria-hidden="true" size={20} />
         </div>
-        <p className="text-sm font-semibold">Make space for yourself.</p>
+        <p className="text-sm font-semibold">
+          {language === "km" ? "ទុកពេលឱ្យខ្លួនឯង។" : "Make space for yourself."}
+        </p>
         <p className="mt-1 text-xs leading-5 text-white/70">
-          A small check-in can change the shape of your day.
+          {language === "km"
+            ? "ការសួរសុខទុក្ខខ្លួនឯងបន្តិច អាចផ្លាស់ប្តូរថ្ងៃរបស់អ្នក។"
+            : "A small check-in can change the shape of your day."}
         </p>
       </div>
     </aside>
@@ -102,6 +119,7 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
 }
 
 export function MobileNavigation({ active }: { active: NavigationLabel }) {
+  const { language } = useLanguage();
   return (
     <nav
       aria-label="Primary"
@@ -128,7 +146,9 @@ export function MobileNavigation({ active }: { active: NavigationLabel }) {
               >
                 <Icon aria-hidden="true" size={emphasized ? 25 : 24} strokeWidth={isActive ? 2.5 : 2} />
               </span>
-              <span className={emphasized ? "mt-7" : ""}>{label}</span>
+              <span className={emphasized ? "mt-7" : ""}>
+                {language === "km" ? khmerNavigation[label] : label}
+              </span>
             </Link>
           );
         })}
