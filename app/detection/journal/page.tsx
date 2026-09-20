@@ -14,7 +14,6 @@ import {
   Plus,
   RefreshCw,
   ShieldCheck,
-  Sparkles,
   X,
   Calendar,
   Trash2,
@@ -225,12 +224,12 @@ function generateAiJournalSummary(entries: JournalEntry[], revision = 0): AiSumm
       headlineKm: "និន្នាការផ្លូវចិត្តមានតុល្យភាព និងវិជ្ជមាន",
       paragraphEn: `Across your recent reflections (${total} check-ins logged), your emotional patterns reflect healthy resilience and grounded peace (${positiveRate}% positive check-ins). Taking intentional rest and walks has strongly buffered against stress, keeping you centered and motivated.`,
       paragraphKm: `ផ្អែកលើកំណត់ត្រាឆ្លុះបញ្ចាំងថ្មីៗរបស់អ្នក (${total} កំណត់ត្រា) ស្ថានភាពអារម្មណ៍របស់អ្នកមានភាពវិជ្ជមាន និងមានលំនឹងល្អ (${positiveRate}% វិជ្ជមាន)។ អ្នកបានរក្សាភាពស្ងប់ស្ងាត់បានយ៉ាងល្អ ហើយការឆ្លៀតពេលសម្រាកខ្លីៗបានជួយសម្រាលភាពតានតឹងយ៉ាងមានប្រសិទ្ធភាព។`,
-      trendEn: `${positiveRate}% Positive & Grounded`,
+      trendEn: `${positiveRate}% Positive & Calm`,
       trendKm: `${positiveRate}% វិជ្ជមាន & ស្ងប់ចិត្ត`,
-      themeEn: "Self-Care & Steady Resilience",
-      themeKm: "ការថែទាំចិត្ត & ភាពរឹងមាំ",
-      actionEn: "Keep honoring your morning walk and evening rest routines.",
-      actionKm: "បន្តទម្លាប់ដើរហាត់ប្រាណពេលព្រឹក និងសម្រាកពេលល្ងាច។",
+      themeEn: "Self-Care & Calm",
+      themeKm: "ការថែទាំចិត្ត & ភាពស្ងប់",
+      actionEn: "Walks & Evening Rest",
+      actionKm: "ដើរហាត់ប្រាណ & សម្រាក",
       highlightsEn: [
         "Morning walks and tea breaks strongly correlate with your calmest days.",
         "Quick recovery noted after feeling tired on Sep 8 by disconnecting from screens early.",
@@ -249,10 +248,10 @@ function generateAiJournalSummary(entries: JournalEntry[], revision = 0): AiSumm
       paragraphKm: `កំណត់ត្រារបស់អ្នកបង្ហាញពីការយល់ដឹងពីខ្លួនឯងកាន់តែស៊ីជម្រៅ។ នៅពេលជួបការងារច្រើន អ្នកបានកត់សម្គាល់ពីភាពនឿយហត់ទាន់ពេល និងអនុញ្ញាតឱ្យខ្លួនឯងបន្ថយល្បឿន។ ការដឹងគុណ និងការពេញចិត្តនៅតែជាអារម្មណ៍ដែលកើតឡើងញឹកញាប់បំផុត។`,
       trendEn: "High Self-Compassion",
       trendKm: "ការយល់ចិត្តខ្លួនឯងខ្ពស់",
-      themeEn: "Gratitude & Intentional Pacing",
-      themeKm: "ការដឹងគុណ & ការបន្ថយល្បឿន",
-      actionEn: "Try a 2-minute gratitude meditation when starting work tomorrow.",
-      actionKm: "សាកល្បងសមាធិដឹងគុណរយៈពេល ២នាទី មុនពេលចាប់ផ្តើមការងារថ្ងៃស្អែក។",
+      themeEn: "Gratitude & Peace",
+      themeKm: "ការដឹងគុណ & សន្តិភាព",
+      actionEn: "2-min mindful pause",
+      actionKm: "សម្រាកដកដង្ហើម ២នាទី",
       highlightsEn: [
         "Proactive emotional check-ins help reduce overwhelm before it builds up.",
         "Feelings of gratitude and pride are frequently linked to completed personal tasks.",
@@ -822,16 +821,16 @@ function JournalContent() {
                   {/* Header row */}
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-[#1f6f5b] text-white shadow-sm">
-                        <Sparkles size={16} className="text-[#85e1cc] animate-pulse" />
+                      <div className="flex size-9 shrink-0 items-center justify-center rounded-2xl bg-[#dff3ee] text-[#1f6f5b] shadow-2xs">
+                        <FigmaIcon name="ic_outline-mood" size={22} />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <h2 className="text-sm sm:text-base font-bold text-[#111827]">
                             {km ? "ការវិភាគសង្ខេប AI" : "AI Journal Summary"}
                           </h2>
-                          <span className="rounded-full bg-[#1f6f5b]/12 px-2 py-0.5 text-[10px] font-semibold text-[#1f6f5b]">
-                            {km ? "ស្វ័យប្រវត្តិ" : "Auto Insights"}
+                          <span className="rounded-full bg-[#1f6f5b]/10 px-2.5 py-0.5 text-[10px] font-semibold text-[#1f6f5b]">
+                            {km ? "ឆ្លុះបញ្ចាំងឆ្លាតវៃ" : "Smart Reflection"}
                           </span>
                         </div>
                         <p className="text-[11px] text-[#4b5563]">
@@ -874,27 +873,50 @@ function JournalContent() {
                         </p>
                       </div>
 
-                      {/* 3 Metrics / Insights Chips */}
-                      <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div className="flex items-center gap-2.5 rounded-xl bg-white/75 p-2.5 border border-emerald-100/80 shadow-2xs">
-                          <span className="text-base leading-none">📈</span>
-                          <div className="min-w-0">
-                            <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">{km ? "និន្នាការអារម្មណ៍" : "Trend"}</p>
-                            <p className="text-xs font-bold text-[#1f6f5b] truncate">{km ? currentAiSummary.trendKm : currentAiSummary.trendEn}</p>
+                      {/* 3 Metrics / Insights Slots */}
+                      <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        {/* Slot 1: Mood Trend */}
+                        <div className="flex items-center gap-2.5 rounded-2xl bg-white/80 p-2.5 sm:p-3 border border-[#1f6f5b]/10 shadow-2xs">
+                          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#dff3ee] text-[#1f6f5b]">
+                            <FigmaIcon name="boxicons_happy-beaming" size={20} />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">
+                              {km ? "និន្នាការអារម្មណ៍" : "Mood Trend"}
+                            </p>
+                            <p className="text-xs font-bold text-[#1f6f5b] leading-tight">
+                              {km ? currentAiSummary.trendKm : currentAiSummary.trendEn}
+                            </p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2.5 rounded-xl bg-white/75 p-2.5 border border-emerald-100/80 shadow-2xs">
-                          <span className="text-base leading-none">🌿</span>
-                          <div className="min-w-0">
-                            <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">{km ? "ប្រធានបទស្នូល" : "Core Theme"}</p>
-                            <p className="text-xs font-bold text-[#1f6f5b] truncate">{km ? currentAiSummary.themeKm : currentAiSummary.themeEn}</p>
+
+                        {/* Slot 2: Core Theme */}
+                        <div className="flex items-center gap-2.5 rounded-2xl bg-white/80 p-2.5 sm:p-3 border border-[#1f6f5b]/10 shadow-2xs">
+                          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#fee2e2] text-[#e11d48]">
+                            <FigmaIcon name="akar-icons_heart" size={19} />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">
+                              {km ? "ប្រធានបទស្នូល" : "Core Theme"}
+                            </p>
+                            <p className="text-xs font-bold text-[#111827] leading-tight">
+                              {km ? currentAiSummary.themeKm : currentAiSummary.themeEn}
+                            </p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2.5 rounded-xl bg-white/75 p-2.5 border border-emerald-100/80 shadow-2xs">
-                          <span className="text-base leading-none">💡</span>
-                          <div className="min-w-0">
-                            <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">{km ? "ការណែនាំសុខុមាលភាព" : "AI Suggestion"}</p>
-                            <p className="text-xs font-bold text-[#1f6f5b] truncate">{km ? currentAiSummary.actionKm : currentAiSummary.actionEn}</p>
+
+                        {/* Slot 3: Gentle Tip */}
+                        <div className="flex items-center gap-2.5 rounded-2xl bg-white/80 p-2.5 sm:p-3 border border-[#1f6f5b]/10 shadow-2xs">
+                          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#fef3c7] text-[#b45309]">
+                            <FigmaIcon name="hugeicons_yoga-03" size={20} />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">
+                              {km ? "ការណែនាំសុខុមាលភាព" : "Wellness Tip"}
+                            </p>
+                            <p className="text-xs font-bold text-[#b45309] leading-tight">
+                              {km ? currentAiSummary.actionKm : currentAiSummary.actionEn}
+                            </p>
                           </div>
                         </div>
                       </div>
