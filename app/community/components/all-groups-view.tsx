@@ -41,6 +41,7 @@ export function AllGroupsView({
       case "stress":
         return <StressLightningIcon className="size-7 text-[#1b5e4c]" />;
       case "anxiety":
+      case "depression":
         return <SadFaceIcon className="size-7 text-[#1b5e4c]" />;
     }
   }

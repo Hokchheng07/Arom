@@ -18,15 +18,37 @@ export type SupportGroup = {
   nameKm: string;
   membersCount: number;
   maxMembers: number;
-  iconType: "academic" | "stress" | "anxiety";
+  iconType: "academic" | "stress" | "anxiety" | "depression";
   isAnonymous: boolean;
   about: string;
   aboutKm: string;
   expectations: string[];
   expectationsKm: string[];
+  rules?: string[];
+  rulesKm?: string[];
   mentor?: GroupMentor;
+  mentorTitle?: string;
+  mentorTitleKm?: string;
   isJoined?: boolean;
 };
+
+export const DEFAULT_GROUP_RULES = [
+  "Respect other members",
+  "Keep conversations private",
+  "No judgment",
+  "No diagnosis of other members",
+  "No harmful advice",
+  "Follow mentor guidance",
+];
+
+export const DEFAULT_GROUP_RULES_KM = [
+  "គោរពសមាជិកដទៃទៀត",
+  "រក្សាការសន្ទនាជាការសម្ងាត់",
+  "គ្មានការវិនិច្ឆ័យ",
+  "គ្មានការធ្វើរោគវិនិច្ឆ័យលើសមាជិកដទៃ",
+  "គ្មានការផ្តល់ដំបូន្មានដែលបង្កគ្រោះថ្នាក់",
+  "ធ្វើតាមការណែនាំរបស់អ្នកណែនាំ",
+];
 
 export type ChatMessage = {
   id: string;
@@ -87,6 +109,8 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       "រៀនយុទ្ធសាស្ត្រទប់ទល់ដែលមានសុខភាពល្អ",
       "ការគាំទ្រពីអ្នកណែនាំដែលបានទទួលការបណ្តុះបណ្តាល",
     ],
+    rules: DEFAULT_GROUP_RULES,
+    rulesKm: DEFAULT_GROUP_RULES_KM,
     mentor: {
       name: "Mentor Tivea",
       nameKm: "អ្នកណែនាំ ទីវា",
@@ -100,7 +124,56 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       bio: "Facilitates weekly check-ins, guides grounding routines, and ensures a safe, respectful space.",
       bioKm: "សម្របសម្រួលការសួរសុខទុក្ខប្រចាំសប្តាហ៍ ណែនាំការអនុវត្តសតិ និងធានានូវបរិយាកាសសុវត្ថិភាព។",
     },
+    mentorTitle: "Tivea · Verified ARom Mentor",
+    mentorTitleKm: "ទីវា · អ្នកណែនាំ ARom ផ្លូវការ",
     isJoined: true,
+  },
+  {
+    id: "depression-support",
+    name: "Depression Support Group",
+    nameKm: "ក្រុមគាំទ្រជំងឺធ្លាក់ទឹកចិត្ត",
+    membersCount: 8,
+    maxMembers: 10,
+    iconType: "depression",
+    isAnonymous: true,
+    about:
+      "A small, supportive group for people experiencing similar challenges related to depression and emotional well-being.",
+    aboutKm:
+      "ក្រុមគាំទ្រខ្នាតតូចសម្រាប់អ្នកដែលកំពុងប្រឈមនឹងបញ្ហាស្រដៀងគ្នាទាក់ទងនឹងការធ្លាក់ទឹកចិត្ត និងសុខុមាលភាពផ្លូវចិត្ត។",
+    expectations: [
+      "Share experiences",
+      "Listen to others",
+      "Support each other",
+      "Participate in guided discussions",
+      "Learn healthy coping strategies",
+      "Receive guidance from your mentor",
+    ],
+    expectationsKm: [
+      "ចែករំលែកបទពិសោធន៍",
+      "ស្តាប់អ្នកដទៃ",
+      "គាំទ្រគ្នាទៅវិញទៅមក",
+      "ចូលរួមក្នុងកិច្ចពិភាក្សាដែលមានការណែនាំ",
+      "រៀនយុទ្ធសាស្ត្រទប់ទល់ដែលមានសុខភាពល្អ",
+      "ទទួលបានការណែនាំពីអ្នកណែនាំរបស់អ្នក",
+    ],
+    rules: DEFAULT_GROUP_RULES,
+    rulesKm: DEFAULT_GROUP_RULES_KM,
+    mentor: {
+      name: "Dara",
+      nameKm: "ដារ៉ា",
+      role: "Verified ARom Mentor",
+      roleKm: "អ្នកណែនាំ ARom ផ្លូវការ",
+      experience: "5+ years experience",
+      experienceKm: "បទពិសោធន៍ ៥+ ឆ្នាំ",
+      avatarUrl: "/therapists/malika-sok.jpg",
+      badge: "Verified Mentor",
+      badgeKm: "អ្នកណែនាំផ្លូវការ",
+      bio: "Guides supportive discussions and emotional regulation techniques for depression recovery.",
+      bioKm: "ណែនាំកិច្ចពិភាក្សាគាំទ្រ និងបច្ចេកទេសគ្រប់គ្រងអារម្មណ៍សម្រាប់ការស្តារឡើងវិញ។",
+    },
+    mentorTitle: "Dara · Verified ARom Mentor",
+    mentorTitleKm: "ដារ៉ា · អ្នកណែនាំ ARom ផ្លូវការ",
+    isJoined: false,
   },
   {
     id: "academic-stress",
@@ -126,6 +199,8 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       "ការលើកទឹកចិត្តពីមិត្តភក្តិ",
       "កន្លែងសុវត្ថិភាពដើម្បីរំសាយការថប់បារម្ភក្នុងការសិក្សា",
     ],
+    rules: DEFAULT_GROUP_RULES,
+    rulesKm: DEFAULT_GROUP_RULES_KM,
     mentor: {
       name: "Mentor Sophea",
       nameKm: "អ្នកណែនាំ សុភា",
@@ -139,6 +214,8 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       bio: "Helps students navigate academic pressure, build effective study habits, and maintain wellbeing.",
       bioKm: "ជួយសិស្ស-និស្សិតយកឈ្នះការថប់បារម្ភពេលប្រឡង និងរក្សាតុល្យភាពសុខុមាលភាព។",
     },
+    mentorTitle: "Sophea · Verified ARom Mentor",
+    mentorTitleKm: "សុភា · អ្នកណែនាំ ARom ផ្លូវការ",
     isJoined: false,
   },
   {
@@ -163,6 +240,8 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       "សហគមន៍ដែលគ្មានការវិនិច្ឆ័យ",
       "យន្តការទប់ទល់ដែលបានចែករំលែក",
     ],
+    rules: DEFAULT_GROUP_RULES,
+    rulesKm: DEFAULT_GROUP_RULES_KM,
     mentor: {
       name: "Mentor Rathana",
       nameKm: "អ្នកណែនាំ រតនា",
@@ -176,6 +255,8 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       bio: "Specializes in grounding practices, panic de-escalation, and creating a supportive circle.",
       bioKm: "ជំនាញក្នុងការអនុវត្តសតិសម្រាលអារម្មណ៍ និងការបង្កើតរង្វង់គាំទ្រដ៏កក់ក្តៅ។",
     },
+    mentorTitle: "Rathana · Verified ARom Mentor",
+    mentorTitleKm: "រតនា · អ្នកណែនាំ ARom ផ្លូវការ",
     isJoined: false,
   },
 ];
@@ -217,6 +298,25 @@ export const INITIAL_MESSAGES: ChatMessage[] = [
     text: "That's a great question! Maybe we can share some small routines that work for us.",
     time: "10:45 AM",
     avatarType: "mentor",
+  },
+  {
+    id: "m-dep-1",
+    groupId: "depression-support",
+    senderName: "Dara",
+    isAnonymous: false,
+    isMentor: true,
+    text: "Welcome to Depression Support Group. Please take your time and know this is a safe, gentle space.",
+    time: "9:00 AM",
+    avatarType: "mentor",
+  },
+  {
+    id: "m-dep-2",
+    groupId: "depression-support",
+    senderName: "Anonymous 01",
+    isAnonymous: true,
+    text: "Thank you mentor Dara, having a quiet space to share means a lot to me.",
+    time: "9:15 AM",
+    avatarType: "mask",
   },
 ];
 
@@ -281,6 +381,30 @@ export const INITIAL_ACTIVITIES: GroupActivity[] = [
     isUpcoming: false,
     isJoined: true,
   },
+  {
+    id: "act-dep-1",
+    groupId: "depression-support",
+    title: "Gentle Sharing Circle",
+    titleKm: "រង្វង់ចែករំលែកទន់ភ្លន់",
+    topic: "Managing Low Energy Days",
+    dateStr: "Sat, Mar 22 - 7:00PM",
+    type: "support",
+    iconAsset: "/figma/community/icons/act_support.png",
+    isUpcoming: true,
+    isJoined: false,
+  },
+  {
+    id: "act-dep-2",
+    groupId: "depression-support",
+    title: "Calm Breathing Routine",
+    titleKm: "ការដកដង្ហើមស្ងប់ស្ងាត់",
+    topic: "10-minutes Relaxation",
+    dateStr: "Tue, Mar 25 - 8:00PM",
+    type: "mindfulness",
+    iconAsset: "/figma/community/icons/act_mindfulness.png",
+    isUpcoming: true,
+    isJoined: false,
+  },
 ];
 
 export const INITIAL_MEMBERS: GroupMember[] = [
@@ -292,4 +416,12 @@ export const INITIAL_MEMBERS: GroupMember[] = [
   { id: "mem-6", groupId: "stress-burnout", name: "MalaNy", isAnonymous: false, avatarType: "user" },
   { id: "mem-7", groupId: "stress-burnout", name: "Anonymous 04", isAnonymous: true, avatarType: "mask" },
   { id: "mem-8", groupId: "stress-burnout", name: "Anonymous 05", isAnonymous: true, avatarType: "mask" },
+  { id: "mem-dep-1", groupId: "depression-support", name: "Anonymous 01", isAnonymous: true, avatarType: "mask" },
+  { id: "mem-dep-2", groupId: "depression-support", name: "Anonymous 02", isAnonymous: true, avatarType: "mask" },
+  { id: "mem-dep-3", groupId: "depression-support", name: "Panharith", isAnonymous: false, avatarType: "user" },
+  { id: "mem-dep-4", groupId: "depression-support", name: "Seakkhim", isAnonymous: false, avatarType: "user" },
+  { id: "mem-dep-5", groupId: "depression-support", name: "MalaNy", isAnonymous: false, avatarType: "user" },
+  { id: "mem-dep-6", groupId: "depression-support", name: "Anonymous 03", isAnonymous: true, avatarType: "mask" },
+  { id: "mem-dep-7", groupId: "depression-support", name: "Anonymous 04", isAnonymous: true, avatarType: "mask" },
+  { id: "mem-dep-8", groupId: "depression-support", name: "Anonymous 05", isAnonymous: true, avatarType: "mask" },
 ];

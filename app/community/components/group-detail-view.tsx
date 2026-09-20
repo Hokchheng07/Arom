@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import { ChevronLeft, Check } from "lucide-react";
-import { MaskIcon } from "./community-icons";
+import { ChevronLeft } from "lucide-react";
 import { useLanguage } from "../../_components/language-provider";
-import { SupportGroup } from "../community-data";
+import { SupportGroup, DEFAULT_GROUP_RULES, DEFAULT_GROUP_RULES_KM } from "../community-data";
 
 type GroupDetailViewProps = {
   group: SupportGroup;
@@ -22,56 +20,70 @@ export function GroupDetailView({
   const { language } = useLanguage();
   const km = language === "km";
 
-  const isJoined = group.isJoined;
+  const mentorName = group.mentor
+    ? km
+      ? group.mentor.nameKm
+      : group.mentor.name
+    : km
+    ? "ដារ៉ា"
+    : "Dara";
+
+  const mentorDisplay =
+    (km ? group.mentorTitleKm : group.mentorTitle) ||
+    `${mentorName} · ${km ? "អ្នកណែនាំ ARom ផ្លូវការ" : "Verified ARom Mentor"}`;
+
+  const expectations =
+    km && group.expectationsKm?.length
+      ? group.expectationsKm
+      : group.expectations;
+
+  const rules =
+    km && group.rulesKm?.length
+      ? group.rulesKm
+      : group.rules || (km ? DEFAULT_GROUP_RULES_KM : DEFAULT_GROUP_RULES);
 
   return (
-    <div className="w-full max-w-lg mx-auto pb-28 px-4 pt-3">
-      {/* Back Button matching Figma Screen 3 */}
+    <div className="w-full max-w-lg mx-auto pb-28 px-5 pt-3">
+      {/* Back Button matching Screenshot */}
       <div className="flex items-center py-2">
         <button
           onClick={onBack}
-          className="flex size-10 items-center justify-center rounded-full text-[#1f6f5b] hover:bg-[#eaf5f1] transition-colors"
+          className="flex size-10 items-center justify-center rounded-full bg-[#f0f2f1] text-[#111827] hover:bg-[#e4e7e5] transition-colors"
           aria-label={km ? "ត្រឡប់ក្រោយ" : "Back"}
         >
-          <ChevronLeft size={28} />
+          <ChevronLeft size={22} strokeWidth={2.5} />
         </button>
       </div>
 
-      {/* Hero Illustration matching Figma Screen 3 */}
-      <div className="relative mx-auto h-52 sm:h-56 w-full max-w-xs overflow-hidden">
-        <Image
-          src="/figma/community/group_guide_illustration.png"
-          alt="Group Mentor Illustration"
-          fill
-          className="object-contain object-center"
-          priority
-          unoptimized
-        />
-      </div>
+      {/* Group Title matching Screenshot */}
+      <h1 className="mt-3 text-2xl sm:text-[1.7rem] font-bold tracking-tight text-[#111827]">
+        {km ? group.nameKm : group.name}
+      </h1>
 
-      {/* Group Title matching Figma */}
-      <div className="mt-4">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#111827]">
-          {km ? group.nameKm : group.name}
-        </h1>
-
-        {/* Badges matching Figma Screen 3 */}
-        <div className="mt-3 flex flex-wrap items-center gap-2.5">
-          <span className="inline-flex items-center rounded-xl bg-[#e3f4ef] px-3 py-1.5 text-xs font-semibold text-[#1e6f5a]">
-            {group.membersCount}/{group.maxMembers}{" "}
-            {km ? "សមាជិក" : "members"}
+      {/* Info Card (Members & Mentor) matching Screenshot */}
+      <div className="mt-4 rounded-[20px] bg-white border border-[#edf2f0] p-4 sm:p-5 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-2.5">
+        <div className="flex items-center justify-between gap-3 text-sm">
+          <span className="font-normal text-[#9ca3af]">
+            {km ? "សមាជិក" : "Members"}
           </span>
+          <span className="font-semibold text-[#111827] text-right">
+            {group.membersCount} / {group.maxMembers} {km ? "សមាជិក" : "members"}
+          </span>
+        </div>
 
-          <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#e3f4ef] px-3 py-1.5 text-xs font-semibold text-[#1e6f5a]">
-            <MaskIcon className="size-4 text-[#1e6f5a]" />
-            {km ? "ក្រុមអនាមិក" : "Anonymous group"}
+        <div className="flex items-center justify-between gap-3 text-sm border-t border-gray-100/90 pt-2.5">
+          <span className="font-normal text-[#9ca3af]">
+            {km ? "អ្នកណែនាំ" : "Mentor"}
+          </span>
+          <span className="font-semibold text-[#111827] text-right truncate">
+            {mentorDisplay}
           </span>
         </div>
       </div>
 
       {/* About This Group */}
       <div className="mt-6">
-        <h2 className="text-lg font-bold text-[#111827]">
+        <h2 className="text-base font-bold text-[#111827]">
           {km ? "អំពីក្រុមនេះ" : "About This Group"}
         </h2>
         <p className="mt-2 text-sm text-[#4b5563] leading-relaxed">
@@ -79,42 +91,56 @@ export function GroupDetailView({
         </p>
       </div>
 
-      {/* What You Can Expect matching Figma Screen 3 */}
+      {/* What You Can Expect matching Screenshot */}
       <div className="mt-6">
-        <h2 className="text-lg font-bold text-[#111827]">
+        <h2 className="text-base font-bold text-[#111827]">
           {km ? "អ្វីដែលអ្នកអាចរំពឹងទុក" : "What You Can Expect"}
         </h2>
 
-        <ul className="mt-3.5 space-y-3">
-          {(km ? group.expectationsKm : group.expectations).map((item, idx) => (
-            <li key={idx} className="flex items-start gap-3 text-sm text-[#374151]">
-              <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#1b5e4c] text-white shadow-sm">
-                <Check size={13} strokeWidth={3} />
-              </span>
-              <span className="leading-snug">{item}</span>
+        <ul className="mt-2.5 space-y-2">
+          {expectations.map((item, idx) => (
+            <li key={idx} className="flex items-start gap-2.5 text-sm text-[#374151]">
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#1b5e4c]" />
+              <span className="leading-relaxed">{item}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Action Button matching Figma Screen 3 */}
+      {/* Group Rules matching Screenshot */}
+      <div className="mt-6">
+        <h2 className="text-base font-bold text-[#111827]">
+          {km ? "គោលការណ៍ណែនាំក្រុម" : "Group Rules"}
+        </h2>
+
+        <ul className="mt-2.5 space-y-2">
+          {rules.map((rule, idx) => (
+            <li key={idx} className="flex items-start gap-2.5 text-sm text-[#374151]">
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#1b5e4c]" />
+              <span className="leading-relaxed">{rule}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Action Button: User reads info and touches Join */}
       <div className="mt-8 pt-2">
-        {isJoined ? (
-          <button
-            onClick={() => onOpenGroupHub(group.id)}
-            className="w-full rounded-[18px] bg-[#1a5d4d] py-3.5 text-center text-base font-bold text-white shadow-lg shadow-[#1a5d4d]/25 transition-all duration-200 hover:bg-[#144b3e] active:scale-[0.99]"
-          >
-            {km ? "ចូលទៅកាន់ក្រុម (បានចូលរួម)" : "Go to Group Hub"}
-          </button>
-        ) : (
-          <button
-            onClick={() => onJoinGroup(group.id)}
-            className="w-full rounded-[18px] bg-[#1a5d4d] py-3.5 text-center text-base font-bold text-white shadow-lg shadow-[#1a5d4d]/25 transition-all duration-200 hover:bg-[#144b3e] active:scale-[0.99]"
-          >
-            {km ? "ចូលរួមក្រុម" : "Join Group"}
-          </button>
-        )}
+        <button
+          onClick={() => {
+            if (group.isJoined) {
+              onOpenGroupHub(group.id);
+            } else {
+              onJoinGroup(group.id);
+            }
+          }}
+          className="w-full rounded-[18px] bg-[#1a5d4d] py-3.5 text-center text-sm sm:text-base font-bold text-white shadow-lg shadow-[#1a5d4d]/25 transition-all duration-200 hover:bg-[#144b3e] active:scale-[0.99]"
+        >
+          {group.isJoined
+            ? km ? "ចូលទៅកាន់ក្រុម" : "Enter Group Hub"
+            : km ? "ចូលរួម" : "Join"}
+        </button>
       </div>
     </div>
   );
 }
+

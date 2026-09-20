@@ -33,6 +33,7 @@ type CommunityView =
 
 export default function CommunityPage() {
   const [view, setView] = useState<CommunityView>("home");
+  const [previousView, setPreviousView] = useState<CommunityView>("home");
   const [selectedGroupId, setSelectedGroupId] = useState("stress-burnout");
 
   // Groups state with localStorage persistence
@@ -42,7 +43,19 @@ export default function CommunityPage() {
         const stored = localStorage.getItem("arom_community_groups");
         if (stored) {
           const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            // Merge with INITIAL_GROUPS so new groups like depression-support and updated rules are loaded
+            const merged = INITIAL_GROUPS.map((initial) => {
+              const existing = parsed.find((p: SupportGroup) => p.id === initial.id);
+              if (!existing) return initial;
+              return {
+                ...initial,
+                isJoined: existing.isJoined,
+                membersCount: existing.membersCount ?? initial.membersCount,
+              };
+            });
+            return merged;
+          }
         }
       } catch {
         // ignore
@@ -79,13 +92,10 @@ export default function CommunityPage() {
     groups.find((g) => g.id === "academic-stress") || groups[1] || groups[0];
 
   function handleSelectGroup(groupId: string) {
+    setPreviousView(view === "group-detail" ? "home" : view);
     setSelectedGroupId(groupId);
-    const grp = groups.find((g) => g.id === groupId);
-    if (grp?.isJoined) {
-      setView("group-hub");
-    } else {
-      setView("group-detail");
-    }
+    // As requested: user will read information about what this group is first, and touch join
+    setView("group-detail");
   }
 
   function handleJoinGroup(groupId: string) {
@@ -199,7 +209,7 @@ export default function CommunityPage() {
           {view === "group-detail" && (
             <GroupDetailView
               group={activeGroup}
-              onBack={() => setView("home")}
+              onBack={() => setView(previousView)}
               onJoinGroup={handleJoinGroup}
               onOpenGroupHub={(id) => {
                 setSelectedGroupId(id);
