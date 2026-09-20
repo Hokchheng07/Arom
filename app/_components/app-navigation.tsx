@@ -149,37 +149,72 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
   );
 }
 
-export function MobileNavigation({ active }: { active: NavigationLabel }) {
+export function MobileNavigation({
+  active,
+  onOpenDetection,
+}: {
+  active: NavigationLabel;
+  onOpenDetection?: () => void;
+}) {
   const { language } = useLanguage();
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-arom-border bg-white/96 px-3 pb-[calc(0.55rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-12px_35px_rgba(15,80,65,0.06)] backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-arom-border bg-white/96 px-3 pb-[calc(0.55rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-12px_35px_rgba(15,80,65,0.06)] backdrop-blur-xl lg:hidden"
     >
       <div className="mx-auto grid max-w-md grid-cols-5">
         {navigationItems.map(({ label, icon: Icon, href, emphasized }) => {
           const isActive = active === label;
+          const content = (
+            <>
+              <span
+                className={
+                  emphasized
+                    ? `absolute -top-6 flex size-12 items-center justify-center rounded-full bg-arom text-white shadow-[0_8px_22px_rgba(31,111,91,0.26)] ring-4 ring-white transition-transform duration-200 ${
+                        isActive ? "scale-105 ring-arom/20" : "hover:scale-105"
+                      }`
+                    : "flex h-7 items-center justify-center"
+                }
+              >
+                <Icon
+                  aria-hidden="true"
+                  size={emphasized ? 25 : 24}
+                  strokeWidth={isActive ? 2.5 : 2}
+                  className={!emphasized && isActive ? "text-arom" : ""}
+                />
+              </span>
+              <span
+                className={`transition-colors duration-150 ${
+                  emphasized ? "mt-7" : ""
+                } ${isActive ? "font-bold text-arom" : "font-medium text-ink/75"}`}
+              >
+                {language === "km" ? khmerNavigation[label] : label}
+              </span>
+            </>
+          );
+
+          if (emphasized && onOpenDetection) {
+            return (
+              <button
+                key={label}
+                type="button"
+                onClick={onOpenDetection}
+                aria-label={language === "km" ? khmerNavigation[label] : label}
+                className="relative flex min-h-[52px] flex-col items-center justify-end gap-1 rounded-xl text-[0.66rem] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-arom"
+              >
+                {content}
+              </button>
+            );
+          }
+
           return (
             <Link
               key={label}
               href={href}
               aria-current={isActive ? "page" : undefined}
-              className={`relative flex min-h-[52px] flex-col items-center justify-end gap-1 rounded-xl text-[0.66rem] font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-arom ${
-                isActive || emphasized ? "text-arom" : "text-ink"
-              }`}
+              className="relative flex min-h-[52px] flex-col items-center justify-end gap-1 rounded-xl text-[0.66rem] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-arom"
             >
-              <span
-                className={
-                  emphasized
-                    ? "absolute -top-6 flex size-12 items-center justify-center rounded-full bg-arom text-white shadow-[0_8px_22px_rgba(31,111,91,0.26)] ring-4 ring-white"
-                    : "flex h-7 items-center justify-center"
-                }
-              >
-                <Icon aria-hidden="true" size={emphasized ? 25 : 24} strokeWidth={isActive ? 2.5 : 2} />
-              </span>
-              <span className={emphasized ? "mt-7" : ""}>
-                {language === "km" ? khmerNavigation[label] : label}
-              </span>
+              {content}
             </Link>
           );
         })}
