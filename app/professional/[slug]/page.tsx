@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { TherapistDetail } from "../../_components/therapist-detail";
 import { getTherapist, therapists } from "@/lib/therapists";
 
-type TherapistPageProps = {
+type ProfessionalPageProps = {
   params: Promise<{ slug: string }>;
 };
 
@@ -13,7 +13,7 @@ export function generateStaticParams() {
   return therapists.map((therapist) => ({ slug: therapist.slug }));
 }
 
-export async function generateMetadata({ params }: TherapistPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ProfessionalPageProps): Promise<Metadata> {
   const { slug } = await params;
   const therapist = getTherapist(slug);
 
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: TherapistPageProps): Promise<
   };
 }
 
-export default async function TherapistProfilePage({ params }: TherapistPageProps) {
+export default async function ProfessionalProfilePage({ params }: ProfessionalPageProps) {
   const { slug } = await params;
   const therapist = getTherapist(slug);
 

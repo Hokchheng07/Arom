@@ -116,7 +116,7 @@ function LearnPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
     { label: km ? "ទំព័រដើម" : "Home", icon: Home, href: "/" },
     { label: km ? "មគ្គុទ្ទេសក៍ចិត្ត" : "MindGuide", icon: BookOpen, href: "/mindguide", active: true },
     { label: km ? "សហគមន៍" : "Community", icon: UsersRound, href: "#" },
-    { label: km ? "ប្រវត្តិរូប" : "Profile", icon: UserRound, href: "#" },
+    { label: km ? "ប្រវត្តិរូប" : "Profile", icon: UserRound, href: "/profile" },
   ];
 
   useEffect(() => {
@@ -335,8 +335,22 @@ export function MindGuideHome() {
         className="min-w-0 px-5 pb-28 pt-5 sm:px-8 sm:pt-7 lg:px-10 lg:pb-12 lg:pt-8 xl:px-12"
       >
         <div className="mx-auto w-full max-w-[70rem]">
-          <motion.header variants={item} className="flex items-start justify-between gap-4 lg:hidden">
+          <motion.header variants={item} className="flex items-center justify-between gap-4 lg:hidden">
             <AromBrand />
+            <Link
+              href="/profile"
+              aria-label="Open profile and settings"
+              className="rounded-full focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-arom"
+            >
+              <Image
+                src="/brand/muoyly-avatar.svg"
+                alt="Muoyly"
+                width={40}
+                height={40}
+                className="size-10 rounded-full object-cover ring-2 ring-white shadow-[0_5px_18px_rgba(20,75,63,0.15)]"
+                unoptimized
+              />
+            </Link>
           </motion.header>
 
           <motion.section

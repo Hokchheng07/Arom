@@ -319,13 +319,13 @@ export function TherapistBooking({ therapist, days }: { therapist: Therapist; da
 
   return (
     <div className="min-h-screen bg-canvas lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]">
-      <DesktopNavigation active="Therapist" />
+      <DesktopNavigation active="Professional" />
 
       <main className="min-w-0 bg-white lg:bg-canvas">
         <div className="mx-auto flex min-h-dvh w-full max-w-[64rem] flex-col px-4 pt-5 sm:px-8 lg:min-h-0 lg:px-10 lg:py-8 xl:px-14">
           <div className="flex items-center justify-between gap-4">
             {stepIndex === 0 || isComplete ? (
-              <Link href={`/therapist/${therapist.slug}`} aria-label={`Back to ${therapist.name}'s profile`} className={backButtonClass}>
+              <Link href={`/professional/${therapist.slug}`} aria-label={`Back to ${therapist.name}'s profile`} className={backButtonClass}>
                 <ChevronLeft aria-hidden="true" size={28} strokeWidth={2.4} />
               </Link>
             ) : (

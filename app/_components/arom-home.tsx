@@ -261,8 +261,8 @@ export function AromHome() {
             </div>
 
             <Link
-              href="/login"
-              aria-label="Open account login"
+              href="/profile"
+              aria-label="Open profile and settings"
               className="rounded-full focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-arom"
             >
               <Image

@@ -126,10 +126,10 @@ export function BookingComplete({ details, viewHref }: BookingCompleteProps) {
           View Appointment
         </Link>
         <Link
-          href="/therapist"
+          href="/professional"
           className="flex h-11 items-center justify-center rounded-lg border border-[#bdbdbd] bg-white px-5 text-lg font-bold text-ink shadow-[0_4px_10px_rgba(20,34,31,0.1)] transition-colors duration-150 hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
         >
-          Back to Therapists
+          Back to Professionals
         </Link>
       </motion.div>
     </motion.section>

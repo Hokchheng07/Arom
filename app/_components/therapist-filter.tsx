@@ -92,7 +92,7 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
             <ChevronLeft aria-hidden="true" size={26} strokeWidth={2.4} />
           </button>
           <h2 id="filter-title" className="text-2xl font-bold tracking-[-0.03em]">
-            Filter Therapist
+            Filter Professional
           </h2>
           <button
             type="button"

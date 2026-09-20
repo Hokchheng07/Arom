@@ -25,28 +25,28 @@ const sessionIcons: Record<SessionOption, LucideIcon> = {
 };
 
 export function TherapistDetail({ therapist }: { therapist: Therapist }) {
-  const bookingHref = `/therapist/${therapist.slug}/book`;
+  const bookingHref = `/professional/${therapist.slug}/book`;
   const [isSaved, setIsSaved] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
   return (
     <div className="min-h-screen bg-canvas lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]">
-      <DesktopNavigation active="Therapist" />
+      <DesktopNavigation active="Professional" />
 
       <main className="min-w-0 px-4 pb-28 pt-5 sm:px-8 lg:px-10 lg:py-8 xl:px-14">
         <div className="mx-auto w-full max-w-[68rem]">
           <div className="flex items-center justify-between gap-4">
             <Link
-              href="/therapist"
+              href="/professional"
               className="group inline-flex min-h-11 items-center gap-2 rounded-full pr-4 text-sm font-semibold text-arom transition-colors duration-150 hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
             >
               <span className="flex size-11 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-150 group-hover:-translate-x-0.5">
                 <ArrowLeft aria-hidden="true" size={20} />
               </span>
-              <span className="hidden sm:inline">Back to therapists</span>
+              <span className="hidden sm:inline">Back to professionals</span>
             </Link>
             <p className="hidden text-xs font-semibold uppercase tracking-[0.15em] text-arom-accent lg:block">
-              Therapist profile
+              Professional profile
             </p>
           </div>
 
@@ -184,7 +184,7 @@ export function TherapistDetail({ therapist }: { therapist: Therapist }) {
         </div>
       </main>
 
-      <MobileNavigation active="Therapist" />
+      <MobileNavigation active="Professional" />
     </div>
   );
 }

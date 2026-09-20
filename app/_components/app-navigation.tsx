@@ -7,6 +7,7 @@ import {
   BookOpen,
   Heart,
   Home,
+  Settings,
   UsersRound,
   type LucideIcon,
 } from "lucide-react";
@@ -16,8 +17,9 @@ export type NavigationLabel =
   | "Home"
   | "MindGuide"
   | "Detection"
-  | "Therapist"
-  | "Community";
+  | "Professional"
+  | "Community"
+  | "Profile";
 
 type NavigationItem = {
   label: NavigationLabel;
@@ -30,7 +32,7 @@ const navigationItems: NavigationItem[] = [
   { label: "Home", icon: Home, href: "/" },
   { label: "MindGuide", icon: BookOpen, href: "/mindguide" },
   { label: "Detection", icon: Activity, href: "#", emphasized: true },
-  { label: "Therapist", icon: Heart, href: "/therapist" },
+  { label: "Professional", icon: Heart, href: "/professional" },
   { label: "Community", icon: UsersRound, href: "#" },
 ];
 
@@ -38,8 +40,9 @@ const khmerNavigation: Record<NavigationLabel, string> = {
   Home: "ទំព័រដើម",
   MindGuide: "មគ្គុទ្ទេសក៍ចិត្ត",
   Detection: "ពិនិត្យសុខភាព",
-  Therapist: "អ្នកប្រឹក្សា",
+  Professional: "អ្នកជំនាញ",
   Community: "សហគមន៍",
+  Profile: "ប្រវត្តិរូប",
 };
 
 export function AromBrand({ compact = false }: { compact?: boolean }) {
@@ -101,18 +104,46 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
         })}
       </nav>
 
-      <div className="mt-auto rounded-3xl bg-arom p-5 text-white">
-        <div className="mb-4 flex size-10 items-center justify-center rounded-full bg-white/14">
-          <Heart aria-hidden="true" size={20} />
+      <div className="mt-auto flex flex-col gap-3">
+        <Link
+          href="/profile"
+          aria-label="Profile and Settings"
+          className={`group flex items-center gap-3 rounded-2xl border p-2.5 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-arom ${
+            active === "Profile"
+              ? "border-arom/40 bg-arom-soft text-arom shadow-sm"
+              : "border-arom-border bg-white text-ink hover:border-arom/30 hover:bg-arom-wash"
+          }`}
+        >
+          <Image
+            src="/brand/muoyly-avatar.svg"
+            alt="Muoyly"
+            width={38}
+            height={38}
+            className="size-9 rounded-full object-cover ring-2 ring-arom/20"
+            unoptimized
+          />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs font-bold leading-tight text-ink">Muoyly Seng</p>
+            <p className="truncate text-[0.7rem] text-ink-muted">
+              {language === "km" ? "ប្រវត្តិរូប និងការកំណត់" : "Profile & Settings"}
+            </p>
+          </div>
+          <Settings aria-hidden="true" size={17} className="text-ink-muted transition-transform duration-150 group-hover:rotate-45 group-hover:text-arom" />
+        </Link>
+
+        <div className="rounded-3xl bg-arom p-5 text-white">
+          <div className="mb-4 flex size-10 items-center justify-center rounded-full bg-white/14">
+            <Heart aria-hidden="true" size={20} />
+          </div>
+          <p className="text-sm font-semibold">
+            {language === "km" ? "ទុកពេលឱ្យខ្លួនឯង។" : "Make space for yourself."}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-white/70">
+            {language === "km"
+              ? "ការសួរសុខទុក្ខខ្លួនឯងបន្តិច អាចផ្លាស់ប្តូរថ្ងៃរបស់អ្នក។"
+              : "A small check-in can change the shape of your day."}
+          </p>
         </div>
-        <p className="text-sm font-semibold">
-          {language === "km" ? "ទុកពេលឱ្យខ្លួនឯង។" : "Make space for yourself."}
-        </p>
-        <p className="mt-1 text-xs leading-5 text-white/70">
-          {language === "km"
-            ? "ការសួរសុខទុក្ខខ្លួនឯងបន្តិច អាចផ្លាស់ប្តូរថ្ងៃរបស់អ្នក។"
-            : "A small check-in can change the shape of your day."}
-        </p>
       </div>
     </aside>
   );

@@ -35,7 +35,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   return (
     <LanguageContext.Provider value={{ language, setLanguage: changeLanguage }}>
       {children}
-      <LanguageSwitcher />
     </LanguageContext.Provider>
   );
 }
@@ -50,12 +49,22 @@ export function useLanguage() {
   return context;
 }
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({
+  className = "",
+  inline = true,
+}: {
+  className?: string;
+  inline?: boolean;
+}) {
   const { language, setLanguage } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
 
+  const containerClass = inline
+    ? `language-switcher inline-flex items-center gap-1 rounded-full border border-arom-border bg-white p-1 shadow-sm ${className}`
+    : `language-switcher fixed bottom-[5.6rem] right-4 z-40 flex items-center gap-1 rounded-full border border-arom-border bg-white/95 p-1 shadow-[0_10px_30px_rgba(20,68,57,0.14)] backdrop-blur-xl lg:bottom-6 lg:right-6 ${className}`;
+
   return (
-    <div className="language-switcher fixed bottom-[5.6rem] right-4 z-40 flex items-center gap-1 rounded-full border border-arom-border bg-white/95 p-1 shadow-[0_10px_30px_rgba(20,68,57,0.14)] backdrop-blur-xl lg:bottom-6 lg:right-6">
+    <div className={containerClass}>
       <Languages aria-hidden="true" size={16} className="ml-2 mr-1 text-arom" />
       <div role="group" aria-label="Choose language" className="relative grid grid-cols-2">
         <motion.span

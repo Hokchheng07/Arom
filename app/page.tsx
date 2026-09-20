@@ -1,5 +1,5 @@
-import { AromHome } from "./_components/arom-home";
+import { AromMainView } from "./components/arom-main-view";
 
 export default function Home() {
-  return <AromHome />;
+  return <AromMainView />;
 }

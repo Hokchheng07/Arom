@@ -23,7 +23,7 @@ function TherapistCard({ therapist }: { therapist: Therapist }) {
   return (
     <article>
       <Link
-        href={`/therapist/${therapist.slug}`}
+        href={`/professional/${therapist.slug}`}
         aria-label={`View ${therapist.name}'s profile`}
         className="group grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 rounded-2xl border border-arom-border bg-white p-3.5 shadow-card transition-[border-color,box-shadow] duration-150 hover:border-arom/30 hover:shadow-[0_20px_48px_rgba(25,87,72,0.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:p-4 xl:block xl:overflow-hidden xl:p-0"
       >
@@ -115,7 +115,7 @@ export function TherapistDirectory() {
 
   return (
     <div className="min-h-screen bg-canvas lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]">
-      <DesktopNavigation active="Therapist" />
+      <DesktopNavigation active="Professional" />
 
       <div className="min-w-0">
         <motion.main
@@ -136,8 +136,8 @@ export function TherapistDirectory() {
             </div>
 
             <Link
-              href="/login"
-              aria-label="Open account login"
+              href="/profile"
+              aria-label="Open profile and settings"
               className="rounded-full focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-arom"
             >
               <Image
@@ -154,7 +154,7 @@ export function TherapistDirectory() {
           <motion.section variants={itemVariants} className="mt-8 lg:mt-12">
             <div className="max-w-2xl">
               <p className="hidden text-xs font-bold uppercase tracking-[0.16em] text-arom-accent lg:block">
-                Therapist directory
+                Professional directory
               </p>
               <h1 className="text-[1.7rem] font-bold leading-tight tracking-[-0.04em] text-ink sm:text-3xl lg:mt-2 lg:text-[2.6rem]">
                 Find Professional Support
@@ -166,7 +166,7 @@ export function TherapistDirectory() {
 
             <div className="mt-5 grid gap-3 lg:mt-7 grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1.6fr)_auto_minmax(18rem,0.8fr)]">
               <label className="relative block">
-                <span className="sr-only">Search therapists</span>
+                <span className="sr-only">Search professionals</span>
                 <Search
                   aria-hidden="true"
                   size={20}
@@ -176,7 +176,7 @@ export function TherapistDirectory() {
                   type="search"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search therapist ..."
+                  placeholder="Search professional ..."
                   className="h-12 w-full rounded-xl border border-arom-border bg-white pl-12 pr-11 text-sm text-ink shadow-sm outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-ink-muted/72 focus:border-arom focus:ring-4 focus:ring-arom/10"
                 />
                 {query && (
@@ -263,7 +263,7 @@ export function TherapistDirectory() {
             ) : (
               <div className="mt-4 rounded-3xl border border-dashed border-arom/30 bg-white px-6 py-14 text-center">
                 <p className="font-semibold text-ink">
-                  {query ? `No therapists match “${query}”` : "No therapists match these filters"}
+                  {query ? `No professionals match “${query}”` : "No professionals match these filters"}
                 </p>
                 <p className="mt-1 text-sm text-ink-muted">
                   Try fewer filters, or search a name, role, or specialty such as anxiety.
@@ -281,7 +281,7 @@ export function TherapistDirectory() {
         </motion.main>
       </div>
 
-      <MobileNavigation active="Therapist" />
+      <MobileNavigation active="Professional" />
 
       <TherapistFilter
         open={isFilterOpen}
