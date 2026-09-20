@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -20,7 +20,6 @@ import { DesktopNavigation } from "../../_components/app-navigation";
 import { BottomNav } from "../../components/bottom-nav";
 import { TopHeader } from "../../components/top-header";
 import { useLanguage } from "../../_components/language-provider";
-import { DetectionModal } from "../../components/detection-modal";
 
 type ViewMode = "entry" | "saved" | "history";
 
@@ -192,6 +191,7 @@ function getPlaceholderForMood(mood: string, km: boolean): string {
 }
 
 function JournalContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialMood = mapMoodParam(searchParams.get("mood"));
 
@@ -199,7 +199,14 @@ function JournalContent() {
   const km = language === "km";
 
   const [view, setView] = useState<ViewMode>("entry");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
 
   // Form State initialized with URL query parameter
   const [selectedMood, setSelectedMood] = useState(initialMood);
@@ -397,13 +404,14 @@ function JournalContent() {
             <div className="mt-4 sm:mt-6 animate-in fade-in duration-200">
               {/* Top Navigation */}
               <div className="flex items-center justify-between">
-                <Link
-                  href="/detection"
+                <button
+                  type="button"
+                  onClick={handleBack}
                   className="inline-flex size-10 items-center justify-center rounded-full text-[#111827] hover:bg-gray-100 transition-colors"
-                  aria-label="Back to detection"
+                  aria-label={km ? "ត្រឡប់ក្រោយ" : "Back"}
                 >
                   <ArrowLeft size={22} />
-                </Link>
+                </button>
                 <button
                   type="button"
                   onClick={() => setView("history")}
@@ -864,17 +872,8 @@ function JournalContent() {
 
       {/* Figma Bottom Navigation (Mobile/Tablet) */}
       <div className="lg:hidden">
-        <BottomNav
-          activeTab="Detection"
-          onOpenDetection={() => setIsModalOpen(true)}
-        />
+        <BottomNav activeTab="Detection" />
       </div>
-
-      {/* Detection Modal Sheet */}
-      <DetectionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </div>
   );
 }

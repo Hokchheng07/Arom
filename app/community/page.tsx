@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { DesktopNavigation } from "../_components/app-navigation";
 import { BottomNav } from "../components/bottom-nav";
-import { DetectionModal } from "../components/detection-modal";
 import { CommunityHomeView } from "./components/community-home-view";
 import { AllGroupsView } from "./components/all-groups-view";
 import { GroupDetailView } from "./components/group-detail-view";
@@ -73,7 +72,6 @@ export default function CommunityPage() {
 
   const [activities, setActivities] = useState<GroupActivity[]>(INITIAL_ACTIVITIES);
   const [members, setMembers] = useState<GroupMember[]>(INITIAL_MEMBERS);
-  const [isDetectionOpen, setIsDetectionOpen] = useState(false);
 
   const activeGroup =
     groups.find((g) => g.id === selectedGroupId) || groups[0];
@@ -235,18 +233,9 @@ export default function CommunityPage() {
       {/* Figma Bottom Navigation (Mobile/Tablet) - Hidden in Group Hub matching Figma Screen 5 */}
       {view !== "group-hub" && (
         <div className="lg:hidden">
-          <BottomNav
-            activeTab="Community"
-            onOpenDetection={() => setIsDetectionOpen(true)}
-          />
+          <BottomNav activeTab="Community" />
         </div>
       )}
-
-      {/* Detection Modal */}
-      <DetectionModal
-        isOpen={isDetectionOpen}
-        onClose={() => setIsDetectionOpen(false)}
-      />
     </div>
   );
 }

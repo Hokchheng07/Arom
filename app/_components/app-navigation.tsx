@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useLanguage } from "./language-provider";
+import { useDetection } from "./detection-provider";
 
 export type NavigationLabel =
   | "Home"
@@ -77,6 +78,7 @@ export function AromBrand({ compact = false }: { compact?: boolean }) {
 
 export function DesktopNavigation({ active }: { active: NavigationLabel }) {
   const { language } = useLanguage();
+  const { openDetection } = useDetection();
   return (
     <aside className="sticky top-0 hidden h-screen flex-col border-r border-arom-border bg-white px-5 py-8 lg:flex">
       <div className="px-2">
@@ -86,6 +88,24 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
       <nav aria-label="Primary" className="mt-14 flex flex-col gap-2">
         {navigationItems.map(({ label, icon: Icon, href }) => {
           const isActive = active === label;
+          if (label === "Detection") {
+            return (
+              <button
+                key={label}
+                type="button"
+                onClick={openDetection}
+                aria-current={isActive ? "page" : undefined}
+                className={`group flex min-h-12 w-full items-center gap-3 rounded-2xl px-4 text-sm font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom text-left ${
+                  isActive
+                    ? "bg-arom-soft text-arom"
+                    : "text-ink-muted hover:bg-arom-wash hover:text-arom"
+                }`}
+              >
+                <Icon aria-hidden="true" size={21} strokeWidth={isActive ? 2.4 : 2} />
+                {language === "km" ? khmerNavigation[label] : label}
+              </button>
+            );
+          }
           return (
             <Link
               key={label}
@@ -157,6 +177,9 @@ export function MobileNavigation({
   onOpenDetection?: () => void;
 }) {
   const { language } = useLanguage();
+  const { openDetection: globalOpenDetection } = useDetection();
+  const handleOpenDetection = onOpenDetection || globalOpenDetection;
+
   return (
     <nav
       aria-label="Primary"
@@ -193,12 +216,12 @@ export function MobileNavigation({
             </>
           );
 
-          if (emphasized && onOpenDetection) {
+          if (emphasized) {
             return (
               <button
                 key={label}
                 type="button"
-                onClick={onOpenDetection}
+                onClick={handleOpenDetection}
                 aria-label={language === "km" ? khmerNavigation[label] : label}
                 className="relative flex min-h-[52px] flex-col items-center justify-end gap-1 rounded-xl text-[0.66rem] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-arom"
               >

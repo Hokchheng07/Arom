@@ -1,17 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { TopHeader } from "./top-header";
 import { GreetingSection } from "./greeting-section";
 import { DailyPlanCard } from "./daily-plan-card";
 import { QuoteCard } from "./quote-card";
 import { MoodSelector } from "./mood-selector";
 import { BottomNav } from "./bottom-nav";
-import { DetectionModal } from "./detection-modal";
 import { DesktopNavigation } from "../_components/app-navigation";
 
 export function AromMainView() {
-  const [isDetectionOpen, setIsDetectionOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#f7faf9] text-[#14221f] lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]">
@@ -50,17 +47,8 @@ export function AromMainView() {
 
       {/* Figma Bottom Navigation (Mobile/Tablet) */}
       <div className="lg:hidden">
-        <BottomNav
-          activeTab="Home"
-          onOpenDetection={() => setIsDetectionOpen(true)}
-        />
+        <BottomNav activeTab="Home" />
       </div>
-
-      {/* Track your mind Bottom Sheet Modal (Figma Frame 236:946) */}
-      <DetectionModal
-        isOpen={isDetectionOpen}
-        onClose={() => setIsDetectionOpen(false)}
-      />
     </div>
   );
 }

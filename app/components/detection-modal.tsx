@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { X } from "lucide-react";
+import { ChevronRight, X } from "lucide-react";
 import { FigmaIcon } from "./figma-icon";
 import { useLanguage } from "../_components/language-provider";
 
@@ -35,16 +35,16 @@ export function DetectionModal({ isOpen, onClose }: DetectionModalProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="detection-sheet-title"
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 backdrop-blur-[2px] transition-opacity duration-200"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 backdrop-blur-sm p-0 transition-opacity duration-200 sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
         ref={modalRef}
-        className="w-full max-w-lg rounded-t-[30px] bg-white px-5 pb-8 pt-3.5 shadow-2xl transition-transform duration-300 animate-in slide-in-from-bottom"
+        className="w-full max-w-lg rounded-t-[32px] bg-white px-5 pb-8 pt-3.5 shadow-2xl transition-all duration-300 animate-in slide-in-from-bottom sm:max-w-md sm:rounded-[28px] sm:p-6 sm:shadow-2xl sm:slide-in-from-bottom-0 sm:zoom-in-95 sm:fade-in"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Handle indicator matching Figma */}
-        <div className="mx-auto h-1.5 w-12 rounded-full bg-[#d2d6db]" />
+        {/* Handle indicator on phone only */}
+        <div className="mx-auto h-1.5 w-12 rounded-full bg-[#d2d6db] sm:hidden" />
 
         <div className="mt-4 flex items-start justify-between gap-4">
           <div>
@@ -97,32 +97,42 @@ export function DetectionModal({ isOpen, onClose }: DetectionModalProps) {
           <Link
             href="/detection/journal"
             onClick={onClose}
-            className="group flex items-center gap-4 rounded-[22px] border border-gray-200/90 bg-white p-4 shadow-sm transition-all duration-200 hover:border-[#23aa89] hover:bg-[#e6f6f1] focus-visible:outline-2 focus-visible:outline-[#1f6f5b]"
+            className="group flex items-center gap-4 rounded-[22px] border border-gray-200/90 bg-white p-4 shadow-sm transition-all duration-200 hover:border-[#1f6f5b] hover:shadow-md hover:bg-[#e6f6f1] focus-visible:outline-2 focus-visible:outline-[#1f6f5b]"
           >
             <div className="flex size-12 shrink-0 items-center justify-center rounded-[15px] bg-[#dff3ee] transition-colors duration-200 group-hover:bg-[#1f6f5b]">
-              <span className="group-hover:brightness-0 group-hover:invert">
+              <span className="group-hover:brightness-0 group-hover:invert transition-all">
                 <FigmaIcon name="bi_journal-bookmark-fill" size={24} />
               </span>
             </div>
 
             <div className="min-w-0 flex-1">
-              <p className="text-base font-semibold text-black transition-colors duration-200 group-hover:text-[#1f6f5b]">
-                {km ? "សៀវភៅកំណត់ហេតុ" : "Journal"}
-              </p>
-              <p className="text-sm text-[#444444] transition-colors duration-200 group-hover:text-[#1f6f5b]/90">
+              <div className="flex items-center justify-between">
+                <p className="text-base font-semibold text-black transition-colors duration-200 group-hover:text-[#1f6f5b]">
+                  {km ? "សៀវភៅកំណត់ហេតុ" : "Journal"}
+                </p>
+                <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
+                  {km ? "រួចរាល់" : "Ready"}
+                </span>
+              </div>
+              <p className="mt-0.5 text-xs sm:text-sm text-[#4b5563] transition-colors duration-200 group-hover:text-[#1f6f5b]/90">
                 {km ? "សរសេរដោយសេរីអំពីថ្ងៃរបស់អ្នក" : "write freely about your day"}
               </p>
             </div>
+
+            <ChevronRight
+              size={18}
+              className="text-gray-400 group-hover:text-[#1f6f5b] group-hover:translate-x-0.5 transition-all shrink-0"
+            />
           </Link>
 
           {/* Symptom Detection Card (Figma Component 134) */}
           <button
             type="button"
             onClick={() => setShowComingSoon(true)}
-            className="group flex w-full items-center text-left gap-4 rounded-[22px] border border-gray-200/90 bg-white p-4 shadow-sm transition-all duration-200 hover:border-[#23aa89] hover:bg-[#e6f6f1] focus-visible:outline-2 focus-visible:outline-[#1f6f5b]"
+            className="group flex w-full items-center text-left gap-4 rounded-[22px] border border-gray-200/90 bg-white p-4 shadow-sm transition-all duration-200 hover:border-[#1f6f5b] hover:shadow-md hover:bg-[#e6f6f1] focus-visible:outline-2 focus-visible:outline-[#1f6f5b]"
           >
             <div className="flex size-12 shrink-0 items-center justify-center rounded-[15px] bg-[#dff3ee] transition-colors duration-200 group-hover:bg-[#1f6f5b]">
-              <span className="group-hover:brightness-0 group-hover:invert">
+              <span className="group-hover:brightness-0 group-hover:invert transition-all">
                 <FigmaIcon name="oui_anomaly-detection" size={24} />
               </span>
             </div>
@@ -136,10 +146,15 @@ export function DetectionModal({ isOpen, onClose }: DetectionModalProps) {
                   {km ? "ឆាប់ៗនេះ" : "Coming Soon"}
                 </span>
               </div>
-              <p className="text-sm text-[#757575] transition-colors duration-200 group-hover:text-[#1f6f5b]/90">
+              <p className="mt-0.5 text-xs sm:text-sm text-[#757575] transition-colors duration-200 group-hover:text-[#1f6f5b]/90">
                 {km ? "ការពិនិត្យរហ័សអំពីអារម្មណ៍របស់អ្នក" : "A quick check-in on how you’re doing"}
               </p>
             </div>
+
+            <ChevronRight
+              size={18}
+              className="text-gray-400 group-hover:text-[#1f6f5b] group-hover:translate-x-0.5 transition-all shrink-0"
+            />
           </button>
         </div>
       </div>

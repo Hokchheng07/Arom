@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Kantumruy_Pro } from "next/font/google";
 import "./index.css";
 import { LanguageProvider } from "./_components/language-provider";
+import { DetectionProvider } from "./_components/detection-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,7 +27,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${kantumruyPro.variable} antialiased`} suppressHydrationWarning>
-      <body suppressHydrationWarning><LanguageProvider>{children}</LanguageProvider></body>
+      <body suppressHydrationWarning>
+        <LanguageProvider>
+          <DetectionProvider>
+            {children}
+          </DetectionProvider>
+        </LanguageProvider>
+      </body>
     </html>
   );
 }
