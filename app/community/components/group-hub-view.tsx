@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, Plus, UserCheck, Briefcase, CheckCircle2, Sparkles } from "lucide-react";
+import { ChevronLeft, Plus, UserCheck, Briefcase, CheckCircle2 } from "lucide-react";
 import {
   MaskIcon,
   ShieldCheckIcon,
@@ -336,9 +336,8 @@ export function GroupHubView({
                   <h2 className="text-xs font-bold uppercase tracking-wider text-[#1b5e4c]">
                     {km ? "អ្នកណែនាំក្រុម" : "Group Mentor"}
                   </h2>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#e3f4ef] px-2.5 py-0.5 text-[11px] font-bold text-[#1b5e4c]">
-                    <Sparkles size={12} />
-                    {km ? (group.mentor.badgeKm || "អ្នកណែនាំ") : (group.mentor.badge || "Mentor")}
+                  <span className="rounded-full bg-[#e3f4ef] px-2.5 py-0.5 text-[11px] font-bold text-[#1b5e4c]">
+                    {km ? (group.mentor.badgeKm || "អ្នកណែនាំក្រុម") : (group.mentor.badge || "Group Mentor")}
                   </span>
                 </div>
 

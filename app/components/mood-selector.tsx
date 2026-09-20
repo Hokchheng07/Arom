@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ChevronRight, BookOpen } from "lucide-react";
 import { FigmaIcon } from "./figma-icon";
 import { useLanguage } from "../_components/language-provider";
 
@@ -47,13 +50,43 @@ const moods: MoodItem[] = [
 export function MoodSelector() {
   const { language } = useLanguage();
   const km = language === "km";
-  const [selectedMood, setSelectedMood] = useState<string>("Good");
+  const router = useRouter();
+
+  const [selectedMood, setSelectedMood] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return localStorage.getItem("arom_today_mood") || "Good";
+      } catch {
+        // ignore
+      }
+    }
+    return "Good";
+  });
+
+  const handleSelectMood = (moodLabel: string) => {
+    setSelectedMood(moodLabel);
+    try {
+      localStorage.setItem("arom_today_mood", moodLabel);
+    } catch {
+      // ignore
+    }
+    // Connect directly to Journal with the chosen mood
+    router.push(`/detection/journal?mood=${encodeURIComponent(moodLabel)}`);
+  };
 
   return (
     <section id="mood-check-in" aria-labelledby="mood-heading" className="pt-1">
-      <h2 id="mood-heading" className="text-sm font-medium text-[#1f6f5b] sm:text-base">
-        {km ? "ថ្ងៃនេះអ្នកមានអារម្មណ៍យ៉ាងដូចម្តេច?" : "How are you Feeling today?"}
-      </h2>
+      <div className="flex items-center justify-between">
+        <h2 id="mood-heading" className="text-sm font-medium text-[#1f6f5b] sm:text-base">
+          {km ? "ថ្ងៃនេះអ្នកមានអារម្មណ៍យ៉ាងដូចម្តេច?" : "How are you Feeling today?"}
+        </h2>
+        <Link
+          href={`/detection/journal?mood=${encodeURIComponent(selectedMood)}`}
+          className="text-xs font-semibold text-[#1f6f5b] hover:underline"
+        >
+          {km ? "សៀវភៅកំណត់ហេតុ" : "Journal"} &rarr;
+        </Link>
+      </div>
 
       <div
         role="radiogroup"
@@ -68,7 +101,8 @@ export function MoodSelector() {
               type="button"
               role="radio"
               aria-checked={isSelected}
-              onClick={() => setSelectedMood(mood.label)}
+              onClick={() => handleSelectMood(mood.label)}
+              title={`${mood.label} - ${km ? "បើកសរសេរកំណត់ហេតុ" : "Open in Journal"}`}
               className="group flex flex-col items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f6f5b] rounded-xl py-1 transition-transform active:scale-95"
             >
               <div
@@ -93,6 +127,20 @@ export function MoodSelector() {
             </button>
           );
         })}
+      </div>
+
+      {/* Direct Quick Link to write reflection in Journal */}
+      <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-2.5">
+        <Link
+          href={`/detection/journal?mood=${encodeURIComponent(selectedMood)}`}
+          className="group inline-flex items-center gap-1.5 text-xs font-semibold text-[#1f6f5b] hover:underline"
+        >
+          <BookOpen size={13} className="text-[#1f6f5b]" />
+          <span>
+            {km ? "កត់ត្រាការឆ្លុះបញ្ចាំងក្នុងកំណត់ហេតុ" : "Write reflection in Journal"}
+          </span>
+          <ChevronRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+        </Link>
       </div>
     </section>
   );

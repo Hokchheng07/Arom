@@ -731,3 +731,11 @@ function JournalContent() {
     </div>
   );
 }
+
+export default function JournalPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#f7faf9]" />}>
+      <JournalContent />
+    </Suspense>
+  );
+}

@@ -32,7 +32,7 @@ const baseActivities: PlanActivity[] = [
     subtitle: "Great Start",
     subtitleKm: "ការចាប់ផ្តើមដ៏ល្អ",
     icon: "mdi_check-circle",
-    href: "#mood-check-in",
+    href: "/detection/journal",
     completed: true,
   },
   {
