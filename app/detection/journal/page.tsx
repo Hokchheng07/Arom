@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -98,16 +99,39 @@ const EMOTIONS = [
   { en: "Overwhelmed", km: "លើសលប់" },
 ];
 
-export default function JournalPage() {
+function mapMoodParam(param: string | null): string {
+  if (!param) return "Okay";
+  const lower = param.toLowerCase().trim();
+  if (lower === "great") return "Great";
+  if (lower === "good") return "Good";
+  if (lower === "okay") return "Okay";
+  if (lower === "low" || lower === "not good") return "Not Good";
+  if (lower === "very low" || lower === "very difficult") return "Very difficult";
+  return "Okay";
+}
+
+function getDefaultEmotionsForMood(mood: string): string[] {
+  if (mood === "Great" || mood === "Good") return ["Calm"];
+  if (mood === "Not Good") return ["Sad", "Tired"];
+  if (mood === "Very difficult") return ["Stressed", "Overwhelmed"];
+  return ["Stressed"];
+}
+
+function JournalContent() {
+  const searchParams = useSearchParams();
+  const initialMood = mapMoodParam(searchParams.get("mood"));
+
   const { language } = useLanguage();
   const km = language === "km";
 
   const [view, setView] = useState<ViewMode>("entry");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Form State
-  const [selectedMood, setSelectedMood] = useState("Okay");
-  const [selectedEmotions, setSelectedEmotions] = useState<string[]>(["Stressed"]);
+  // Form State initialized with URL query parameter
+  const [selectedMood, setSelectedMood] = useState(initialMood);
+  const [selectedEmotions, setSelectedEmotions] = useState<string[]>(() =>
+    getDefaultEmotionsForMood(initialMood)
+  );
   const [reflectionText, setReflectionText] = useState(
     "Today was a bit stressful: I had a lot of assignment to do, but I managed to finish some of it. Feeling tired but also proud of myself."
   );
