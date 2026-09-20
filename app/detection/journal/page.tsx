@@ -15,6 +15,7 @@ import {
   Calendar,
   Trash2,
 } from "lucide-react";
+import { FigmaIcon } from "../../components/figma-icon";
 import { DesktopNavigation } from "../../_components/app-navigation";
 import { BottomNav } from "../../components/bottom-nav";
 import { TopHeader } from "../../components/top-header";
@@ -36,85 +37,158 @@ const DEFAULT_ENTRIES: JournalEntry[] = [
   {
     id: "figma-1",
     date: "Today",
-    mood: "Okay",
-    tags: ["Stressed"],
+    mood: "Good",
+    tags: ["Happy", "Proud"],
     content:
-      "Today was a bit stressful, I had a lot of assignment to do, but i managed to finish some of it. Feeling tired but also proud of myself.",
+      "Had a productive and peaceful day! Finished my core tasks early and had time to relax with a cup of tea. Feeling proud of my progress.",
     createdAt: "2026-09-20",
   },
   {
     id: "figma-2",
-    date: "Sep 12",
-    mood: "Okay",
-    tags: ["Calm"],
+    date: "Sep 18",
+    mood: "Great",
+    tags: ["Grateful", "Energetic"],
     content:
-      "Today was better than yesterday. I managed to focus on my assignment without getting overwhelmed.",
-    createdAt: "2026-09-12",
+      "Went for a refreshing morning walk and spent quality time with friends. Really grateful for the good conversations and positive energy today.",
+    createdAt: "2026-09-18",
   },
   {
     id: "figma-3",
-    date: "Sep 10",
-    mood: "Sad",
-    tags: ["Sad", "Lonely"],
+    date: "Sep 15",
+    mood: "Okay",
+    tags: ["Calm"],
     content:
-      "I had a difficult conversation with a friend and it's been sitting heavy on my heart today.",
-    createdAt: "2026-09-10",
+      "A quiet, balanced day. Managed to focus on my assignments without rushing and took regular breaks to recharge.",
+    createdAt: "2026-09-15",
   },
   {
     id: "figma-4",
-    date: "Sep 8",
+    date: "Sep 12",
     mood: "Good",
-    tags: ["Calm"],
+    tags: ["Calm", "Hopeful"],
     content:
-      "Had a productive day! Completed my assignment and felt more confident in my work.",
-    createdAt: "2026-09-08",
+      "Started the day with a clear plan. Felt much more organized and confident in handling my responsibilities.",
+    createdAt: "2026-09-12",
   },
   {
     id: "figma-5",
-    date: "Sep 5",
-    mood: "Stressed",
-    tags: ["Stressed", "Anxious"],
+    date: "Sep 8",
+    mood: "Not Good",
+    tags: ["Tired"],
     content:
-      "Feeling stressed about upcoming exams. Need to plan my time better and get enough rest.",
-    createdAt: "2026-09-05",
+      "Felt a bit drained after a long week. Decided to take a warm bath, disconnect from screens, and get an early night's rest.",
+    createdAt: "2026-09-08",
   },
 ];
 
-const MOODS = [
-  { en: "Great", km: "អស្ចារ្យ" },
-  { en: "Good", km: "ល្អ" },
-  { en: "Okay", km: "ធម្មតា" },
-  { en: "Not Good", km: "មិនល្អ" },
-  { en: "Very difficult", km: "ពិបាកខ្លាំង" },
+type MoodOption = {
+  en: string;
+  km: string;
+  icon: string;
+};
+
+const MOODS: MoodOption[] = [
+  { en: "Great", km: "អស្ចារ្យ", icon: "boxicons_happy-beaming" },
+  { en: "Good", km: "ល្អ", icon: "ic_outline-mood" },
+  { en: "Okay", km: "ធម្មតា", icon: "teenyicons_mood-flat-outline" },
+  { en: "Not Good", km: "មិនល្អ", icon: "akar-icons_face-sad" },
+  { en: "Very difficult", km: "ពិបាកខ្លាំង", icon: "boxicons_tired" },
 ];
 
-const EMOTIONS = [
-  { en: "Anxious", km: "ថប់បារម្ភ" },
-  { en: "Sad", km: "កើតទុក្ខ" },
-  { en: "Stressed", km: "តានតឹង" },
-  { en: "Angry", km: "ខឹង" },
-  { en: "Lonely", km: "ឯកោ" },
-  { en: "Tired", km: "អស់កម្លាំង" },
-  { en: "Calm", km: "ស្ងប់ស្ងាត់" },
-  { en: "Overwhelmed", km: "លើសលប់" },
+type EmotionOption = {
+  en: string;
+  km: string;
+  emoji: string;
+  category: "positive" | "reflective";
+};
+
+const EMOTIONS: EmotionOption[] = [
+  // Positive & Uplifting
+  { en: "Happy", km: "រីករាយ", emoji: "😊", category: "positive" },
+  { en: "Grateful", km: "ដឹងគុណ", emoji: "✨", category: "positive" },
+  { en: "Calm", km: "ស្ងប់ស្ងាត់", emoji: "🌿", category: "positive" },
+  { en: "Proud", km: "មានមោទនភាព", emoji: "⭐", category: "positive" },
+  { en: "Hopeful", km: "មានសង្ឃឹម", emoji: "🌱", category: "positive" },
+  { en: "Energetic", km: "មានថាមពល", emoji: "⚡", category: "positive" },
+  { en: "Relaxed", km: "ធូរស្រាល", emoji: "🕊️", category: "positive" },
+  // Reflective & Challenging
+  { en: "Tired", km: "អស់កម្លាំង", emoji: "😴", category: "reflective" },
+  { en: "Stressed", km: "តានតឹង", emoji: "🌪️", category: "reflective" },
+  { en: "Anxious", km: "ថប់បារម្ភ", emoji: "💭", category: "reflective" },
+  { en: "Sad", km: "កើតទុក្ខ", emoji: "🌧️", category: "reflective" },
+  { en: "Overwhelmed", km: "លើសលប់", emoji: "🌊", category: "reflective" },
+  { en: "Lonely", km: "ឯកោ", emoji: "🥀", category: "reflective" },
+  { en: "Angry", km: "ខឹង", emoji: "🔥", category: "reflective" },
 ];
 
 function mapMoodParam(param: string | null): string {
-  if (!param) return "Okay";
+  if (!param) return "Good";
   const lower = param.toLowerCase().trim();
   if (lower === "great") return "Great";
   if (lower === "good") return "Good";
   if (lower === "okay") return "Okay";
   if (lower === "low" || lower === "not good") return "Not Good";
   if (lower === "very low" || lower === "very difficult") return "Very difficult";
-  return "Okay";
+  return "Good";
 }
 
 function getDefaultEmotionsForMood(mood: string): string[] {
-  if (mood === "Great" || mood === "Good") return ["Calm"];
-  if (mood === "Not Good") return ["Sad", "Tired"];
+  if (mood === "Great") return ["Happy", "Grateful", "Energetic"];
+  if (mood === "Good") return ["Calm", "Happy", "Proud"];
+  if (mood === "Okay") return ["Calm", "Relaxed"];
+  if (mood === "Not Good") return ["Tired"];
   if (mood === "Very difficult") return ["Stressed", "Overwhelmed"];
-  return ["Stressed"];
+  return ["Calm", "Happy"];
+}
+
+function getStarterReflectionForMood(mood: string, km: boolean): string {
+  switch (mood) {
+    case "Great":
+      return km
+        ? "ថ្ងៃនេះពិតជាអស្ចារ្យណាស់! ខ្ញុំមានថាមពល បានបំពេញការងារដោយជោគជ័យ និងមានពេលវេលាដ៏មានន័យ។ ខ្ញុំមានអារម្មណ៍ដឹងគុណ និងរីករាយជាខ្លាំង។"
+        : "Today was wonderful! I felt energized, accomplished my goals, and enjoyed some great moments. Feeling grateful and happy.";
+    case "Good":
+      return km
+        ? "ថ្ងៃនេះជាថ្ងៃដ៏ល្អ និងមានផលិតភាព។ អ្វីៗដំណើរការយ៉ាងរលូន ហើយខ្ញុំមានអារម្មណ៍ស្ងប់ និងពេញចិត្តនឹងលទ្ធផល។"
+        : "Had a good, productive day today! Things went smoothly, and I'm feeling peaceful, focused, and content.";
+    case "Okay":
+      return km
+        ? "ថ្ងៃនេះធម្មតា និងមានសេចក្តីស្ងប់។ ខ្ញុំបានដោះស្រាយកិច្ចការប្រចាំថ្ងៃមួយជំហានម្តងៗ ហើយកំពុងរក្សាតុល្យភាពនៃចិត្ត។"
+        : "Today was steady and calm. Handled my daily tasks at a steady pace and took time to keep myself balanced.";
+    case "Not Good":
+      return km
+        ? "ថ្ងៃនេះមានអារម្មណ៍អស់កម្លាំងបន្តិច។ ខ្ញុំកំពុងឆ្លៀតពេលសម្រាក សម្រាលអារម្មណ៍ និងរំលឹកខ្លួនឯងថាការសម្រាកគឺជារឿងសំខាន់។"
+        : "Felt a bit low on energy today. Giving myself permission to slow down, rest, and recharge tonight.";
+    case "Very difficult":
+      return km
+        ? "ថ្ងៃនេះមានការលំបាក និងតានតឹងច្រើន។ ខ្ញុំកំពុងដកដង្ហើមវែងៗ បន្ថយល្បឿន និងដោះស្រាយម្តងមួយៗដោយការយល់ចិត្តខ្លួនឯង។"
+        : "Today was quite challenging and overwhelming. I'm taking deep breaths, letting myself rest, and taking things one step at a time.";
+    default:
+      return km
+        ? "ថ្ងៃនេះជាថ្ងៃដ៏ល្អ និងមានផលិតភាព។ អ្វីៗដំណើរការយ៉ាងរលូន ហើយខ្ញុំមានអារម្មណ៍ស្ងប់ និងពេញចិត្តនឹងលទ្ធផល។"
+        : "Had a good, productive day today! Things went smoothly, and I'm feeling peaceful, focused, and content.";
+  }
+}
+
+function getPlaceholderForMood(mood: string, km: boolean): string {
+  switch (mood) {
+    case "Great":
+      return km
+        ? "តើអ្វីដែលធ្វើឱ្យថ្ងៃនេះអស្ចារ្យយ៉ាងនេះ? សរសេរពីចំណុចល្អៗ ជោគជ័យ ឬអ្វីដែលធ្វើឱ្យអ្នកញញឹម..."
+        : "What made today so wonderful? Write down your highlights, wins, or what made you smile...";
+    case "Good":
+      return km
+        ? "តើមានអ្វីល្អកើតឡើងថ្ងៃនេះ? សរសេរអំពីអ្វីដែលអ្នកចូលចិត្ត ឬបានសម្រេច..."
+        : "What went well today? Write about something you enjoyed or accomplished...";
+    case "Okay":
+      return km
+        ? "តើថ្ងៃនេះដំណើរការយ៉ាងដូចម្តេច? សរសេរអ្វីដែលនៅក្នុងចិត្តរបស់អ្នក..."
+        : "How did your day go? Write what's on your mind...";
+    default:
+      return km
+        ? "តើអ្នកមានអារម្មណ៍យ៉ាងណាដែរថ្ងៃនេះ? ចែករំលែកគំនិតរបស់អ្នកដោយសេរី..."
+        : "How are you feeling right now? It's safe to let your thoughts out here...";
+  }
 }
 
 function JournalContent() {
@@ -132,9 +206,10 @@ function JournalContent() {
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>(() =>
     getDefaultEmotionsForMood(initialMood)
   );
-  const [reflectionText, setReflectionText] = useState(
-    "Today was a bit stressful: I had a lot of assignment to do, but I managed to finish some of it. Feeling tired but also proud of myself."
+  const [reflectionText, setReflectionText] = useState(() =>
+    getStarterReflectionForMood(initialMood, km)
   );
+  const [hasCustomizedText, setHasCustomizedText] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [voiceNotice, setVoiceNotice] = useState<string | null>(null);
 
@@ -147,6 +222,12 @@ function JournalContent() {
         if (stored) {
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed) && parsed.length > 0) {
+            const isLegacyOnly = parsed.every(
+              (e: JournalEntry) => typeof e.id === "string" && e.id.startsWith("figma-")
+            );
+            if (isLegacyOnly) {
+              return DEFAULT_ENTRIES;
+            }
             return parsed;
           }
         }
@@ -157,6 +238,14 @@ function JournalContent() {
     return DEFAULT_ENTRIES;
   });
   const [selectedDetailEntry, setSelectedDetailEntry] = useState<JournalEntry | null>(null);
+
+  const handleSelectMood = (moodName: string) => {
+    setSelectedMood(moodName);
+    setSelectedEmotions(getDefaultEmotionsForMood(moodName));
+    if (!hasCustomizedText) {
+      setReflectionText(getStarterReflectionForMood(moodName, km));
+    }
+  };
 
   const toggleEmotion = (emotion: string) => {
     if (selectedEmotions.includes(emotion)) {
@@ -343,14 +432,17 @@ function JournalContent() {
                       <button
                         key={m.en}
                         type="button"
-                        onClick={() => setSelectedMood(m.en)}
-                        className={`rounded-[14px] px-3.5 py-2 text-xs sm:text-sm font-medium transition-all duration-150 focus-visible:outline-2 focus-visible:outline-[#1f6f5b] ${
+                        onClick={() => handleSelectMood(m.en)}
+                        className={`inline-flex items-center gap-2 rounded-[14px] px-3.5 py-2 text-xs sm:text-sm font-medium transition-all duration-150 focus-visible:outline-2 focus-visible:outline-[#1f6f5b] ${
                           isSelected
                             ? "border border-[#1f6f5b] bg-[#dff3ee] text-[#1f6f5b] shadow-sm font-semibold"
                             : "border border-gray-200 bg-white text-[#374151] hover:border-gray-300"
                         }`}
                       >
-                        {km ? m.km : m.en}
+                        <span className={isSelected ? "opacity-100 scale-105 transition-transform" : "opacity-75"}>
+                          <FigmaIcon name={m.icon} size={20} />
+                        </span>
+                        <span>{km ? m.km : m.en}</span>
                       </button>
                     );
                   })}
@@ -359,9 +451,14 @@ function JournalContent() {
 
               {/* Section 2: What’s coming up for you? */}
               <div className="mt-6">
-                <label className="block text-sm font-medium text-[#4b5563]">
-                  {km ? "តើមានអ្វីកើតឡើងចំពោះអ្នក?" : "What’s coming up for you?"}
-                </label>
+                <div className="flex items-center justify-between">
+                  <label className="block text-sm font-medium text-[#4b5563]">
+                    {km ? "តើមានអ្វីកើតឡើងចំពោះអ្នក?" : "What’s coming up for you?"}
+                  </label>
+                  <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
+                    {km ? "អារម្មណ៍ និងការឆ្លុះបញ្ចាំង" : "Feelings & reflection"}
+                  </span>
+                </div>
                 <div className="mt-2.5 flex flex-wrap gap-2 sm:gap-2.5">
                   {EMOTIONS.map((e) => {
                     const isSelected = selectedEmotions.includes(e.en);
@@ -370,13 +467,14 @@ function JournalContent() {
                         key={e.en}
                         type="button"
                         onClick={() => toggleEmotion(e.en)}
-                        className={`rounded-[14px] px-3.5 py-2 text-xs sm:text-sm font-medium transition-all duration-150 focus-visible:outline-2 focus-visible:outline-[#1f6f5b] ${
+                        className={`inline-flex items-center gap-1.5 rounded-[14px] px-3.5 py-2 text-xs sm:text-sm font-medium transition-all duration-150 focus-visible:outline-2 focus-visible:outline-[#1f6f5b] ${
                           isSelected
                             ? "border border-[#1f6f5b] bg-[#dff3ee] text-[#1f6f5b] shadow-sm font-semibold"
                             : "border border-gray-200 bg-white text-[#374151] hover:border-gray-300"
                         }`}
                       >
-                        {km ? e.km : e.en}
+                        <span className="text-sm leading-none">{e.emoji}</span>
+                        <span>{km ? e.km : e.en}</span>
                       </button>
                     );
                   })}
@@ -390,10 +488,11 @@ function JournalContent() {
                     rows={6}
                     maxLength={500}
                     value={reflectionText}
-                    onChange={(e) => setReflectionText(e.target.value)}
-                    placeholder={
-                      km ? "សរសេរអ្វីដែលនៅក្នុងចិត្តរបស់អ្នក..." : "Write what's on your mind..."
-                    }
+                    onChange={(e) => {
+                      setReflectionText(e.target.value);
+                      setHasCustomizedText(true);
+                    }}
+                    placeholder={getPlaceholderForMood(selectedMood, km)}
                     className="w-full resize-none bg-transparent text-sm leading-relaxed text-[#111827] placeholder:text-gray-400 focus:outline-none sm:text-[15px]"
                   />
                   <div className="mt-2 text-right">
@@ -517,13 +616,41 @@ function JournalContent() {
                 <h2 className="text-base sm:text-lg font-bold text-[#111827]">
                   {km ? "កំណត់ហេតុថ្ងៃនេះ" : "Today’s Journal"}
                 </h2>
-                <p className="mt-1 text-sm font-medium text-[#6b7280]">
-                  {km ? "ថ្ងៃនេះ" : "Today"} • {getMoodLabel(savedEntry?.mood || selectedMood)}
-                </p>
+                <div className="mt-1.5 flex items-center gap-2">
+                  {(() => {
+                    const moodObj = MOODS.find(
+                      (m) => m.en.toLowerCase() === (savedEntry?.mood || selectedMood).toLowerCase()
+                    );
+                    return (
+                      <>
+                        {moodObj && <FigmaIcon name={moodObj.icon} size={18} />}
+                        <p className="text-sm font-medium text-[#6b7280]">
+                          {km ? "ថ្ងៃនេះ" : "Today"} • {getMoodLabel(savedEntry?.mood || selectedMood)}
+                        </p>
+                      </>
+                    );
+                  })()}
+                </div>
                 <p className="mt-3 text-sm sm:text-[15px] leading-relaxed text-[#374151]">
                   {(savedEntry?.content || reflectionText).slice(0, 140)}
                   {(savedEntry?.content || reflectionText).length > 140 ? "..." : ""}
                 </p>
+                {(savedEntry?.tags || selectedEmotions).length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {(savedEntry?.tags || selectedEmotions).map((t) => {
+                      const emo = EMOTIONS.find((e) => e.en.toLowerCase() === t.toLowerCase());
+                      return (
+                        <span
+                          key={t}
+                          className="inline-flex items-center gap-1 rounded-md bg-[#e6f6f1] px-2 py-0.5 text-xs font-medium text-[#1f6f5b]"
+                        >
+                          {emo && <span>{emo.emoji}</span>}
+                          <span>{km && emo ? emo.km : t}</span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons */}
@@ -570,9 +697,10 @@ function JournalContent() {
                 <button
                   type="button"
                   onClick={() => {
-                    setReflectionText("");
-                    setSelectedMood("Okay");
-                    setSelectedEmotions([]);
+                    setSelectedMood("Good");
+                    setSelectedEmotions(getDefaultEmotionsForMood("Good"));
+                    setReflectionText(getStarterReflectionForMood("Good", km));
+                    setHasCustomizedText(false);
                     setView("entry");
                   }}
                   className="flex items-center gap-1.5 rounded-full bg-[#e6f6f1] px-3.5 py-1.5 text-xs font-semibold text-[#1f6f5b] hover:bg-[#d2eee8] transition-colors"
@@ -584,38 +712,50 @@ function JournalContent() {
 
               {/* Journal Entries List */}
               <div className="mt-6 flex flex-col gap-3.5">
-                {entries.map((entry) => (
-                  <div
-                    key={entry.id}
-                    onClick={() => setSelectedDetailEntry(entry)}
-                    className="group flex cursor-pointer items-center justify-between rounded-[20px] border border-gray-200/90 bg-white p-4 sm:p-5 shadow-sm transition-all duration-200 hover:border-[#1f6f5b] hover:shadow-md hover:translate-y-[-1px]"
-                  >
-                    <div className="min-w-0 flex-1 pr-3">
-                      <p className="text-base font-bold text-[#111827] transition-colors group-hover:text-[#1f6f5b]">
-                        {entry.date} • {getMoodLabel(entry.mood)}
-                      </p>
-                      <p className="mt-1 line-clamp-2 text-xs sm:text-sm text-[#4b5563] leading-relaxed">
-                        {entry.content}
-                      </p>
-                      {entry.tags && entry.tags.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-1.5">
-                          {entry.tags.map((t) => (
-                            <span
-                              key={t}
-                              className="rounded-md bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600"
-                            >
-                              {t}
-                            </span>
-                          ))}
+                {entries.map((entry) => {
+                  const moodObj = MOODS.find(
+                    (m) => m.en.toLowerCase() === entry.mood.toLowerCase()
+                  );
+                  return (
+                    <div
+                      key={entry.id}
+                      onClick={() => setSelectedDetailEntry(entry)}
+                      className="group flex cursor-pointer items-center justify-between rounded-[20px] border border-gray-200/90 bg-white p-4 sm:p-5 shadow-sm transition-all duration-200 hover:border-[#1f6f5b] hover:shadow-md hover:translate-y-[-1px]"
+                    >
+                      <div className="min-w-0 flex-1 pr-3">
+                        <div className="flex items-center gap-2">
+                          {moodObj && <FigmaIcon name={moodObj.icon} size={18} />}
+                          <p className="text-base font-bold text-[#111827] transition-colors group-hover:text-[#1f6f5b]">
+                            {entry.date} • {getMoodLabel(entry.mood)}
+                          </p>
                         </div>
-                      )}
+                        <p className="mt-1 line-clamp-2 text-xs sm:text-sm text-[#4b5563] leading-relaxed">
+                          {entry.content}
+                        </p>
+                        {entry.tags && entry.tags.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {entry.tags.map((t) => {
+                              const emo = EMOTIONS.find((e) => e.en.toLowerCase() === t.toLowerCase());
+                              return (
+                                <span
+                                  key={t}
+                                  className="inline-flex items-center gap-1 rounded-md bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-700"
+                                >
+                                  {emo && <span>{emo.emoji}</span>}
+                                  <span>{km && emo ? emo.km : t}</span>
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                      <ChevronRight
+                        size={20}
+                        className="shrink-0 text-gray-400 group-hover:text-[#1f6f5b] group-hover:translate-x-1 transition-all"
+                      />
                     </div>
-                    <ChevronRight
-                      size={20}
-                      className="shrink-0 text-gray-400 group-hover:text-[#1f6f5b] group-hover:translate-x-1 transition-all"
-                    />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Bottom Quote Banner matching Figma 77:146 */}
@@ -655,8 +795,13 @@ function JournalContent() {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-[#1f6f5b] bg-[#e6f6f1] px-3 py-1 rounded-full">
-                    <Calendar size={13} />
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[#1f6f5b] bg-[#e6f6f1] px-3 py-1.5 rounded-full">
+                    {(() => {
+                      const moodObj = MOODS.find(
+                        (m) => m.en.toLowerCase() === selectedDetailEntry.mood.toLowerCase()
+                      );
+                      return moodObj ? <FigmaIcon name={moodObj.icon} size={17} /> : <Calendar size={13} />;
+                    })()}
                     <span>
                       {selectedDetailEntry.date} • {getMoodLabel(selectedDetailEntry.mood)}
                     </span>
@@ -681,14 +826,18 @@ function JournalContent() {
 
                 {selectedDetailEntry.tags && selectedDetailEntry.tags.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {selectedDetailEntry.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-medium text-[#1f6f5b]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {selectedDetailEntry.tags.map((tag) => {
+                      const emo = EMOTIONS.find((e) => e.en.toLowerCase() === tag.toLowerCase());
+                      return (
+                        <span
+                          key={tag}
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-medium text-[#1f6f5b]"
+                        >
+                          {emo && <span>{emo.emoji}</span>}
+                          <span>{km && emo ? emo.km : tag}</span>
+                        </span>
+                      );
+                    })}
                   </div>
                 )}
 

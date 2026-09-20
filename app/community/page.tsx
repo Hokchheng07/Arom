@@ -92,10 +92,17 @@ export default function CommunityPage() {
     groups.find((g) => g.id === "academic-stress") || groups[1] || groups[0];
 
   function handleSelectGroup(groupId: string) {
-    setPreviousView(view === "group-detail" ? "home" : view);
+    const grp = groups.find((g) => g.id === groupId);
     setSelectedGroupId(groupId);
-    // As requested: user will read information about what this group is first, and touch join
-    setView("group-detail");
+
+    if (grp?.isJoined) {
+      // User is already in this group -> directly open group hub (no need for detail screen)
+      setView("group-hub");
+    } else {
+      // User is not in this group -> show detail/rules first so they can read and touch join
+      setPreviousView(view === "group-detail" ? "home" : view);
+      setView("group-detail");
+    }
   }
 
   function handleJoinGroup(groupId: string) {
