@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DesktopNavigation } from "../_components/app-navigation";
 import { BottomNav } from "../components/bottom-nav";
 import { DetectionModal } from "../components/detection-modal";
@@ -36,49 +36,41 @@ export default function CommunityPage() {
   const [previousView, setPreviousView] = useState<CommunityView>("home");
   const [selectedGroupId, setSelectedGroupId] = useState("stress-burnout");
 
-  // Groups state with localStorage persistence
-  const [groups, setGroups] = useState<SupportGroup[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const stored = localStorage.getItem("arom_community_groups");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            // Merge with INITIAL_GROUPS so new groups like depression-support and updated rules are loaded
-            const merged = INITIAL_GROUPS.map((initial) => {
-              const existing = parsed.find((p: SupportGroup) => p.id === initial.id);
-              if (!existing) return initial;
-              return {
-                ...initial,
-                isJoined: existing.isJoined,
-                membersCount: existing.membersCount ?? initial.membersCount,
-              };
-            });
-            return merged;
-          }
-        }
-      } catch {
-        // ignore
-      }
-    }
-    return INITIAL_GROUPS;
-  });
+  // Groups and messages state initialized with server-safe defaults, hydrated on mount
+  const [groups, setGroups] = useState<SupportGroup[]>(INITIAL_GROUPS);
+  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
 
-  // Messages state with localStorage persistence
-  const [messages, setMessages] = useState<ChatMessage[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const stored = localStorage.getItem("arom_community_messages");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("arom_community_groups");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Merge with INITIAL_GROUPS so new groups like depression-support and updated rules are loaded
+          const merged = INITIAL_GROUPS.map((initial) => {
+            const existing = parsed.find((p: SupportGroup) => p.id === initial.id);
+            if (!existing) return initial;
+            return {
+              ...initial,
+              isJoined: existing.isJoined,
+              membersCount: existing.membersCount ?? initial.membersCount,
+            };
+          });
+          setGroups(merged);
         }
-      } catch {
-        // ignore
       }
+
+      const storedMessages = localStorage.getItem("arom_community_messages");
+      if (storedMessages) {
+        const parsed = JSON.parse(storedMessages);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setMessages(parsed);
+        }
+      }
+    } catch {
+      // ignore
     }
-    return INITIAL_MESSAGES;
-  });
+  }, []);
 
   const [activities, setActivities] = useState<GroupActivity[]>(INITIAL_ACTIVITIES);
   const [members, setMembers] = useState<GroupMember[]>(INITIAL_MEMBERS);

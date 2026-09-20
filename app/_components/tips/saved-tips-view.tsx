@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowLeft, Bookmark, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "../language-provider";
 import {
   STORAGE_TIPS_KEYS,
@@ -23,15 +23,18 @@ export function SavedTipsView({
   const { language } = useLanguage();
   const km = language === "km";
 
-  const [savedIds, setSavedIds] = useState<string[]>(() => {
-    if (typeof window === "undefined") return ["how-to-control-stress"];
+  const [savedIds, setSavedIds] = useState<string[]>(["how-to-control-stress"]);
+
+  useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_TIPS_KEYS.BOOKMARKS);
-      return raw ? JSON.parse(raw) : ["how-to-control-stress"];
+      if (raw) {
+        setSavedIds(JSON.parse(raw));
+      }
     } catch {
-      return ["how-to-control-stress"];
+      // ignore
     }
-  });
+  }, []);
 
   const handleRemove = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowLeft, Bookmark, ChevronRight, Wind } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "../language-provider";
 import {
   PRACTICE_BREATHING,
@@ -23,15 +23,18 @@ export function SavedPracticesView({
   const { language } = useLanguage();
   const km = language === "km";
 
-  const [savedIds, setSavedIds] = useState<string[]>(() => {
-    if (typeof window === "undefined") return ["interactive-breathing"];
+  const [savedIds, setSavedIds] = useState<string[]>(["interactive-breathing"]);
+
+  useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_PRACTICE_KEYS.BOOKMARKS);
-      return raw ? JSON.parse(raw) : ["interactive-breathing"];
+      if (raw) {
+        setSavedIds(JSON.parse(raw));
+      }
     } catch {
-      return ["interactive-breathing"];
+      // ignore
     }
-  });
+  }, []);
 
   const handleRemove = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();

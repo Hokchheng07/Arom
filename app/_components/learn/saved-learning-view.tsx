@@ -10,7 +10,7 @@ import {
   Lightbulb,
 } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "../language-provider";
 import {
   INITIAL_SAVED_ITEMS,
@@ -30,15 +30,18 @@ export function SavedLearningView({
   const { language } = useLanguage();
   const km = language === "km";
   const [activeTab, setActiveTab] = useState<"lesson" | "tip" | "podcast">("lesson");
-  const [savedItems, setSavedItems] = useState<SavedItem[]>(() => {
-    if (typeof window === "undefined") return INITIAL_SAVED_ITEMS;
+  const [savedItems, setSavedItems] = useState<SavedItem[]>(INITIAL_SAVED_ITEMS);
+
+  useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEYS.SAVED_ITEMS);
-      return raw ? JSON.parse(raw) : INITIAL_SAVED_ITEMS;
+      if (raw) {
+        setSavedItems(JSON.parse(raw));
+      }
     } catch {
-      return INITIAL_SAVED_ITEMS;
+      // ignore
     }
-  });
+  }, []);
 
   const handleRemoveBookmark = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();

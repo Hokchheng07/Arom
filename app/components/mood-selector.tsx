@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, BookOpen } from "lucide-react";
@@ -52,16 +52,18 @@ export function MoodSelector() {
   const km = language === "km";
   const router = useRouter();
 
-  const [selectedMood, setSelectedMood] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        return localStorage.getItem("arom_today_mood") || "Good";
-      } catch {
-        // ignore
+  const [selectedMood, setSelectedMood] = useState<string>("Good");
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("arom_today_mood");
+      if (stored) {
+        setSelectedMood(stored);
       }
+    } catch {
+      // ignore
     }
-    return "Good";
-  });
+  }, []);
 
   const handleSelectMood = (moodLabel: string) => {
     setSelectedMood(moodLabel);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -215,29 +215,27 @@ function JournalContent() {
 
   // Saved Entry & List State with lazy local storage hydration
   const [savedEntry, setSavedEntry] = useState<JournalEntry | null>(null);
-  const [entries, setEntries] = useState<JournalEntry[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const stored = localStorage.getItem("arom_journal_entries");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            const isLegacyOnly = parsed.every(
-              (e: JournalEntry) => typeof e.id === "string" && e.id.startsWith("figma-")
-            );
-            if (isLegacyOnly) {
-              return DEFAULT_ENTRIES;
-            }
-            return parsed;
+  const [entries, setEntries] = useState<JournalEntry[]>(DEFAULT_ENTRIES);
+  const [selectedDetailEntry, setSelectedDetailEntry] = useState<JournalEntry | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("arom_journal_entries");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const isLegacyOnly = parsed.every(
+            (e: JournalEntry) => typeof e.id === "string" && e.id.startsWith("figma-")
+          );
+          if (!isLegacyOnly) {
+            setEntries(parsed);
           }
         }
-      } catch {
-        // ignore
       }
+    } catch {
+      // ignore
     }
-    return DEFAULT_ENTRIES;
-  });
-  const [selectedDetailEntry, setSelectedDetailEntry] = useState<JournalEntry | null>(null);
+  }, []);
 
   const handleSelectMood = (moodName: string) => {
     setSelectedMood(moodName);

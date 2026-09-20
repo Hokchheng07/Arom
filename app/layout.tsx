@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${kantumruyPro.variable} antialiased`} suppressHydrationWarning>
-      <body><LanguageProvider>{children}</LanguageProvider></body>
+      <body suppressHydrationWarning><LanguageProvider>{children}</LanguageProvider></body>
     </html>
   );
 }
