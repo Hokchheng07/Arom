@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, Plus, UserCheck, Briefcase, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, UserCheck, Briefcase, CheckCircle2, Paperclip, FileText, X } from "lucide-react";
 import {
   MaskIcon,
   ShieldCheckIcon,
@@ -12,6 +12,7 @@ import { useLanguage } from "../../_components/language-provider";
 import {
   SupportGroup,
   ChatMessage,
+  ChatAttachment,
   GroupActivity,
   GroupMember,
 } from "../community-data";
@@ -22,9 +23,8 @@ type GroupHubViewProps = {
   activities: GroupActivity[];
   members: GroupMember[];
   onBack: () => void;
-  onSendMessage: (text: string, groupId?: string) => void;
+  onSendMessage: (text: string, attachment?: ChatAttachment, groupId?: string) => void;
   onToggleActivityJoin: (activityId: string) => void;
-  onOpenCreatePost: () => void;
 };
 
 export function GroupHubView({
@@ -35,15 +35,16 @@ export function GroupHubView({
   onBack,
   onSendMessage,
   onToggleActivityJoin,
-  onOpenCreatePost,
 }: GroupHubViewProps) {
   const { language } = useLanguage();
   const km = language === "km";
 
   const [activeTab, setActiveTab] = useState<"chat" | "activities" | "member">("chat");
   const [inputText, setInputText] = useState("");
+  const [attachment, setAttachment] = useState<ChatAttachment | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (activeTab === "chat") {
@@ -51,11 +52,34 @@ export function GroupHubView({
     }
   }, [messages, activeTab]);
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const isImg = file.type.startsWith("image/");
+    const sizeKb = Math.round(file.size / 1024);
+    const sizeStr = sizeKb > 1024 ? `${(sizeKb / 1024).toFixed(1)} MB` : `${sizeKb} KB`;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const resultUrl = event.target?.result as string;
+      setAttachment({
+        name: file.name,
+        url: resultUrl || "#",
+        type: isImg ? "image" : "file",
+        sizeStr,
+      });
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }
+
   function handleSend(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    if (!inputText.trim()) return;
-    onSendMessage(inputText.trim(), group.id);
+    if (!inputText.trim() && !attachment) return;
+    onSendMessage(inputText.trim(), attachment || undefined, group.id);
     setInputText("");
+    setAttachment(null);
     setTimeout(() => {
       inputRef.current?.focus();
     }, 50);
@@ -97,16 +121,6 @@ export function GroupHubView({
             </span>
           </div>
         </div>
-
-        {/* Quick Create Post button */}
-        <button
-          onClick={onOpenCreatePost}
-          className="flex items-center gap-1 rounded-xl bg-[#1b5e4c] px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-[#144b3e] transition-colors shrink-0"
-          title={km ? "បង្កើតការបង្ហោះ" : "Create Post"}
-        >
-          <Plus size={16} />
-          <span className="hidden sm:inline">{km ? "បង្ហោះ" : "Post"}</span>
-        </button>
       </div>
 
       {/* Segmented Control Tabs matching Figma */}
@@ -197,9 +211,38 @@ export function GroupHubView({
                           {msg.time}
                         </span>
                       </div>
-                      <p className="mt-1 text-xs sm:text-sm text-[#374151] leading-relaxed">
-                        {msg.text}
-                      </p>
+                      {msg.text && (
+                        <p className="mt-1 text-xs sm:text-sm text-[#374151] leading-relaxed">
+                          {msg.text}
+                        </p>
+                      )}
+
+                      {/* Attached File or Image */}
+                      {msg.attachment && (
+                        <div className="mt-2.5">
+                          {msg.attachment.type === "image" ? (
+                            <div className="overflow-hidden rounded-xl border border-gray-200/80 max-w-[260px] shadow-xs">
+                              <img
+                                src={msg.attachment.url}
+                                alt={msg.attachment.name}
+                                className="max-h-56 w-auto object-cover rounded-xl"
+                              />
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-2.5 rounded-xl border border-[#cbebe1] bg-[#f2f9f6] p-2.5 text-xs text-[#1b4332] max-w-xs shadow-xs">
+                              <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#dff3ec] text-[#1b5e4c]">
+                                <FileText size={18} />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="truncate font-bold text-[#111827]">{msg.attachment.name}</p>
+                                {msg.attachment.sizeStr && (
+                                  <p className="text-[10px] text-[#2d6a54] mt-0.5">{msg.attachment.sizeStr}</p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -207,29 +250,84 @@ export function GroupHubView({
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Chat Input Bar matching Figma Screen 5 */}
-            <form
-              onSubmit={handleSend}
-              className="sticky bottom-3 z-30 mt-4 flex items-center gap-2.5 rounded-full border border-gray-200/90 bg-white/98 backdrop-blur-md px-4 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.12)]"
-            >
-              <input
-                ref={inputRef}
-                type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={km ? "ចែករំលែកគំនិតរបស់អ្នក..." : "Share your thought..."}
-                className="flex-1 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none bg-transparent"
-              />
-              <button
-                type="submit"
-                disabled={!inputText.trim()}
-                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#1b5e4c] text-white transition-all disabled:opacity-40 hover:bg-[#144b3e] active:scale-95 shadow-sm"
-                aria-label={km ? "ផ្ញើ" : "Send"}
+            {/* Chat Input Container with Attachment Support */}
+            <div className="sticky bottom-3 z-30 mt-4">
+              {/* Attachment Preview Chip (if selected) */}
+              {attachment && (
+                <div className="mb-2 flex items-center justify-between rounded-2xl border border-[#bce3d6] bg-[#eef8f4] px-3.5 py-2 shadow-sm animate-in fade-in slide-in-from-bottom-1 duration-150">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    {attachment.type === "image" ? (
+                      <div className="relative size-10 shrink-0 overflow-hidden rounded-lg border border-[#cce8df]">
+                        <img src={attachment.url} alt="" className="size-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#dff3ec] text-[#1b5e4c]">
+                        <FileText size={20} />
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <p className="truncate text-xs font-bold text-[#111827]">{attachment.name}</p>
+                      <p className="text-[10px] text-[#2d6a54]">{attachment.sizeStr}</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setAttachment(null)}
+                    className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors shadow-xs ml-2"
+                    aria-label={km ? "លុបឯកសារភ្ជាប់" : "Remove attachment"}
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              )}
+
+              {/* Chat Input Bar */}
+              <form
+                onSubmit={handleSend}
+                className="flex items-center gap-2 rounded-full border border-gray-200/90 bg-white/98 backdrop-blur-md px-3 py-2 shadow-[0_4px_20px_rgba(0,0,0,0.12)]"
               >
-                <PaperPlaneIcon className="size-5" />
-              </button>
-            </form>
+                {/* Hidden File Input */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*,.pdf,.doc,.docx,.txt"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+
+                {/* File / Image Attachment Button */}
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full text-gray-500 hover:text-[#1b5e4c] hover:bg-[#eaf5f1] transition-colors"
+                  title={km ? "ភ្ជាប់ឯកសារ ឬរូបភាព" : "Attach file or image"}
+                  aria-label={km ? "ភ្ជាប់ឯកសារ" : "Attach file"}
+                >
+                  <Paperclip size={18} />
+                </button>
+
+                {/* Message Text Input */}
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={km ? "ចែករំលែកគំនិតរបស់អ្នក..." : "Share your thought..."}
+                  className="flex-1 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none bg-transparent"
+                />
+
+                {/* Send Button */}
+                <button
+                  type="submit"
+                  disabled={!inputText.trim() && !attachment}
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#1b5e4c] text-white transition-all disabled:opacity-40 hover:bg-[#144b3e] active:scale-95 shadow-sm"
+                  aria-label={km ? "ផ្ញើ" : "Send"}
+                >
+                  <PaperPlaneIcon className="size-4" />
+                </button>
+              </form>
+            </div>
           </div>
         )}
 

@@ -9,7 +9,6 @@ import { AllGroupsView } from "./components/all-groups-view";
 import { GroupDetailView } from "./components/group-detail-view";
 import { JoinedSuccessModal } from "./components/joined-success-modal";
 import { GroupHubView } from "./components/group-hub-view";
-import { CreatePostModal } from "./components/create-post-modal";
 import { CommunityMenuModal } from "./components/community-menu-modal";
 import {
   INITIAL_GROUPS,
@@ -18,6 +17,7 @@ import {
   INITIAL_MEMBERS,
   SupportGroup,
   ChatMessage,
+  ChatAttachment,
   GroupActivity,
   GroupMember,
 } from "./community-data";
@@ -28,7 +28,6 @@ type CommunityView =
   | "group-detail"
   | "joined-success"
   | "group-hub"
-  | "create-post"
   | "menu";
 
 export default function CommunityPage() {
@@ -126,7 +125,7 @@ export default function CommunityPage() {
     setView("joined-success");
   }
 
-  function handleSendMessage(text: string, targetGroupId?: string) {
+  function handleSendMessage(text: string, attachment?: ChatAttachment, targetGroupId?: string) {
     const gid = targetGroupId || selectedGroupId || activeGroup.id;
     const newMsg: ChatMessage = {
       id: `msg-${Date.now()}`,
@@ -136,6 +135,7 @@ export default function CommunityPage() {
       text,
       time: "Just now",
       avatarType: "mask",
+      attachment,
     };
     setMessages((prev) => {
       const updated = [...prev, newMsg];
@@ -154,29 +154,6 @@ export default function CommunityPage() {
         a.id === activityId ? { ...a, isJoined: !a.isJoined } : a
       )
     );
-  }
-
-  function handleSubmitPost(groupId: string, text: string, isAnonymous: boolean) {
-    setSelectedGroupId(groupId);
-    const newMsg: ChatMessage = {
-      id: `post-${Date.now()}`,
-      groupId,
-      senderName: isAnonymous ? "Anonymous (You)" : "Panharith",
-      isAnonymous,
-      text,
-      time: "Just now",
-      avatarType: isAnonymous ? "mask" : "user",
-    };
-    setMessages((prev) => {
-      const updated = [...prev, newMsg];
-      try {
-        localStorage.setItem("arom_community_messages", JSON.stringify(updated));
-      } catch {
-        // ignore
-      }
-      return updated;
-    });
-    setView("group-hub");
   }
 
   return (
@@ -238,16 +215,6 @@ export default function CommunityPage() {
               onBack={() => setView("home")}
               onSendMessage={handleSendMessage}
               onToggleActivityJoin={handleToggleActivityJoin}
-              onOpenCreatePost={() => setView("create-post")}
-            />
-          )}
-
-          {view === "create-post" && (
-            <CreatePostModal
-              groups={groups}
-              selectedGroupId={selectedGroupId}
-              onBack={() => setView("group-hub")}
-              onSubmitPost={handleSubmitPost}
             />
           )}
 
@@ -265,8 +232,8 @@ export default function CommunityPage() {
         </main>
       </div>
 
-      {/* Figma Bottom Navigation (Mobile/Tablet) - Hidden in Group Hub & Create Post matching Figma Screen 5 */}
-      {view !== "group-hub" && view !== "create-post" && (
+      {/* Figma Bottom Navigation (Mobile/Tablet) - Hidden in Group Hub matching Figma Screen 5 */}
+      {view !== "group-hub" && (
         <div className="lg:hidden">
           <BottomNav
             activeTab="Community"

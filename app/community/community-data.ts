@@ -50,6 +50,13 @@ export const DEFAULT_GROUP_RULES_KM = [
   "ធ្វើតាមការណែនាំរបស់អ្នកណែនាំ",
 ];
 
+export type ChatAttachment = {
+  name: string;
+  url: string;
+  type: "image" | "file";
+  sizeStr?: string;
+};
+
 export type ChatMessage = {
   id: string;
   groupId: string;
@@ -59,6 +66,7 @@ export type ChatMessage = {
   text: string;
   time: string;
   avatarType: "mask" | "mentor" | "user";
+  attachment?: ChatAttachment;
 };
 
 export type GroupActivity = {
@@ -298,6 +306,21 @@ export const INITIAL_MESSAGES: ChatMessage[] = [
     text: "That's a great question! Maybe we can share some small routines that work for us.",
     time: "10:45 AM",
     avatarType: "mentor",
+  },
+  {
+    id: "m5",
+    groupId: "stress-burnout",
+    senderName: "Anonymous 03",
+    isAnonymous: true,
+    text: "Here is a quick daily breathwork guide that helped me through today's deadlines.",
+    time: "11:02 AM",
+    avatarType: "mask",
+    attachment: {
+      name: "daily-breathwork-routine.pdf",
+      url: "#",
+      type: "file",
+      sizeStr: "245 KB",
+    },
   },
   {
     id: "m-dep-1",
