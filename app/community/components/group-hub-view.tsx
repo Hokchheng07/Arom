@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, Plus, UserCheck } from "lucide-react";
+import { ChevronLeft, Plus, UserCheck, Briefcase, CheckCircle2, Sparkles } from "lucide-react";
 import {
   MaskIcon,
   ShieldCheckIcon,
@@ -22,7 +22,7 @@ type GroupHubViewProps = {
   activities: GroupActivity[];
   members: GroupMember[];
   onBack: () => void;
-  onSendMessage: (text: string) => void;
+  onSendMessage: (text: string, groupId?: string) => void;
   onToggleActivityJoin: (activityId: string) => void;
   onOpenCreatePost: () => void;
 };
@@ -43,6 +43,7 @@ export function GroupHubView({
   const [activeTab, setActiveTab] = useState<"chat" | "activities" | "member">("chat");
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (activeTab === "chat") {
@@ -50,18 +51,28 @@ export function GroupHubView({
     }
   }, [messages, activeTab]);
 
-  function handleSend(e: React.FormEvent) {
-    e.preventDefault();
+  function handleSend(e?: React.FormEvent) {
+    if (e) e.preventDefault();
     if (!inputText.trim()) return;
-    onSendMessage(inputText.trim());
+    onSendMessage(inputText.trim(), group.id);
     setInputText("");
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 50);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   }
 
   const upcoming = activities.filter((a) => a.isUpcoming);
   const past = activities.filter((a) => !a.isUpcoming);
 
   return (
-    <div className="w-full max-w-lg mx-auto pb-28 px-4 pt-3 flex flex-col min-h-screen">
+    <div className="w-full max-w-lg mx-auto pb-6 px-4 pt-3 flex flex-col min-h-screen">
       {/* Top Header matching Figma Screen 5 */}
       <div className="flex items-center gap-2 py-2">
         <button
@@ -199,19 +210,21 @@ export function GroupHubView({
             {/* Chat Input Bar matching Figma Screen 5 */}
             <form
               onSubmit={handleSend}
-              className="sticky bottom-20 mt-4 flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 shadow-lg"
+              className="sticky bottom-3 z-30 mt-4 flex items-center gap-2.5 rounded-full border border-gray-200/90 bg-white/98 backdrop-blur-md px-4 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.12)]"
             >
               <input
+                ref={inputRef}
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder={km ? "ចែករំលែកគំនិតរបស់អ្នក..." : "Share your thought..."}
-                className="flex-1 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none"
+                className="flex-1 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none bg-transparent"
               />
               <button
                 type="submit"
                 disabled={!inputText.trim()}
-                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#1b5e4c] text-white transition-all disabled:opacity-40 hover:bg-[#144b3e] active:scale-95"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#1b5e4c] text-white transition-all disabled:opacity-40 hover:bg-[#144b3e] active:scale-95 shadow-sm"
                 aria-label={km ? "ផ្ញើ" : "Send"}
               >
                 <PaperPlaneIcon className="size-5" />
@@ -313,28 +326,107 @@ export function GroupHubView({
           </div>
         )}
 
-        {/* TAB 3: MEMBER matching Figma Screen 7 */}
+        {/* TAB 3: MEMBER matching Figma Screen 7 with Mentor at the top */}
         {activeTab === "member" && (
-          <div className="flex flex-col gap-2.5">
-            {members.map((mem) => (
-              <div
-                key={mem.id}
-                className="flex items-center gap-3.5 rounded-[20px] border border-gray-100 bg-white px-4 py-3.5 shadow-sm"
-              >
-                {mem.avatarType === "mask" ? (
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#dff3ec] text-[#1b5e4c]">
-                    <MaskIcon className="size-5" />
+          <div className="flex flex-col gap-5">
+            {/* Mentor Section on top */}
+            {group.mentor && (
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-[#1b5e4c]">
+                    {km ? "អ្នកណែនាំក្រុម" : "Group Mentor"}
+                  </h2>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#e3f4ef] px-2.5 py-0.5 text-[11px] font-bold text-[#1b5e4c]">
+                    <Sparkles size={12} />
+                    {km ? (group.mentor.badgeKm || "អ្នកណែនាំ") : (group.mentor.badge || "Mentor")}
+                  </span>
+                </div>
+
+                <div className="rounded-[22px] border border-[#1b5e4c]/25 bg-gradient-to-br from-[#f2f9f6] via-white to-white p-4 shadow-[0_2px_12px_rgba(27,94,76,0.06)]">
+                  <div className="flex items-center gap-3.5">
+                    {/* Mentor Avatar */}
+                    <div className="relative size-14 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1b5e4c]/20 bg-[#e3f4ef]">
+                      {group.mentor.avatarUrl ? (
+                        <Image
+                          src={group.mentor.avatarUrl}
+                          alt={group.mentor.name}
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="flex size-full items-center justify-center text-[#1b5e4c]">
+                          <UserCheck size={26} />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Mentor Details: Name, Role, Experience */}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <h3 className="truncate text-base font-extrabold text-[#111827]">
+                          {km ? group.mentor.nameKm : group.mentor.name}
+                        </h3>
+                        <span className="shrink-0 text-[#1b5e4c]" title="Verified Mentor">
+                          <CheckCircle2 size={16} className="fill-[#1b5e4c] text-white" />
+                        </span>
+                      </div>
+
+                      {/* Role */}
+                      <p className="truncate text-xs font-bold text-[#1b5e4c] mt-0.5">
+                        {km ? group.mentor.roleKm : group.mentor.role}
+                      </p>
+
+                      {/* Experience */}
+                      <div className="mt-1 flex items-center gap-1.5 text-[11px] text-[#4b5563]">
+                        <Briefcase size={12} className="text-[#1b5e4c] shrink-0" />
+                        <span className="font-semibold text-gray-700">
+                          {km ? group.mentor.experienceKm : group.mentor.experience}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                ) : (
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#e3f4ef] text-[#1b5e4c]">
-                    <UserCheck size={18} />
-                  </div>
-                )}
-                <span className="text-sm font-semibold text-[#111827]">
-                  {mem.name}
-                </span>
+
+                  {/* Mentor Bio / Note */}
+                  {group.mentor.bio && (
+                    <p className="mt-3 border-t border-gray-100/90 pt-2.5 text-xs text-[#4b5563] leading-relaxed">
+                      {km ? group.mentor.bioKm : group.mentor.bio}
+                    </p>
+                  )}
+                </div>
               </div>
-            ))}
+            )}
+
+            {/* Group Members List */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                  {km ? `សមាជិកក្រុម (${members.length})` : `Group Members (${members.length})`}
+                </h2>
+              </div>
+
+              <div className="flex flex-col gap-2.5">
+                {members.map((mem) => (
+                  <div
+                    key={mem.id}
+                    className="flex items-center gap-3.5 rounded-[20px] border border-gray-100 bg-white px-4 py-3.5 shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    {mem.avatarType === "mask" ? (
+                      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#dff3ec] text-[#1b5e4c]">
+                        <MaskIcon className="size-5" />
+                      </div>
+                    ) : (
+                      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#e3f4ef] text-[#1b5e4c]">
+                        <UserCheck size={18} />
+                      </div>
+                    )}
+                    <span className="text-sm font-semibold text-[#111827]">
+                      {mem.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -1,3 +1,17 @@
+export type GroupMentor = {
+  name: string;
+  nameKm: string;
+  role: string;
+  roleKm: string;
+  experience: string;
+  experienceKm: string;
+  avatarUrl?: string;
+  badge?: string;
+  badgeKm?: string;
+  bio?: string;
+  bioKm?: string;
+};
+
 export type SupportGroup = {
   id: string;
   name: string;
@@ -10,6 +24,7 @@ export type SupportGroup = {
   aboutKm: string;
   expectations: string[];
   expectationsKm: string[];
+  mentor?: GroupMentor;
   isJoined?: boolean;
 };
 
@@ -72,6 +87,19 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       "រៀនយុទ្ធសាស្ត្រទប់ទល់ដែលមានសុខភាពល្អ",
       "ការគាំទ្រពីអ្នកណែនាំដែលបានទទួលការបណ្តុះបណ្តាល",
     ],
+    mentor: {
+      name: "Mentor Tivea",
+      nameKm: "អ្នកណែនាំ ទីវា",
+      role: "Stress & Burnout Specialist",
+      roleKm: "អ្នកសម្របសម្រួលការគាំទ្រភាពតានតឹង និងការអស់កម្លាំង",
+      experience: "4+ years experience",
+      experienceKm: "បទពិសោធន៍ ៤+ ឆ្នាំក្នុងការគាំទ្រសុខភាពផ្លូវចិត្ត",
+      avatarUrl: "/figma/community/mentor_tivea_avatar.png",
+      badge: "Group Mentor",
+      badgeKm: "អ្នកណែនាំក្រុម",
+      bio: "Facilitates weekly check-ins, guides grounding routines, and ensures a safe, respectful space.",
+      bioKm: "សម្របសម្រួលការសួរសុខទុក្ខប្រចាំសប្តាហ៍ ណែនាំការអនុវត្តសតិ និងធានានូវបរិយាកាសសុវត្ថិភាព។",
+    },
     isJoined: true,
   },
   {
@@ -98,6 +126,19 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       "ការលើកទឹកចិត្តពីមិត្តភក្តិ",
       "កន្លែងសុវត្ថិភាពដើម្បីរំសាយការថប់បារម្ភក្នុងការសិក្សា",
     ],
+    mentor: {
+      name: "Mentor Sophea",
+      nameKm: "អ្នកណែនាំ សុភា",
+      role: "Academic Life & Student Coach",
+      roleKm: "គ្រូបង្វឹកជីវិត និងការសិក្សាសិស្ស-និស្សិត",
+      experience: "5+ years experience",
+      experienceKm: "បទពិសោធន៍ ៥+ ឆ្នាំក្នុងការប្រឹក្សាគរុកោសល្យ",
+      avatarUrl: "/therapists/sopheap-chan.jpg",
+      badge: "Academic Guide",
+      badgeKm: "អ្នកណែនាំការសិក្សា",
+      bio: "Helps students navigate academic pressure, build effective study habits, and maintain wellbeing.",
+      bioKm: "ជួយសិស្ស-និស្សិតយកឈ្នះការថប់បារម្ភពេលប្រឡង និងរក្សាតុល្យភាពសុខុមាលភាព។",
+    },
     isJoined: false,
   },
   {
@@ -122,6 +163,19 @@ export const INITIAL_GROUPS: SupportGroup[] = [
       "សហគមន៍ដែលគ្មានការវិនិច្ឆ័យ",
       "យន្តការទប់ទល់ដែលបានចែករំលែក",
     ],
+    mentor: {
+      name: "Mentor Rathana",
+      nameKm: "អ្នកណែនាំ រតនា",
+      role: "Mindfulness & Anxiety Facilitator",
+      roleKm: "អ្នកសម្របសម្រួលសតិ និងការថប់បារម្ភ",
+      experience: "3+ years experience",
+      experienceKm: "បទពិសោធន៍ ៣+ ឆ្នាំក្នុងការបណ្តុះបណ្តាលសតិ",
+      avatarUrl: "/therapists/ratanak-pich.jpg",
+      badge: "Mindfulness Lead",
+      badgeKm: "អ្នកដឹកនាំសតិ",
+      bio: "Specializes in grounding practices, panic de-escalation, and creating a supportive circle.",
+      bioKm: "ជំនាញក្នុងការអនុវត្តសតិសម្រាលអារម្មណ៍ និងការបង្កើតរង្វង់គាំទ្រដ៏កក់ក្តៅ។",
+    },
     isJoined: false,
   },
 ];

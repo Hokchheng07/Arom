@@ -2,24 +2,26 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
+  ArrowRight,
   BookOpen,
-  BrainCircuit,
+  CheckCircle2,
   ChevronRight,
-  HeartHandshake,
-  Home,
-  MoonStar,
-  Search,
-  Sparkles,
-  UserRound,
-  UsersRound,
-  type LucideIcon,
+  Clock,
+  Play,
+  Wind,
+  X,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AromBrand, DesktopNavigation, MobileNavigation } from "./app-navigation";
+import { BreathingExperience } from "./breathing-session";
 import { useLanguage } from "./language-provider";
+import { LessonCompleteView } from "./learn/lesson-complete-view";
+import { LESSON_ABOUT_STRESS } from "./learn/learn-data";
+import { LessonScreen } from "./learn/lesson-screen";
 
 const easeOut = [0.23, 1, 0.32, 1] as const;
 
@@ -30,289 +32,283 @@ const categories = [
   { label: "Podcast", khmer: "ផតខាស", icon: "/mindguide/icon-9.svg" },
 ];
 
-const lessons = [
-  {
-    title: "Managing Stress",
-    khmer: "ការគ្រប់គ្រងភាពតានតឹង",
-    duration: "5 mins",
-    khmerDuration: "៥ នាទី",
-    image: "/mindguide/stress.png",
-    href: "/mindguide/managing-daily-stress",
-  },
-  {
-    title: "Sleep well",
-    khmer: "គេងឱ្យបានស្កប់ស្កល់",
-    duration: "4 mins",
-    khmerDuration: "៤ នាទី",
-    image: "/mindguide/sleep.png",
-    href: "#",
-  },
-  {
-    title: "Strategies",
-    khmer: "យុទ្ធសាស្ត្រ",
-    duration: "10 mins",
-    khmerDuration: "១០ នាទី",
-    image: "/mindguide/strategies.png",
-    href: "#",
-  },
-];
-
-type LearnItem = {
+export type TodayActivity = {
+  id: string;
   title: string;
-  khmer: string;
-  description: string;
-  khmerDescription: string;
+  khmerTitle: string;
+  category: "Practice" | "Learn" | "Guide";
+  khmerCategory: string;
   duration: string;
   khmerDuration: string;
-  icon: LucideIcon;
+  image: string;
+  badge: string;
+  khmerBadge: string;
+  description: string;
+  khmerDescription: string;
+  outcomes: { en: string; km: string }[];
+  actionType: "breathing" | "learn-stress" | "daily-stress";
+  hubHref: string;
+  hubLabelEn: string;
+  hubLabelKm: string;
 };
 
-const learnItems: LearnItem[] = [
+export const todayActivities: TodayActivity[] = [
   {
-    title: "Understanding your mind",
-    khmer: "ស្វែងយល់ពីចិត្តរបស់អ្នក",
-    description: "A gentle introduction to mental wellbeing.",
-    khmerDescription: "ការណែនាំដ៏សាមញ្ញអំពីសុខភាពផ្លូវចិត្ត។",
+    id: "interactive-breathing",
+    title: "Interactive Breathing Exercise",
+    khmerTitle: "ការហាត់ដកដង្ហើមអន្តរកម្ម",
+    category: "Practice",
+    khmerCategory: "ការអនុវត្ត",
+    duration: "4 mins",
+    khmerDuration: "៤ នាទី",
+    image: "/mindguide/icon-11.svg",
+    badge: "Practice",
+    khmerBadge: "អនុវត្ត",
+    description:
+      "Follow the rhythmic expanding orb to balance your nervous system, slow down your heart rate, and bring gentle calm back to your day.",
+    khmerDescription:
+      "ដកដង្ហើមតាមចលនារង្វង់ដើម្បីសម្រួលប្រព័ន្ធប្រសាទ បន្ថយចង្វាក់បេះដូង និងនាំមកនូវភាពស្ងប់ស្ងាត់ដល់ចិត្តរបស់អ្នក។",
+    outcomes: [
+      {
+        en: "Continuous 4-4 cycles with live visual cues",
+        km: "វដ្តដកដង្ហើម ៤-៤ ជាមួយនឹងសញ្ញាបញ្ជាក់ច្បាស់លាស់",
+      },
+      {
+        en: "Manual start, pause, resume, and stop controls",
+        km: "ប៊ូតុងបញ្ជា ចាប់ផ្ដើម ផ្អាក បន្ត និងបញ្ចប់ដោយខ្លួនឯង",
+      },
+      {
+        en: "Gentle relaxing audio guidance",
+        km: "សំឡេងណែនាំស្រទន់ជួយសម្រួលអារម្មណ៍",
+      },
+    ],
+    actionType: "breathing",
+    hubHref: "/practice",
+    hubLabelEn: "Explore Practice Hub",
+    hubLabelKm: "ស្វែងរកក្នុងផ្ទាំងអនុវត្ត",
+  },
+  {
+    id: "learn-about-stress",
+    title: "Learn About Stress",
+    khmerTitle: "រៀនស្វែងយល់ពីភាពតានតឹង",
+    category: "Learn",
+    khmerCategory: "ការសិក្សា",
+    duration: "6 mins",
+    khmerDuration: "៦ នាទី",
+    image: "/mindguide/stress.png",
+    badge: "Learn",
+    khmerBadge: "សិក្សា",
+    description:
+      "Understand how stress affects your brain and body, learn natural physical reactions, explore practical coping tools, and review scientific citations.",
+    khmerDescription:
+      "ស្វែងយល់ពីរបៀបដែលភាពតានតឹងប៉ះពាល់ដល់ខួរក្បាល និងរាងកាយ ស្គាល់រោគសញ្ញា និងវិធីដោះស្រាយងាយៗ។",
+    outcomes: [
+      {
+        en: "5 interactive sections with medical citations [1] to [6]",
+        km: "៥ ផ្នែកអន្តរកម្មជាមួយឯកសារយោងវេជ្ជសាស្ត្រ [1] ដល់ [6]",
+      },
+      {
+        en: "Interactive knowledge check and reflection prompt",
+        km: "កម្រងសំណួរខ្លីៗ និងការឆ្លុះបញ្ចាំងពីខ្លួនឯង",
+      },
+      {
+        en: "Actionable relief tips and professional support pathways",
+        km: "គន្លឹះអនុវត្តជាក់ស្តែង និងការស្វែងរកអ្នកជំនាញ",
+      },
+    ],
+    actionType: "learn-stress",
+    hubHref: "/learn",
+    hubLabelEn: "Explore Learn Hub",
+    hubLabelKm: "ស្វែងរកក្នុងផ្ទាំងសិក្សា",
+  },
+  {
+    id: "managing-daily-stress",
+    title: "Managing Daily Stress",
+    khmerTitle: "ការគ្រប់គ្រងភាពតានតឹងប្រចាំថ្ងៃ",
+    category: "Guide",
+    khmerCategory: "ការណែនាំ",
     duration: "5 mins",
     khmerDuration: "៥ នាទី",
-    icon: BrainCircuit,
-  },
-  {
-    title: "Recognising anxious thoughts",
-    khmer: "ស្គាល់គំនិតថប់បារម្ភ",
-    description: "Notice patterns without judging yourself.",
-    khmerDescription: "សម្គាល់លំនាំគំនិតដោយមិនវិនិច្ឆ័យខ្លួនឯង។",
-    duration: "7 mins",
-    khmerDuration: "៧ នាទី",
-    icon: Sparkles,
-  },
-  {
-    title: "Building self-compassion",
-    khmer: "បង្កើតការអាណិតអាសូរខ្លួនឯង",
-    description: "Practice speaking to yourself with care.",
-    khmerDescription: "ហាត់និយាយជាមួយខ្លួនឯងដោយក្តីមេត្តា។",
-    duration: "6 mins",
-    khmerDuration: "៦ នាទី",
-    icon: HeartHandshake,
-  },
-  {
-    title: "Rest and better sleep",
-    khmer: "សម្រាក និងគេងឱ្យបានល្អ",
-    description: "Small habits for a calmer evening.",
-    khmerDescription: "ទម្លាប់តូចៗសម្រាប់ពេលល្ងាចដ៏ស្ងប់ស្ងាត់។",
-    duration: "6 mins",
-    khmerDuration: "៦ នាទី",
-    icon: MoonStar,
+    image: "/mindguide/strategies.png",
+    badge: "Daily Guide",
+    khmerBadge: "ការណែនាំ",
+    description:
+      "Explore common signs of ongoing tension, daily mental habits, and guided techniques to stay grounded throughout your routine.",
+    khmerDescription:
+      "ស្វែងយល់ពីរោគសញ្ញានៃភាពតានតឹង ទម្លាប់ចិត្តគំនិតប្រចាំថ្ងៃ និងវិធីសាស្ត្ររក្សាលំនឹងអារម្មណ៍។",
+    outcomes: [
+      {
+        en: "Identify physical indicators before stress builds up",
+        km: "សម្គាល់រោគសញ្ញារាងកាយមុនពេលភាពតានតឹងកើនឡើង",
+      },
+      {
+        en: "Practical routine resets and mindful pauses",
+        km: "ការសម្រាកខ្លីៗដើម្បីកំណត់ចិត្តឡើងវិញ",
+      },
+      {
+        en: "Integrated breathing exercises for instant relief",
+        km: "ការរួមបញ្ចូលការដកដង្ហើមដើម្បីបន្ធូរអារម្មណ៍ភ្លាមៗ",
+      },
+    ],
+    actionType: "daily-stress",
+    hubHref: "/mindguide/managing-daily-stress",
+    hubLabelEn: "View Full Daily Guide",
+    hubLabelKm: "មើលការណែនាំពេញលេញ",
   },
 ];
 
-function LearnPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+function ActivityModal({
+  activity,
+  onClose,
+  onStart,
+}: {
+  activity: TodayActivity;
+  onClose: () => void;
+  onStart: (activity: TodayActivity) => void;
+}) {
   const { language } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
-  const panelRef = useRef<HTMLElement>(null);
-  const searchRef = useRef<HTMLInputElement>(null);
   const km = language === "km";
-  const panelNavigation = [
-    { label: km ? "ទំព័រដើម" : "Home", icon: Home, href: "/" },
-    { label: km ? "មគ្គុទ្ទេសក៍ចិត្ត" : "MindGuide", icon: BookOpen, href: "/mindguide", active: true },
-    { label: km ? "សហគមន៍" : "Community", icon: UsersRound, href: "#" },
-    { label: km ? "ប្រវត្តិរូប" : "Profile", icon: UserRound, href: "/profile" },
-  ];
 
   useEffect(() => {
-    if (!open) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.setTimeout(() => searchRef.current?.focus(), 0);
-
-    const handleEscape = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
     };
-
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [open, onClose]);
-
-  const trapFocus = (event: KeyboardEvent<HTMLElement>) => {
-    if (event.key !== "Tab") return;
-
-    const focusable = panelRef.current?.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
-    );
-    if (!focusable?.length) return;
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
   return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.button
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      <motion.button
+        type="button"
+        aria-label={km ? "បិទ" : "Close"}
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2, ease: easeOut }}
+        className="fixed inset-0 cursor-default bg-ink/35 backdrop-blur-[2px]"
+      />
+
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="activity-modal-title"
+        initial={{
+          opacity: 0,
+          transform: shouldReduceMotion ? "scale(1)" : "scale(0.95) translateY(12px)",
+        }}
+        animate={{ opacity: 1, transform: "scale(1) translateY(0)" }}
+        exit={{
+          opacity: 0,
+          transform: shouldReduceMotion ? "scale(1)" : "scale(0.95) translateY(12px)",
+        }}
+        transition={{ duration: 0.24, ease: easeOut }}
+        className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-arom-border/70 bg-white p-6 shadow-2xl sm:p-7"
+      >
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-arom-soft px-3 py-1 text-xs font-semibold text-arom">
+            {km ? activity.khmerCategory : activity.category}
+          </span>
+          <button
             type="button"
-            aria-label={km ? "បិទផ្ទាំងសិក្សា" : "Close learning panel"}
             onClick={onClose}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.24, ease: easeOut }}
-            className="fixed inset-0 z-50 cursor-default bg-ink/28 backdrop-blur-[2px]"
-          />
-          <motion.aside
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="learn-panel-title"
-            onKeyDown={trapFocus}
-            initial={{
-              opacity: 0,
-              transform: shouldReduceMotion ? "translateX(0)" : "translateX(100%)",
-            }}
-            animate={{ opacity: 1, transform: "translateX(0)" }}
-            exit={{
-              opacity: 0,
-              transform: shouldReduceMotion ? "translateX(0)" : "translateX(100%)",
-            }}
-            transition={{ duration: 0.24, ease: easeOut }}
-            className="fixed inset-y-0 right-0 z-[60] flex w-full flex-col bg-canvas shadow-[-24px_0_60px_rgba(20,68,57,0.16)] sm:max-w-[29rem]"
+            aria-label={km ? "បិទផ្ទាំង" : "Close modal"}
+            className="flex size-9 items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-arom-wash hover:text-arom"
           >
-            <header className="relative flex min-h-[4.5rem] items-center justify-center border-b border-arom-border bg-white px-5 sm:px-6">
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label={km ? "ត្រឡប់ក្រោយ" : "Back"}
-                className="absolute left-4 flex size-11 items-center justify-center rounded-full text-arom transition-colors duration-150 hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom sm:left-5"
-              >
-                <ArrowLeft aria-hidden="true" size={25} />
-              </button>
-              <h2 id="learn-panel-title" className="text-xl font-bold tracking-[-0.02em] text-arom">
-                {km ? "សិក្សា" : "Learn"}
-              </h2>
-            </header>
+            <X aria-hidden="true" size={20} />
+          </button>
+        </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-6 pt-4 sm:px-6">
-              <label className="relative block">
-                <span className="sr-only">{km ? "ស្វែងរកមេរៀន" : "Search lessons"}</span>
-                <Search aria-hidden="true" size={19} className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted" />
-                <input
-                  ref={searchRef}
-                  type="search"
-                  placeholder={km ? "ស្វែងរកប្រធានបទ..." : "Search topics..."}
-                  className="h-12 w-full rounded-2xl border border-arom-border bg-white pl-11 pr-4 text-sm text-ink outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-ink-muted/70 focus:border-arom focus:ring-4 focus:ring-arom/10"
-                />
-              </label>
-
-              <div className="mt-4 flex gap-2 overflow-x-auto pb-1" aria-label={km ? "ប្រធានបទ" : "Topics"}>
-                {[
-                  km ? "ទាំងអស់" : "All",
-                  km ? "ការថប់បារម្ភ" : "Anxiety",
-                  km ? "តម្លៃខ្លួនឯង" : "Self-Esteem",
-                  km ? "ការគេង" : "Sleep",
-                  km ? "អារម្មណ៍" : "Emotions",
-                ].map((topic, index) => (
-                  <button
-                    key={topic}
-                    type="button"
-                    className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom ${
-                      index === 0 ? "bg-arom text-white" : "border border-arom-border bg-white text-ink-muted hover:bg-arom-wash hover:text-arom"
-                    }`}
-                  >
-                    {topic}
-                  </button>
-                ))}
-              </div>
-
-              <div className="mt-7 flex items-center justify-between gap-3">
-                <h3 className="text-xl font-bold text-ink">
-                  {km ? "មូលដ្ឋានសុខភាពផ្លូវចិត្ត" : "Mental health basics"}
-                </h3>
-                <Link
-                  href="/learn"
-                  className="shrink-0 rounded-lg px-2 py-1 text-xs font-semibold text-arom focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
-                >
-                  {km ? "មើលទាំងអស់" : "See all"}
-                </Link>
-              </div>
-
-              <div className="mt-4 space-y-3">
-                {learnItems.map(({ title, khmer, description, khmerDescription, duration, khmerDuration, icon: Icon }) => (
-                  <button
-                    key={title}
-                    type="button"
-                    className="group flex min-h-[6.4rem] w-full items-center gap-4 rounded-2xl border border-arom-border bg-white p-3 text-left shadow-[0_8px_24px_rgba(25,87,72,0.05)] transition-[border-color,box-shadow] duration-150 hover:border-arom/35 hover:shadow-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
-                  >
-                    <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-arom-soft text-arom sm:size-[4.5rem]">
-                      <Icon aria-hidden="true" size={34} strokeWidth={1.8} />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-semibold leading-5 text-arom">{km ? khmer : title}</span>
-                      <span className="mt-0.5 block line-clamp-2 text-xs leading-[1.1rem] text-ink-muted">
-                        {km ? khmerDescription : description}
-                      </span>
-                      <span className="mt-1 block text-[0.68rem] font-medium text-ink">{km ? khmerDuration : duration}</span>
-                    </span>
-                    <ChevronRight aria-hidden="true" size={20} className="shrink-0 text-arom transition-transform duration-150 group-hover:translate-x-0.5" />
-                  </button>
-                ))}
-              </div>
+        <div className="mt-4 flex items-start gap-4">
+          <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-arom-border bg-arom-soft/60 p-2">
+            <Image
+              src={activity.image}
+              alt=""
+              width={48}
+              height={48}
+              className="size-10 object-contain"
+              unoptimized
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h2 id="activity-modal-title" className="text-xl font-bold tracking-[-0.02em] text-arom">
+              {km ? activity.khmerTitle : activity.title}
+            </h2>
+            <div className="mt-1 flex items-center gap-2 text-xs font-medium text-ink-muted">
+              <span className="flex items-center gap-1">
+                <Clock aria-hidden="true" size={13} />
+                {km ? activity.khmerDuration : activity.duration}
+              </span>
+              <span>•</span>
+              <span className="text-arom">{km ? activity.khmerBadge : activity.badge}</span>
             </div>
+          </div>
+        </div>
 
-            <nav aria-label={km ? "ការរុករកផ្ទាំងសិក្សា" : "Learn navigation"} className="shrink-0 border-t border-arom-border bg-white px-2 pb-[calc(0.45rem+env(safe-area-inset-bottom))] pt-2">
-              <div className="grid grid-cols-5 items-end">
-                {panelNavigation.slice(0, 2).map(({ label, icon: Icon, href, active }) => (
-                  <Link
-                    key={label}
-                    href={href}
-                    aria-current={active ? "page" : undefined}
-                    className={`flex min-h-14 flex-col items-center justify-end gap-1 rounded-xl text-[0.62rem] font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-arom ${active ? "text-arom" : "text-ink-muted hover:text-arom"}`}
-                  >
-                    <Icon aria-hidden="true" size={24} strokeWidth={active ? 2.5 : 2} />
-                    <span className="max-w-full truncate px-1">{label}</span>
-                  </Link>
-                ))}
+        <p className="mt-4 text-sm leading-relaxed text-ink">
+          {km ? activity.khmerDescription : activity.description}
+        </p>
 
-                <button type="button" aria-label={km ? "ថែទាំចិត្ត" : "Mindful moment"} className="flex min-h-14 items-start justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-arom">
-                  <span className="-mt-5 flex size-14 items-center justify-center rounded-full bg-arom text-white shadow-[0_8px_22px_rgba(31,111,91,0.26)] ring-4 ring-white">
-                    <Image src="/mindguide/icon-11.svg" alt="" width={34} height={34} className="size-[2.15rem] brightness-0 invert" unoptimized />
-                  </span>
-                </button>
+        <div className="mt-4 rounded-2xl bg-[#f4f9f7] p-3.5 sm:p-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-arom">
+            {km ? "អ្វីដែលអ្នកនឹងទទួលបាន" : "What is included"}
+          </p>
+          <ul className="mt-2 space-y-2 text-xs leading-5 text-ink">
+            {activity.outcomes.map((outcome) => (
+              <li key={outcome.en} className="flex items-start gap-2">
+                <CheckCircle2 aria-hidden="true" size={15} className="mt-0.5 shrink-0 text-arom" />
+                <span>{km ? outcome.km : outcome.en}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-                {panelNavigation.slice(2).map(({ label, icon: Icon, href }) => (
-                  <Link
-                    key={label}
-                    href={href}
-                    className="flex min-h-14 flex-col items-center justify-end gap-1 rounded-xl text-[0.62rem] font-medium text-ink-muted transition-colors duration-150 hover:text-arom focus-visible:outline-2 focus-visible:outline-arom"
-                  >
-                    <Icon aria-hidden="true" size={24} strokeWidth={2} />
-                    <span className="max-w-full truncate px-1">{label}</span>
-                  </Link>
-                ))}
-              </div>
-            </nav>
-          </motion.aside>
-        </>
-      )}
-    </AnimatePresence>
+        <div className="mt-6 flex flex-col gap-2.5">
+          <button
+            type="button"
+            onClick={() => onStart(activity)}
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-arom px-5 text-base font-semibold text-white shadow-sm transition-all duration-150 active:scale-[0.98] hover:bg-arom-deep"
+          >
+            <Play aria-hidden="true" size={18} className="fill-current" />
+            <span>
+              {activity.actionType === "breathing"
+                ? km
+                  ? "ចាប់ផ្តើមការហាត់ដកដង្ហើម"
+                  : "Start Breathing Session"
+                : activity.actionType === "learn-stress"
+                ? km
+                  ? "ចាប់ផ្តើមមេរៀនអន្តរកម្ម"
+                  : "Start Interactive Lesson"
+                : km
+                ? "បើកការណែនាំប្រចាំថ្ងៃ"
+                : "Open Daily Guide"}
+            </span>
+          </button>
+
+          <Link
+            href={activity.hubHref}
+            onClick={onClose}
+            className="flex h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-arom-border bg-white text-sm font-semibold text-arom transition-colors hover:bg-arom-wash"
+          >
+            <span>{km ? activity.hubLabelKm : activity.hubLabelEn}</span>
+            <ArrowRight aria-hidden="true" size={16} />
+          </Link>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
 export function MindGuideHome() {
+  const router = useRouter();
   const { language } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
-  const [isLearnOpen, setIsLearnOpen] = useState(false);
-  const learnTriggerRef = useRef<HTMLButtonElement>(null);
+  const [selectedActivity, setSelectedActivity] = useState<TodayActivity | null>(null);
+  const [activeExperience, setActiveExperience] = useState<
+    "breathing" | "lesson" | "lesson-complete" | null
+  >(null);
   const km = language === "km";
 
   const item = {
@@ -326,6 +322,44 @@ export function MindGuideHome() {
       transition: { duration: shouldReduceMotion ? 0.16 : 0.24, ease: easeOut },
     },
   };
+
+  const handleStartActivity = (activity: TodayActivity) => {
+    setSelectedActivity(null);
+    if (activity.actionType === "breathing") {
+      setActiveExperience("breathing");
+    } else if (activity.actionType === "learn-stress") {
+      setActiveExperience("lesson");
+    } else if (activity.actionType === "daily-stress") {
+      router.push("/mindguide/managing-daily-stress");
+    }
+  };
+
+  if (activeExperience === "breathing") {
+    return <BreathingExperience onExit={() => setActiveExperience(null)} />;
+  }
+
+  if (activeExperience === "lesson") {
+    return (
+      <LessonScreen
+        lesson={LESSON_ABOUT_STRESS}
+        onExit={() => setActiveExperience(null)}
+        onComplete={() => setActiveExperience("lesson-complete")}
+        onOpenExercise={() => setActiveExperience("breathing")}
+        onOpenProfessional={() => router.push("/professional")}
+      />
+    );
+  }
+
+  if (activeExperience === "lesson-complete") {
+    return (
+      <LessonCompleteView
+        lesson={LESSON_ABOUT_STRESS}
+        onTryExercise={() => setActiveExperience("breathing")}
+        onReadAnother={() => setActiveExperience(null)}
+        onViewSaved={() => router.push("/learn")}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-canvas lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]">
@@ -390,12 +424,12 @@ export function MindGuideHome() {
             {categories.map((category) => {
               const categoryContent = (
                 <>
-                <span className="flex size-14 items-center justify-center rounded-full bg-arom-accent/20 transition-transform duration-150 group-hover:-translate-y-0.5 sm:size-16">
-                  <Image src={category.icon} alt="" width={37} height={37} className="size-8 object-contain sm:size-9" unoptimized />
-                </span>
-                <span className="mt-2 truncate text-[0.7rem] font-medium text-arom sm:text-sm">
-                  {km ? category.khmer : category.label}
-                </span>
+                  <span className="flex size-14 items-center justify-center rounded-full bg-arom-accent/20 transition-transform duration-150 group-hover:-translate-y-0.5 sm:size-16">
+                    <Image src={category.icon} alt="" width={37} height={37} className="size-8 object-contain sm:size-9" unoptimized />
+                  </span>
+                  <span className="mt-2 truncate text-[0.7rem] font-medium text-arom sm:text-sm">
+                    {km ? category.khmer : category.label}
+                  </span>
                 </>
               );
 
@@ -416,6 +450,18 @@ export function MindGuideHome() {
                   <Link
                     key={category.label}
                     href="/practice"
+                    className="group flex min-w-0 flex-col items-center rounded-2xl py-1 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
+                  >
+                    {categoryContent}
+                  </Link>
+                );
+              }
+
+              if (category.label === "Tips") {
+                return (
+                  <Link
+                    key={category.label}
+                    href="/tips"
                     className="group flex min-w-0 flex-col items-center rounded-2xl py-1 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
                   >
                     {categoryContent}
@@ -446,34 +492,49 @@ export function MindGuideHome() {
                 </h2>
               </div>
               <span className="hidden rounded-full bg-arom-soft px-3 py-1 text-xs font-medium text-arom sm:block">
-                {km ? "៣ មេរៀន" : "3 lessons"}
+                {km ? "៣ សកម្មភាព" : "3 activities"}
               </span>
             </div>
 
-            <div className="mt-4 grid gap-2 lg:grid-cols-3 lg:gap-5">
-              {lessons.map((lesson) => (
-                <Link
-                  key={lesson.title}
-                  href={lesson.href}
-                  className="group flex min-h-[53px] items-center rounded-xl border-2 border-arom bg-arom/[0.07] px-2.5 py-1.5 transition-[background-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:bg-arom-soft hover:shadow-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom lg:min-h-[84px] lg:rounded-2xl lg:px-4"
+            <div className="mt-4 grid gap-2.5 lg:grid-cols-3 lg:gap-5">
+              {todayActivities.map((activity) => (
+                <button
+                  key={activity.id}
+                  type="button"
+                  onClick={() => setSelectedActivity(activity)}
+                  className="group flex min-h-[60px] w-full items-center rounded-2xl border-2 border-arom/80 bg-arom/[0.07] px-3 py-2 text-left transition-[background-color,box-shadow,transform] duration-150 active:scale-[0.99] hover:-translate-y-0.5 hover:bg-arom-soft hover:shadow-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom lg:min-h-[86px] lg:rounded-2xl lg:px-4"
                 >
-                  <Image
-                    src={lesson.image}
-                    alt=""
-                    width={42}
-                    height={42}
-                    className="size-10 shrink-0 rounded-full object-cover lg:size-12"
-                  />
-                  <span className="ml-4 min-w-0 flex-1">
-                    <span className="block truncate text-sm font-medium text-arom lg:text-base">
-                      {km ? lesson.khmer : lesson.title}
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-arom/20 lg:size-12">
+                    <Image
+                      src={activity.image}
+                      alt=""
+                      width={42}
+                      height={42}
+                      className="size-7 object-contain lg:size-8"
+                      unoptimized
+                    />
+                  </div>
+                  <span className="ml-3.5 min-w-0 flex-1">
+                    <span className="block truncate text-sm font-semibold text-arom lg:text-base">
+                      {km ? activity.khmerTitle : activity.title}
                     </span>
-                    <span className="mt-0.5 block text-[0.68rem] text-ink lg:text-xs">
-                      {km ? lesson.khmerDuration : lesson.duration}
+                    <span className="mt-0.5 flex items-center gap-1.5 text-[0.72rem] text-ink lg:text-xs">
+                      <span className="font-medium text-ink-muted">
+                        {km ? activity.khmerDuration : activity.duration}
+                      </span>
+                      <span className="text-arom/50">•</span>
+                      <span className="rounded bg-arom/15 px-1.5 py-0.5 text-[0.65rem] font-semibold text-arom">
+                        {km ? activity.khmerBadge : activity.badge}
+                      </span>
                     </span>
                   </span>
-                  <ChevronRight aria-hidden="true" size={22} strokeWidth={2.5} className="ml-2 shrink-0 text-arom transition-transform duration-150 group-hover:translate-x-0.5" />
-                </Link>
+                  <ChevronRight
+                    aria-hidden="true"
+                    size={22}
+                    strokeWidth={2.5}
+                    className="ml-2 shrink-0 text-arom transition-transform duration-150 group-hover:translate-x-0.5"
+                  />
+                </button>
               ))}
             </div>
           </motion.section>
@@ -481,13 +542,17 @@ export function MindGuideHome() {
       </motion.main>
 
       <MobileNavigation active="MindGuide" />
-      <LearnPanel
-        open={isLearnOpen}
-        onClose={() => {
-          setIsLearnOpen(false);
-          window.setTimeout(() => learnTriggerRef.current?.focus(), 0);
-        }}
-      />
+
+      {/* Activity Popup Modal */}
+      <AnimatePresence>
+        {selectedActivity && (
+          <ActivityModal
+            activity={selectedActivity}
+            onClose={() => setSelectedActivity(null)}
+            onStart={handleStartActivity}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

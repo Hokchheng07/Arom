@@ -34,8 +34,39 @@ type CommunityView =
 export default function CommunityPage() {
   const [view, setView] = useState<CommunityView>("home");
   const [selectedGroupId, setSelectedGroupId] = useState("stress-burnout");
-  const [groups, setGroups] = useState<SupportGroup[]>(INITIAL_GROUPS);
-  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
+
+  // Groups state with localStorage persistence
+  const [groups, setGroups] = useState<SupportGroup[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("arom_community_groups");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch {
+        // ignore
+      }
+    }
+    return INITIAL_GROUPS;
+  });
+
+  // Messages state with localStorage persistence
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("arom_community_messages");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch {
+        // ignore
+      }
+    }
+    return INITIAL_MESSAGES;
+  });
+
   const [activities, setActivities] = useState<GroupActivity[]>(INITIAL_ACTIVITIES);
   const [members, setMembers] = useState<GroupMember[]>(INITIAL_MEMBERS);
   const [isDetectionOpen, setIsDetectionOpen] = useState(false);
@@ -58,13 +89,20 @@ export default function CommunityPage() {
   }
 
   function handleJoinGroup(groupId: string) {
-    setGroups((prev) =>
-      prev.map((g) =>
+    setGroups((prev) => {
+      const updated = prev.map((g) =>
         g.id === groupId
           ? { ...g, isJoined: true, membersCount: Math.min(g.maxMembers, g.membersCount + 1) }
           : g
-      )
-    );
+      );
+      try {
+        localStorage.setItem("arom_community_groups", JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+
     // Add current user to members list
     setMembers((prev) => [
       ...prev,
@@ -79,17 +117,26 @@ export default function CommunityPage() {
     setView("joined-success");
   }
 
-  function handleSendMessage(text: string) {
+  function handleSendMessage(text: string, targetGroupId?: string) {
+    const gid = targetGroupId || selectedGroupId || activeGroup.id;
     const newMsg: ChatMessage = {
       id: `msg-${Date.now()}`,
-      groupId: selectedGroupId,
+      groupId: gid,
       senderName: "Anonymous (You)",
       isAnonymous: true,
       text,
       time: "Just now",
       avatarType: "mask",
     };
-    setMessages((prev) => [...prev, newMsg]);
+    setMessages((prev) => {
+      const updated = [...prev, newMsg];
+      try {
+        localStorage.setItem("arom_community_messages", JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
   }
 
   function handleToggleActivityJoin(activityId: string) {
@@ -111,7 +158,15 @@ export default function CommunityPage() {
       time: "Just now",
       avatarType: isAnonymous ? "mask" : "user",
     };
-    setMessages((prev) => [...prev, newMsg]);
+    setMessages((prev) => {
+      const updated = [...prev, newMsg];
+      try {
+        localStorage.setItem("arom_community_messages", JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
     setView("group-hub");
   }
 
@@ -121,7 +176,7 @@ export default function CommunityPage() {
       <DesktopNavigation active="Community" />
 
       {/* Main Content Area */}
-      <div className="min-w-0 pb-20 lg:pb-12">
+      <div className={`min-w-0 ${view === "group-hub" ? "pb-4" : "pb-20 lg:pb-12"}`}>
         <main className="mx-auto w-full max-w-[440px] md:max-w-xl lg:max-w-2xl lg:pt-6">
           {view === "home" && (
             <CommunityHomeView
@@ -201,13 +256,15 @@ export default function CommunityPage() {
         </main>
       </div>
 
-      {/* Figma Bottom Navigation (Mobile/Tablet) */}
-      <div className="lg:hidden">
-        <BottomNav
-          activeTab="Community"
-          onOpenDetection={() => setIsDetectionOpen(true)}
-        />
-      </div>
+      {/* Figma Bottom Navigation (Mobile/Tablet) - Hidden in Group Hub & Create Post matching Figma Screen 5 */}
+      {view !== "group-hub" && view !== "create-post" && (
+        <div className="lg:hidden">
+          <BottomNav
+            activeTab="Community"
+            onOpenDetection={() => setIsDetectionOpen(true)}
+          />
+        </div>
+      )}
 
       {/* Detection Modal */}
       <DetectionModal
