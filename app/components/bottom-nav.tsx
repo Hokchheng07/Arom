@@ -75,7 +75,7 @@ export function BottomNav({ activeTab = "Home", onOpenDetection }: BottomNavProp
 
         {/* Community */}
         <Link
-          href="/mindguide"
+          href="/community"
           className={`flex flex-col items-center gap-1 py-1 px-2 focus-visible:outline-2 focus-visible:outline-[#1f6f5b] ${
             activeTab === "Community" ? "text-[#1f6f5b]" : "text-black/80 hover:text-[#1f6f5b]"
           }`}

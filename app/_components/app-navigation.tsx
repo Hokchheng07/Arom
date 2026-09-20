@@ -31,9 +31,9 @@ type NavigationItem = {
 const navigationItems: NavigationItem[] = [
   { label: "Home", icon: Home, href: "/" },
   { label: "MindGuide", icon: BookOpen, href: "/mindguide" },
-  { label: "Detection", icon: Activity, href: "#", emphasized: true },
+  { label: "Detection", icon: Activity, href: "/detection", emphasized: true },
   { label: "Professional", icon: Heart, href: "/professional" },
-  { label: "Community", icon: UsersRound, href: "#" },
+  { label: "Community", icon: UsersRound, href: "/community" },
 ];
 
 const khmerNavigation: Record<NavigationLabel, string> = {

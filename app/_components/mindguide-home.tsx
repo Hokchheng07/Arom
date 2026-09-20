@@ -238,9 +238,12 @@ function LearnPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
                 <h3 className="text-xl font-bold text-ink">
                   {km ? "មូលដ្ឋានសុខភាពផ្លូវចិត្ត" : "Mental health basics"}
                 </h3>
-                <button type="button" className="shrink-0 rounded-lg px-2 py-1 text-xs font-semibold text-arom focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom">
+                <Link
+                  href="/learn"
+                  className="shrink-0 rounded-lg px-2 py-1 text-xs font-semibold text-arom focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
+                >
                   {km ? "មើលទាំងអស់" : "See all"}
-                </button>
+                </Link>
               </div>
 
               <div className="mt-4 space-y-3">
@@ -396,19 +399,31 @@ export function MindGuideHome() {
                 </>
               );
 
-              return category.label === "Learn" ? (
-                <button
-                  ref={learnTriggerRef}
-                  key={category.label}
-                  type="button"
-                  onClick={() => setIsLearnOpen(true)}
-                  aria-haspopup="dialog"
-                  aria-expanded={isLearnOpen}
-                  className="group flex min-w-0 flex-col items-center rounded-2xl py-1 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
-                >
-                  {categoryContent}
-                </button>
-              ) : (
+              if (category.label === "Learn") {
+                return (
+                  <Link
+                    key={category.label}
+                    href="/learn"
+                    className="group flex min-w-0 flex-col items-center rounded-2xl py-1 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
+                  >
+                    {categoryContent}
+                  </Link>
+                );
+              }
+
+              if (category.label === "Practice") {
+                return (
+                  <Link
+                    key={category.label}
+                    href="/practice"
+                    className="group flex min-w-0 flex-col items-center rounded-2xl py-1 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
+                  >
+                    {categoryContent}
+                  </Link>
+                );
+              }
+
+              return (
                 <a
                   key={category.label}
                   href="#today"
