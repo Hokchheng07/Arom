@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { MaskIcon, StressLightningIcon } from "./community-icons";
 import { useLanguage } from "../../_components/language-provider";
 import { SupportGroup } from "../community-data";
+import { TopHeader } from "../../components/top-header";
 
 type CommunityHomeViewProps = {
   myGroup: SupportGroup;
@@ -27,28 +27,11 @@ export function CommunityHomeView({
 
   return (
     <div className="w-full max-w-lg mx-auto pb-28 px-4 pt-3">
-      {/* Top Bar matching Figma */}
-      <div className="flex items-center justify-between py-2">
-        <Link
-          href="/"
-          className="flex size-10 items-center justify-center rounded-full text-[#1f6f5b] hover:bg-[#eaf5f1] transition-colors"
-          aria-label={km ? "ត្រឡប់ទៅទំព័រដើម" : "Back to Home"}
-        >
-          <ChevronLeft size={28} />
-        </Link>
-
-        <button
-          onClick={onOpenMenu}
-          className="flex size-10 items-center justify-center rounded-full text-[#1f6f5b] hover:bg-[#eaf5f1] transition-colors"
-          aria-label="Community Menu"
-          title={km ? "ម៉ឺនុយសហគមន៍" : "Community Menu"}
-        >
-          <Menu size={24} />
-        </button>
-      </div>
+      {/* Top Brand Header matching other pages */}
+      <TopHeader />
 
       {/* Main Title & Subtitle */}
-      <div className="mt-1">
+      <div className="mt-6">
         <h1 className="text-3xl font-extrabold tracking-tight text-[#111827]">
           {km ? "សហគមន៍" : "Community"}
         </h1>

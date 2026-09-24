@@ -5,6 +5,7 @@ import { GreetingSection } from "./greeting-section";
 import { DailyPlanCard } from "./daily-plan-card";
 import { QuoteCard } from "./quote-card";
 import { MoodSelector } from "./mood-selector";
+import { ProgressDashboard } from "./progress-dashboard";
 import { BottomNav } from "./bottom-nav";
 import { DesktopNavigation } from "../_components/app-navigation";
 
@@ -41,6 +42,9 @@ export function AromMainView() {
                 </div>
               </div>
             </div>
+
+            {/* Wellness Progress Dashboard */}
+            <ProgressDashboard />
           </div>
         </main>
       </div>

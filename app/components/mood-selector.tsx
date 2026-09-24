@@ -69,6 +69,7 @@ export function MoodSelector() {
     setSelectedMood(moodLabel);
     try {
       localStorage.setItem("arom_today_mood", moodLabel);
+      window.dispatchEvent(new Event("arom_today_mood_updated"));
     } catch {
       // ignore
     }
