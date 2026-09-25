@@ -17,6 +17,9 @@ import {
   X,
   Calendar,
   Trash2,
+  Sparkles,
+  Check,
+  MessageSquarePlus,
 } from "lucide-react";
 import { FigmaIcon } from "../../components/figma-icon";
 import { DesktopNavigation } from "../../_components/app-navigation";
@@ -26,6 +29,13 @@ import { useLanguage } from "../../_components/language-provider";
 
 type ViewMode = "entry" | "saved" | "history";
 
+export type JournalQuestionAnswer = {
+  id: string;
+  question: string;
+  kmQuestion: string;
+  answer: string;
+};
+
 type JournalEntry = {
   id: string;
   date: string;
@@ -33,7 +43,79 @@ type JournalEntry = {
   tags: string[];
   content: string;
   createdAt: string;
+  questions?: JournalQuestionAnswer[];
+  additionalNotes?: string;
 };
+
+export type JournalQuestionItem = {
+  id: string;
+  labelEn: string;
+  labelKm: string;
+  placeholderEn: string;
+  placeholderKm: string;
+  answer: string;
+  isRemovable: boolean;
+};
+
+const DEFAULT_QUESTIONS: JournalQuestionItem[] = [
+  {
+    id: "q_happy",
+    labelEn: "What made you happy today?",
+    labelKm: "អ្វីដែលធ្វើឲ្យសប្បាយចិត្ត",
+    placeholderEn: "e.g. A friend smiled at me, had good lunch",
+    placeholderKm: "ឧ. មិត្តភក្តិញញឹមដាក់",
+    answer: "",
+    isRemovable: false,
+  },
+  {
+    id: "q_difficult",
+    labelEn: "What was challenging or difficult?",
+    labelKm: "អ្វីដែលធ្វើឲ្យពិបាកចិត្ត",
+    placeholderEn: "e.g. Study pressure, unexpected delays",
+    placeholderKm: "ឧ. សម្ពាធរៀនសូត្រ",
+    answer: "",
+    isRemovable: false,
+  },
+];
+
+const PRESET_ADDITIONAL_QUESTIONS = [
+  {
+    id: "preset_grateful",
+    labelEn: "What are you grateful for today?",
+    labelKm: "អ្វីដែលអ្នកដឹងគុណថ្ងៃនេះ",
+    placeholderEn: "e.g. Family, good health, peaceful morning",
+    placeholderKm: "ឧ. គ្រួសារមានសុខភាពល្អ និងពេលព្រឹកស្ងប់ស្ងាត់",
+    sampleKm: "ដឹងគុណដែលមានគ្រួសារ និងមិត្តភក្តិនៅក្បែរជួយលើកទឹកចិត្ត",
+    sampleEn: "Grateful for supportive friends and good health today",
+  },
+  {
+    id: "preset_calm",
+    labelEn: "What helped you feel calm or grounded?",
+    labelKm: "អ្វីដែលជួយឱ្យអ្នកធូរស្បើយ ឬស្ងប់ចិត្ត",
+    placeholderEn: "e.g. Took deep breaths, listened to calm music",
+    placeholderKm: "ឧ. ដកដង្ហើមវែងៗ ឬស្តាប់បទភ្លេងស្រាលៗ",
+    sampleKm: "បានដកដង្ហើមវែងៗ ៥ នាទី និងដើរលំហែកាយ",
+    sampleEn: "Took 5 minutes of deep breathing and listened to peaceful sounds",
+  },
+  {
+    id: "preset_learned",
+    labelEn: "What did you learn about yourself today?",
+    labelKm: "អ្វីដែលអ្នកបានរៀនដឹងពីខ្លួនឯងថ្ងៃនេះ",
+    placeholderEn: "e.g. Handled an argument patiently",
+    placeholderKm: "ឧ. ខ្ញុំអាចរក្សាភាពស្ងប់ស្ងាត់បានល្អពេលជួបបញ្ហា",
+    sampleKm: "ខ្ញុំអាចអត់ធ្មត់ និងយល់ចិត្តខ្លួនឯងបានប្រសើរជាងមុន",
+    sampleEn: "I learned I can handle stressful moments with patience",
+  },
+  {
+    id: "preset_tomorrow",
+    labelEn: "A small positive intention for tomorrow",
+    labelKm: "បំណងប្រាថ្នាតូចមួយសម្រាប់ថ្ងៃស្អែក",
+    placeholderEn: "e.g. Sleep 8 hours, go for a short walk",
+    placeholderKm: "ឧ. ចូលគេងឱ្យបានលឿន និងផឹកទឹកឱ្យបានច្រើន",
+    sampleKm: "សម្រាកឱ្យបានគ្រប់គ្រាន់ និងរក្សាភាពវិជ្ជមាន",
+    sampleEn: "Rest well and stay focused on what I can control",
+  },
+];
 
 const DEFAULT_ENTRIES: JournalEntry[] = [
   {
@@ -291,11 +373,13 @@ function JournalContent() {
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>(() =>
     getDefaultEmotionsForMood(initialMood)
   );
-  const [reflectionText, setReflectionText] = useState(() =>
-    getStarterReflectionForMood(initialMood, km)
-  );
-  const [hasCustomizedText, setHasCustomizedText] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
+
+  // Guided Questions State with default Happy & Difficult questions (matching user design)
+  const [questions, setQuestions] = useState<JournalQuestionItem[]>(DEFAULT_QUESTIONS);
+  const [additionalNotes, setAdditionalNotes] = useState("");
+  const [recordingFieldId, setRecordingFieldId] = useState<string | null>(null);
+  const [showAddQuestionModal, setShowAddQuestionModal] = useState(false);
+  const [customQuestionInput, setCustomQuestionInput] = useState("");
   const [voiceNotice, setVoiceNotice] = useState<string | null>(null);
 
   // Saved Entry & List State with lazy local storage hydration
@@ -340,9 +424,6 @@ function JournalContent() {
   const handleSelectMood = (moodName: string) => {
     setSelectedMood(moodName);
     setSelectedEmotions(getDefaultEmotionsForMood(moodName));
-    if (!hasCustomizedText) {
-      setReflectionText(getStarterReflectionForMood(moodName, km));
-    }
   };
 
   const toggleEmotion = (emotion: string) => {
@@ -353,16 +434,73 @@ function JournalContent() {
     }
   };
 
-  // Voice recording simulation / Web Speech API
-  const recognitionRef = useRef<{ stop: () => void } | null>(null);
+  const handleQuestionAnswerChange = (id: string, value: string) => {
+    setQuestions((prev) =>
+      prev.map((q) => (q.id === id ? { ...q, answer: value } : q))
+    );
+  };
 
-  const handleToggleVoice = () => {
-    if (isRecording) {
+  const handleAddPresetQuestion = (preset: typeof PRESET_ADDITIONAL_QUESTIONS[number]) => {
+    // Avoid duplicate
+    if (questions.some((q) => q.labelKm === preset.labelKm || q.id === preset.id)) {
+      setShowAddQuestionModal(false);
+      return;
+    }
+    const newQuestion: JournalQuestionItem = {
+      id: "q_" + Date.now(),
+      labelEn: preset.labelEn,
+      labelKm: preset.labelKm,
+      placeholderEn: preset.placeholderEn,
+      placeholderKm: preset.placeholderKm,
+      answer: "",
+      isRemovable: true,
+    };
+    setQuestions((prev) => [...prev, newQuestion]);
+    setShowAddQuestionModal(false);
+  };
+
+  const handleAddCustomQuestion = () => {
+    const trimmed = customQuestionInput.trim();
+    if (!trimmed) return;
+    const newQuestion: JournalQuestionItem = {
+      id: "q_custom_" + Date.now(),
+      labelEn: trimmed,
+      labelKm: trimmed,
+      placeholderEn: "Write or speak your reflection here...",
+      placeholderKm: "សរសេរ ឬនិយាយចម្លើយរបស់អ្នកនៅទីនេះ...",
+      answer: "",
+      isRemovable: true,
+    };
+    setQuestions((prev) => [...prev, newQuestion]);
+    setCustomQuestionInput("");
+    setShowAddQuestionModal(false);
+  };
+
+  const handleRemoveQuestion = (id: string) => {
+    if (recordingFieldId === id) {
       if (recognitionRef.current) {
         recognitionRef.current.stop();
       }
-      setIsRecording(false);
+      setRecordingFieldId(null);
+    }
+    setQuestions((prev) => prev.filter((q) => q.id !== id));
+  };
+
+  // Voice recording simulation / Web Speech API for individual questions
+  const recognitionRef = useRef<{ stop: () => void } | null>(null);
+
+  const handleToggleVoiceForField = (fieldId: string) => {
+    if (recordingFieldId === fieldId) {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      setRecordingFieldId(null);
+      setVoiceNotice(null);
       return;
+    }
+
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
     }
 
     const windowObj = window as unknown as Record<string, new () => {
@@ -387,7 +525,7 @@ function JournalContent() {
         recognition.lang = km ? "km-KH" : "en-US";
 
         recognition.onstart = () => {
-          setIsRecording(true);
+          setRecordingFieldId(fieldId);
           setVoiceNotice(km ? "កំពុងស្តាប់... សូមនិយាយ" : "Listening... speak freely");
         };
 
@@ -396,56 +534,120 @@ function JournalContent() {
           for (let i = event.resultIndex; i in event.results; i++) {
             transcript += event.results[i][0].transcript;
           }
-          setReflectionText((prev) => {
-            const nextText = (prev ? prev + " " : "") + transcript;
-            return nextText.slice(0, 500);
-          });
+          if (fieldId === "additional_notes") {
+            setAdditionalNotes((prev) => ((prev ? prev + " " : "") + transcript).slice(0, 500));
+          } else {
+            setQuestions((prev) =>
+              prev.map((q) => {
+                if (q.id === fieldId) {
+                  const updatedAnswer = ((q.answer ? q.answer + " " : "") + transcript).slice(0, 300);
+                  return { ...q, answer: updatedAnswer };
+                }
+                return q;
+              })
+            );
+          }
         };
 
         recognition.onerror = () => {
-          setIsRecording(false);
+          setRecordingFieldId(null);
           setVoiceNotice(
             km ? "មិនអាចចាប់សំឡេងបានទេ។ សូមព្យាយាមម្តងទៀត។" : "Could not detect voice. Please try again."
           );
         };
 
         recognition.onend = () => {
-          setIsRecording(false);
+          setRecordingFieldId(null);
         };
 
         recognitionRef.current = recognition;
         recognition.start();
       } catch {
-        simulateVoiceInput();
+        simulateVoiceInputForField(fieldId);
       }
     } else {
-      simulateVoiceInput();
+      simulateVoiceInputForField(fieldId);
     }
   };
 
-  const simulateVoiceInput = () => {
-    setIsRecording(true);
-    setVoiceNotice(km ? "កំពុងថតសំឡេងគំរូ..." : "Simulating voice recording...");
+  const simulateVoiceInputForField = (fieldId: string) => {
+    setRecordingFieldId(fieldId);
+    setVoiceNotice(km ? "កំពុងស្តាប់... (គំរូសំឡេង)" : "Listening... (voice sample)");
     setTimeout(() => {
-      const sample = km
-        ? " ខ្ញុំមានអារម្មណ៍ធូរស្រាលច្រើនបន្ទាប់ពីបានដកដង្ហើមវែងៗ។"
-        : " I took a few deep breaths and now I feel much more peaceful.";
-      setReflectionText((prev) => (prev + sample).slice(0, 500));
-      setIsRecording(false);
+      let sample = "";
+      if (fieldId === "q_happy") {
+        sample = km
+          ? "មិត្តភក្តិញញឹមដាក់ និងបានញ៉ាំកាហ្វេជុំគ្នាពេលព្រឹក"
+          : "A friend smiled at me and we had a great morning coffee together.";
+      } else if (fieldId === "q_difficult") {
+        sample = km
+          ? "សម្ពាធរៀនសូត្រ និងកិច្ចការដែលត្រូវប្រគល់បន្ទាន់"
+          : "Felt pressure from studies and an urgent assignment deadline.";
+      } else if (fieldId === "additional_notes") {
+        sample = km
+          ? "ខ្ញុំបានដកដង្ហើមវែងៗ ហើយមានអារម្មណ៍ស្ងប់ចិត្តជាងមុន។"
+          : "I took a few deep breaths and now feel much more centered.";
+      } else {
+        const foundPreset = PRESET_ADDITIONAL_QUESTIONS.find((p) => p.id === fieldId);
+        if (foundPreset) {
+          sample = km ? foundPreset.sampleKm : foundPreset.sampleEn;
+        } else {
+          sample = km
+            ? "ខ្ញុំមានអារម្មណ៍ធូរស្រាលច្រើនបន្ទាប់ពីបានឆ្លុះបញ្ចាំង។"
+            : "I feel much clearer and more at peace after reflecting.";
+        }
+      }
+
+      if (fieldId === "additional_notes") {
+        setAdditionalNotes((prev) => (prev ? prev + " " + sample : sample).slice(0, 500));
+      } else {
+        setQuestions((prev) =>
+          prev.map((q) =>
+            q.id === fieldId
+              ? { ...q, answer: (q.answer ? q.answer + " " + sample : sample).slice(0, 300) }
+              : q
+          )
+        );
+      }
+
+      setRecordingFieldId(null);
       setVoiceNotice(km ? "សំឡេងត្រូវបានបញ្ចូលដោយជោគជ័យ!" : "Voice transcribed successfully!");
-      setTimeout(() => setVoiceNotice(null), 3000);
-    }, 2000);
+      setTimeout(() => setVoiceNotice(null), 2500);
+    }, 1800);
   };
 
   const handleSave = () => {
     const todayStr = km ? "ថ្ងៃនេះ" : "Today";
+    const answeredQuestions = questions.filter((q) => q.answer.trim().length > 0);
+
+    const formattedContent = [
+      ...answeredQuestions.map((q) => `${km ? q.labelKm : q.labelEn}: ${q.answer.trim()}`),
+      additionalNotes.trim()
+        ? `${km ? "កំណត់ហេតុបន្ថែម" : "Additional Notes"}: ${additionalNotes.trim()}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+
+    const finalContent =
+      formattedContent ||
+      getStarterReflectionForMood(selectedMood, km) ||
+      (km ? "គ្មានកំណត់ត្រា" : "No notes recorded.");
+
     const newEntry: JournalEntry = {
       id: "entry-" + Date.now(),
       date: todayStr,
       mood: selectedMood,
       tags: selectedEmotions,
-      content: reflectionText.trim() || (km ? "គ្មានកំណត់ត្រា" : "No notes recorded."),
+      content: finalContent,
       createdAt: new Date().toISOString().split("T")[0],
+      questions: answeredQuestions.map((q) => ({
+        id: q.id,
+        question: q.labelEn,
+        kmQuestion: q.labelKm,
+        answer: q.answer.trim(),
+      })),
+      additionalNotes: additionalNotes.trim(),
     };
 
     const updated = [newEntry, ...entries.filter((e) => e.id !== newEntry.id)];
@@ -580,29 +782,222 @@ function JournalContent() {
                 </div>
               </div>
 
-              {/* Section 3: Reflection Text Box */}
-              <div className="mt-6">
-                <div className="relative rounded-[22px] border border-gray-200 bg-white p-4 shadow-sm transition-all focus-within:border-[#1f6f5b] focus-within:ring-2 focus-within:ring-[#1f6f5b]/10">
-                  <textarea
-                    rows={6}
-                    maxLength={500}
-                    value={reflectionText}
-                    onChange={(e) => {
-                      setReflectionText(e.target.value);
-                      setHasCustomizedText(true);
-                    }}
-                    placeholder={getPlaceholderForMood(selectedMood, km)}
-                    className="w-full resize-none bg-transparent text-sm leading-relaxed text-[#111827] placeholder:text-gray-400 focus:outline-none sm:text-[15px]"
-                  />
-                  <div className="mt-2 text-right">
-                    <span className="text-xs font-medium text-gray-400">
-                      {reflectionText.length}/500
-                    </span>
+              {/* Section 3: Guided Reflection Questions (matching user design) */}
+              <div className="mt-7">
+                <div className="flex items-center justify-between">
+                  <label className="block text-sm font-semibold text-[#374151]">
+                    {km ? "សំណួរឆ្លុះបញ្ចាំង និងកំណត់ត្រា" : "Guided Reflection Questions"}
+                  </label>
+                  <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
+                    {km ? "ឆ្លើយ ឬកត់ត្រាជាសំឡេង" : "Type or speak by voice"}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-[#6b7280]">
+                  {km
+                    ? "ចុចរូបមេក្រូហ្វូននៅតាមសំណួរនីមួយៗ ដើម្បីនិយាយចម្លើយម្តងមួយៗដោយងាយស្រួល"
+                    : "Tap the microphone on each question to speak your answers one by one."}
+                </p>
+
+                {/* Question Inputs Grid */}
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {questions.map((q) => {
+                    const isRecordingThis = recordingFieldId === q.id;
+                    return (
+                      <div
+                        key={q.id}
+                        className={`group relative flex flex-col justify-between rounded-2xl border bg-white p-3.5 shadow-2xs transition-all duration-150 ${
+                          isRecordingThis
+                            ? "border-rose-400 ring-2 ring-rose-100"
+                            : "border-gray-200 focus-within:border-[#1f6f5b] focus-within:ring-2 focus-within:ring-[#1f6f5b]/10"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <label className="block text-xs font-semibold text-[#374151] sm:text-[13px]">
+                            {km ? q.labelKm : q.labelEn}
+                          </label>
+                          {q.isRemovable && (
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveQuestion(q.id)}
+                              className="text-gray-400 hover:text-rose-600 transition-colors p-0.5"
+                              title={km ? "លុបសំណួរនេះ" : "Remove question"}
+                            >
+                              <X size={15} />
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="relative mt-2.5 flex items-center">
+                          <input
+                            type="text"
+                            value={q.answer}
+                            onChange={(e) => handleQuestionAnswerChange(q.id, e.target.value)}
+                            placeholder={km ? q.placeholderKm : q.placeholderEn}
+                            className="h-10 w-full rounded-xl border border-gray-100 bg-[#f9fbfb] pl-3 pr-10 text-xs sm:text-sm text-[#111827] outline-none transition-all placeholder:text-gray-400 focus:bg-white focus:border-[#1f6f5b]/40"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleToggleVoiceForField(q.id)}
+                            title={
+                              isRecordingThis
+                                ? (km ? "បញ្ឈប់ការថតសំឡេង" : "Stop recording")
+                                : (km ? "កត់ត្រាជាសំឡេងសម្រាប់សំណួរនេះ" : "Speak answer for this question")
+                            }
+                            className={`absolute right-1 flex size-8 items-center justify-center rounded-lg transition-all ${
+                              isRecordingThis
+                                ? "bg-rose-500 text-white shadow-sm ring-2 ring-rose-200 animate-pulse"
+                                : "text-[#1f6f5b] hover:bg-[#dff3ee] active:scale-95"
+                            }`}
+                          >
+                            {isRecordingThis ? <MicOff size={15} /> : <Mic size={15} />}
+                          </button>
+                        </div>
+
+                        {/* Active listening indicator */}
+                        {isRecordingThis && (
+                          <div className="mt-2 flex items-center gap-1.5 text-[11px] font-semibold text-rose-600 animate-in fade-in">
+                            <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
+                            <span>{km ? "កំពុងស្តាប់... សូមនិយាយ" : "Listening... speak now"}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* + Add a Question Button & Popover */}
+                <div className="mt-3.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddQuestionModal((prev) => !prev)}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-dashed border-[#1f6f5b]/40 bg-white px-3.5 py-2 text-xs font-semibold text-[#1f6f5b] shadow-2xs transition-all hover:border-[#1f6f5b] hover:bg-[#dff3ee]/30 active:scale-98"
+                  >
+                    <Plus size={15} />
+                    <span>{km ? "បន្ថែមសំណួរឆ្លុះបញ្ចាំង" : "Add a Question"}</span>
+                  </button>
+
+                  {/* Add Question Popover / Presets */}
+                  {showAddQuestionModal && (
+                    <div className="mt-3 rounded-2xl border border-emerald-100 bg-[#f4faf8] p-4 shadow-sm animate-in fade-in duration-150">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#1f6f5b]">
+                          {km ? "ជ្រើសរើសសំណួរដែលចង់សួរ ឬសរសេរដោយខ្លួនឯង" : "Pick a prompt or write custom question"}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setShowAddQuestionModal(false)}
+                          className="text-gray-400 hover:text-gray-700"
+                        >
+                          <X size={15} />
+                        </button>
+                      </div>
+
+                      {/* Preset Options */}
+                      <div className="mt-2.5 flex flex-wrap gap-2">
+                        {PRESET_ADDITIONAL_QUESTIONS.map((preset) => (
+                          <button
+                            key={preset.id}
+                            type="button"
+                            onClick={() => handleAddPresetQuestion(preset)}
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-[#374151] hover:border-[#1f6f5b] hover:text-[#1f6f5b] hover:bg-[#dff3ee]/20 transition-all shadow-2xs"
+                          >
+                            <Plus size={13} className="text-[#1f6f5b]" />
+                            <span>{km ? preset.labelKm : preset.labelEn}</span>
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Custom Question Input */}
+                      <div className="mt-3 flex gap-2">
+                        <input
+                          type="text"
+                          value={customQuestionInput}
+                          onChange={(e) => setCustomQuestionInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              handleAddCustomQuestion();
+                            }
+                          }}
+                          placeholder={km ? "សរសេរសំណួរផ្ទាល់ខ្លួនរបស់អ្នកនៅទីនេះ..." : "Write your custom question..."}
+                          className="h-9 flex-1 rounded-xl border border-gray-200 bg-white px-3 text-xs text-[#111827] outline-none focus:border-[#1f6f5b]"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleAddCustomQuestion}
+                          disabled={!customQuestionInput.trim()}
+                          className="rounded-xl bg-[#1f6f5b] px-3.5 text-xs font-semibold text-white hover:bg-[#185848] disabled:opacity-50 transition-colors"
+                        >
+                          {km ? "បញ្ចូល" : "Add"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Additional Notes Textarea */}
+                <div className="mt-5">
+                  <div
+                    className={`relative rounded-2xl border bg-white p-3.5 shadow-2xs transition-all ${
+                      recordingFieldId === "additional_notes"
+                        ? "border-red-400 ring-2 ring-red-100"
+                        : "border-gray-200 focus-within:border-[#1f6f5b] focus-within:ring-2 focus-within:ring-[#1f6f5b]/10"
+                    }`}
+                  >
+                    <textarea
+                      rows={3}
+                      value={additionalNotes}
+                      onChange={(e) => setAdditionalNotes(e.target.value)}
+                      placeholder={km ? "សរសេរកំណត់ហេតុបន្ថែមនៅទីនេះ..." : "Write additional notes here..."}
+                      className="w-full resize-none bg-transparent text-xs sm:text-sm leading-relaxed text-[#111827] placeholder:text-gray-400 focus:outline-none"
+                    />
+                    <div className="flex items-center justify-between border-t border-gray-100 pt-2 text-xs text-gray-400">
+                      <span>
+                        {recordingFieldId === "additional_notes" ? (
+                          <span className="flex items-center gap-1.5 font-semibold text-red-600 animate-in fade-in">
+                            <span className="size-1.5 rounded-full bg-red-500 animate-ping" />
+                            {km ? "កំពុងស្តាប់កំណត់ហេតុបន្ថែម... សូមនិយាយ" : "Listening to additional notes... speak now"}
+                          </span>
+                        ) : (
+                          km ? "កំណត់ត្រាបន្ថែម (ស្រេចចិត្ត)" : "Additional notes (optional)"
+                        )}
+                      </span>
+                      <span>{additionalNotes.length}/500</span>
+                    </div>
+                  </div>
+
+                  {/* Section 4: Record with voice Button (Old Voice Button Style) */}
+                  <div className="mt-3.5 sm:mt-4">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleVoiceForField("additional_notes")}
+                      className={`flex w-full items-center justify-center gap-2.5 rounded-2xl border py-3.5 px-4 font-medium shadow-sm transition-all duration-150 active:scale-[0.99] ${
+                        recordingFieldId === "additional_notes"
+                          ? "border-red-400 bg-red-50 text-red-700 animate-pulse"
+                          : "border-gray-200 bg-white text-[#111827] hover:bg-gray-50 hover:border-gray-300"
+                      }`}
+                    >
+                      {recordingFieldId === "additional_notes" ? (
+                        <>
+                          <MicOff size={18} className="text-red-600" />
+                          <span className="text-sm font-semibold">
+                            {km ? "បញ្ឈប់ការថតសំឡេង" : "Stop recording"}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <Mic size={18} className="text-[#1f6f5b]" />
+                          <span className="text-sm font-semibold">
+                            {km ? "កត់ត្រាជាសំឡេង" : "Record with voice"}
+                          </span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
 
-              {/* Voice Notification Banner */}
+              {/* Global Voice Notification Banner */}
               {voiceNotice && (
                 <div className="mt-3 flex items-center justify-between rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-2.5 text-xs sm:text-sm text-[#1f6f5b] animate-in fade-in">
                   <div className="flex items-center gap-2">
@@ -618,35 +1013,6 @@ function JournalContent() {
                   </button>
                 </div>
               )}
-
-              {/* Section 4: Record with voice Button */}
-              <div className="mt-4">
-                <button
-                  type="button"
-                  onClick={handleToggleVoice}
-                  className={`flex w-full items-center justify-center gap-2.5 rounded-2xl border py-3.5 px-4 font-medium shadow-sm transition-all duration-150 active:scale-[0.99] ${
-                    isRecording
-                      ? "border-red-400 bg-red-50 text-red-700 animate-pulse"
-                      : "border-gray-200 bg-white text-[#111827] hover:bg-gray-50 hover:border-gray-300"
-                  }`}
-                >
-                  {isRecording ? (
-                    <>
-                      <MicOff size={18} className="text-red-600" />
-                      <span className="text-sm">
-                        {km ? "បញ្ឈប់ការថតសំឡេង" : "Stop recording"}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Mic size={18} className="text-[#1f6f5b]" />
-                      <span className="text-sm">
-                        {km ? "កត់ត្រាជាសំឡេង" : "Record with voice"}
-                      </span>
-                    </>
-                  )}
-                </button>
-              </div>
 
               {/* Section 5: Security / Privacy Note */}
               <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[#6b7280]">
@@ -730,10 +1096,31 @@ function JournalContent() {
                     );
                   })()}
                 </div>
-                <p className="mt-3 text-sm sm:text-[15px] leading-relaxed text-[#374151]">
-                  {(savedEntry?.content || reflectionText).slice(0, 140)}
-                  {(savedEntry?.content || reflectionText).length > 140 ? "..." : ""}
-                </p>
+                {savedEntry?.questions && savedEntry.questions.length > 0 ? (
+                  <div className="mt-3.5 space-y-2">
+                    {savedEntry.questions.map((q) => (
+                      <div key={q.id} className="rounded-xl bg-[#f0f8f6] p-2.5 text-xs sm:text-sm">
+                        <span className="font-bold text-[#1f6f5b]">
+                          {km ? q.kmQuestion : q.question}:{" "}
+                        </span>
+                        <span className="text-[#374151]">{q.answer}</span>
+                      </div>
+                    ))}
+                    {savedEntry.additionalNotes && (
+                      <div className="rounded-xl bg-gray-50 p-2.5 text-xs sm:text-sm">
+                        <span className="font-bold text-gray-700">
+                          {km ? "កំណត់ហេតុបន្ថែម: " : "Additional Notes: "}
+                        </span>
+                        <span className="text-[#374151]">{savedEntry.additionalNotes}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="mt-3 text-sm sm:text-[15px] leading-relaxed text-[#374151]">
+                    {(savedEntry?.content || "").slice(0, 160)}
+                    {(savedEntry?.content || "").length > 160 ? "..." : ""}
+                  </p>
+                )}
                 {(savedEntry?.tags || selectedEmotions).length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(savedEntry?.tags || selectedEmotions).map((t) => {
@@ -798,8 +1185,9 @@ function JournalContent() {
                   onClick={() => {
                     setSelectedMood("Good");
                     setSelectedEmotions(getDefaultEmotionsForMood("Good"));
-                    setReflectionText(getStarterReflectionForMood("Good", km));
-                    setHasCustomizedText(false);
+                    setQuestions(DEFAULT_QUESTIONS.map((q) => ({ ...q, answer: "" })));
+                    setAdditionalNotes("");
+                    setRecordingFieldId(null);
                     setView("entry");
                   }}
                   className="flex items-center gap-1.5 rounded-full bg-[#e6f6f1] px-3.5 py-1.5 text-xs font-semibold text-[#1f6f5b] hover:bg-[#d2eee8] transition-colors"
@@ -1071,9 +1459,33 @@ function JournalContent() {
                   <h3 className="text-xl font-bold text-[#111827]">
                     {km ? "កំណត់ត្រាការឆ្លុះបញ្ចាំង" : "Reflection Details"}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[#374151] whitespace-pre-wrap">
-                    {selectedDetailEntry.content}
-                  </p>
+
+                  {selectedDetailEntry.questions && selectedDetailEntry.questions.length > 0 ? (
+                    <div className="mt-3.5 space-y-2.5">
+                      {selectedDetailEntry.questions.map((q) => (
+                        <div key={q.id} className="rounded-2xl border border-gray-100 bg-[#f7faf9] p-3.5">
+                          <p className="text-xs font-bold text-[#1f6f5b]">
+                            {km ? q.kmQuestion : q.question}
+                          </p>
+                          <p className="mt-1 text-sm text-[#111827]">{q.answer}</p>
+                        </div>
+                      ))}
+                      {selectedDetailEntry.additionalNotes && (
+                        <div className="rounded-2xl border border-gray-100 bg-gray-50 p-3.5">
+                          <p className="text-xs font-bold text-gray-700">
+                            {km ? "កំណត់ហេតុបន្ថែម" : "Additional Notes"}
+                          </p>
+                          <p className="mt-1 text-sm text-[#374151]">
+                            {selectedDetailEntry.additionalNotes}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="mt-3 text-sm leading-relaxed text-[#374151] whitespace-pre-wrap">
+                      {selectedDetailEntry.content}
+                    </p>
+                  )}
                 </div>
 
                 {selectedDetailEntry.tags && selectedDetailEntry.tags.length > 0 && (
