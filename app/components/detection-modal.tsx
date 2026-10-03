@@ -52,7 +52,7 @@ export function DetectionModal({ isOpen, onClose }: DetectionModalProps) {
               id="detection-sheet-title"
               className="text-2xl font-semibold tracking-tight text-black"
             >
-              {km ? "តាមដានចិត្តរបស់អ្នក" : "Track your mind"}
+              {km ? "តាមដានសុខុមាលភាពផ្លូវចិត្ត (Track Your Mind)" : "Track your mind"}
             </h2>
             <p className="mt-1 text-sm text-[#444444] sm:text-[15px]">
               {km
@@ -78,7 +78,7 @@ export function DetectionModal({ isOpen, onClose }: DetectionModalProps) {
               <span className="inline-block size-2 rounded-full bg-amber-500 animate-pulse" />
               <span className="font-medium">
                 {km
-                  ? "មុខងាររកឃើញរោគសញ្ញានឹងមកដល់ឆាប់ៗនេះ!"
+                  ? "មុខងារតាមដានរោគសញ្ញានឹងមកដល់ឆាប់ៗនេះ!"
                   : "Symptom Detection is coming soon!"}
               </span>
             </div>
@@ -108,14 +108,14 @@ export function DetectionModal({ isOpen, onClose }: DetectionModalProps) {
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between">
                 <p className="text-base font-semibold text-black transition-colors duration-200 group-hover:text-[#1f6f5b]">
-                  {km ? "សៀវភៅកំណត់ហេតុ" : "Journal"}
+                  {km ? "កំណត់ត្រាអារម្មណ៍ (Journal)" : "Journal"}
                 </p>
                 <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
-                  {km ? "រួចរាល់" : "Ready"}
+                  {km ? "រួចរាល់ (Ready)" : "Ready"}
                 </span>
               </div>
               <p className="mt-0.5 text-xs sm:text-sm text-[#4b5563] transition-colors duration-200 group-hover:text-[#1f6f5b]/90">
-                {km ? "សរសេរដោយសេរីអំពីថ្ងៃរបស់អ្នក" : "write freely about your day"}
+                {km ? "សរសេរដោយសេរីអំពីអារម្មណ៍ប្រចាំថ្ងៃរបស់អ្នក" : "write freely about your day"}
               </p>
             </div>
 
@@ -140,14 +140,14 @@ export function DetectionModal({ isOpen, onClose }: DetectionModalProps) {
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <p className="text-base font-semibold text-black transition-colors duration-200 group-hover:text-[#1f6f5b]">
-                  {km ? "ការរកឃើញរោគសញ្ញា" : "Symptom Detection"}
+                  {km ? "ការតាមដានរោគសញ្ញា (Symptom Detection)" : "Symptom Detection"}
                 </p>
                 <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-800">
-                  {km ? "ឆាប់ៗនេះ" : "Coming Soon"}
+                  {km ? "នឹងមកដល់ឆាប់ៗ (Coming Soon)" : "Coming Soon"}
                 </span>
               </div>
               <p className="mt-0.5 text-xs sm:text-sm text-[#757575] transition-colors duration-200 group-hover:text-[#1f6f5b]/90">
-                {km ? "ការពិនិត្យរហ័សអំពីអារម្មណ៍របស់អ្នក" : "A quick check-in on how you’re doing"}
+                {km ? "ពិនិត្យ និងស្ទង់កម្រិតអារម្មណ៍រហ័ស" : "A quick check-in on how you’re doing"}
               </p>
             </div>
 

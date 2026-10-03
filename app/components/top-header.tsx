@@ -26,7 +26,7 @@ export function TopHeader() {
           />
         </div>
         <p className="mt-1 text-xs font-medium text-black/80 leading-none">
-          {km ? "ចិត្តស្ងប់ស្ងាត់ ជីវិតកាន់តែភ្លឺស្វាងសម្រាប់អ្នក" : "A calmer mind,a brighter for you"}
+          {km ? "ចិត្តកាន់តែស្ងប់ ជីវិតកាន់តែភ្លឺស្វាងសម្រាប់អ្នក" : "A calmer mind, a brighter for you"}
         </p>
       </div>
 

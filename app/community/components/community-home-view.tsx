@@ -33,7 +33,7 @@ export function CommunityHomeView({
       {/* Main Title & Subtitle */}
       <div className="mt-6">
         <h1 className="text-3xl font-extrabold tracking-tight text-[#111827]">
-          {km ? "សហគមន៍" : "Community"}
+          {km ? "សហគមន៍ (Community)" : "Community"}
         </h1>
         <p className="mt-2 text-sm text-[#4b5563] leading-relaxed">
           {km
@@ -49,7 +49,7 @@ export function CommunityHomeView({
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-bold leading-snug">
-            {km ? "អ្នកមានភាពអនាមិកនៅទីនេះ" : "You are anonymous here"}
+            {km ? "អ្នកមានភាពអនាមិកនៅទីនេះ (Anonymous)" : "You are anonymous here"}
           </p>
           <p className="mt-0.5 text-xs text-[#2d6a54] leading-relaxed">
             {km
@@ -63,13 +63,13 @@ export function CommunityHomeView({
       <div className="mt-7">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-[#111827]">
-            {km ? "ក្រុមគាំទ្ររបស់ខ្ញុំ" : "My support Group"}
+            {km ? "ក្រុមគាំទ្ររបស់ខ្ញុំ (My Support Group)" : "My support Group"}
           </h2>
           <button
             onClick={onOpenAllGroups}
             className="text-xs font-semibold text-[#1f6f5b] hover:underline"
           >
-            {km ? "មើលទាំងអស់" : "View All"}
+            {km ? "មើលទាំងអស់ (View All)" : "View All"}
           </button>
         </div>
 
@@ -101,7 +101,7 @@ export function CommunityHomeView({
       {/* Section: Recommended for you */}
       <div className="mt-7">
         <h2 className="text-lg font-bold text-[#111827]">
-          {km ? "ណែនាំសម្រាប់អ្នក" : "Recommended for you"}
+          {km ? "ណែនាំសម្រាប់អ្នក (Recommended for You)" : "Recommended for you"}
         </h2>
 
         <div className="mt-3.5 overflow-hidden rounded-[26px] border border-gray-100 bg-white shadow-[0_4px_18px_rgba(0,0,0,0.06)]">
@@ -129,7 +129,7 @@ export function CommunityHomeView({
               onClick={() => onSelectGroup(recommendedGroup.id)}
               className="mt-4 w-full rounded-[16px] bg-[#1a5d4d] py-3 text-center text-base font-bold text-white shadow-md shadow-[#1a5d4d]/20 transition-all duration-200 hover:bg-[#144b3e] active:scale-[0.99]"
             >
-              {km ? "មើលក្រុម" : "View Group"}
+              {km ? "មើលក្រុម (View Group)" : "View Group"}
             </button>
           </div>
         </div>
@@ -141,14 +141,14 @@ export function CommunityHomeView({
           onClick={onOpenAllGroups}
           className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3 text-sm font-medium text-[#1f6f5b] hover:bg-[#eaf5f1] transition-colors"
         >
-          <span>{km ? "ស្វែងរកក្រុមគាំទ្រទាំងអស់" : "Explore All Support Groups"}</span>
+          <span>{km ? "ស្វែងរកក្រុមគាំទ្រទាំងអស់ (Explore All Groups)" : "Explore All Support Groups"}</span>
           <ChevronRight size={18} />
         </button>
         <button
           onClick={onOpenMenu}
           className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
         >
-          <span>{km ? "គោលការណ៍ណែនាំសហគមន៍ និងការកំណត់" : "Community Guidelines & Options"}</span>
+          <span>{km ? "គោលការណ៍សហគមន៍ និងការកំណត់" : "Community Guidelines & Options"}</span>
           <ChevronRight size={18} />
         </button>
       </div>

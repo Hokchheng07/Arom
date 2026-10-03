@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useLanguage } from "../language-provider";
 import {
   isPracticeBookmarked,
+  PRACTICE_CATEGORIES,
   togglePracticeBookmark,
   type PracticeItem,
 } from "./practice-data";
@@ -36,6 +37,10 @@ export function PracticeDetailView({
     isPracticeBookmarked(practice.id),
   );
 
+  const categoryLabel = km
+    ? PRACTICE_CATEGORIES.find((c) => c.id === practice.category)?.kmLabel || practice.category
+    : practice.category;
+
   const handleBookmarkToggle = () => {
     const newState = togglePracticeBookmark(practice.id);
     setBookmarked(newState);
@@ -55,7 +60,7 @@ export function PracticeDetailView({
         </button>
 
         <span className="text-xs font-semibold tracking-wider uppercase text-arom">
-          {km ? "ទិដ្ឋភាពទូទៅនៃការអនុវត្ត" : "Practice Overview"}
+          {km ? "ទិដ្ឋភាពទូទៅនៃការអនុវត្ត (Overview)" : "Practice Overview"}
         </span>
 
         <button
@@ -106,7 +111,7 @@ export function PracticeDetailView({
           <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 sm:bottom-6 sm:left-6 sm:right-6">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-arom shadow-sm backdrop-blur-md">
               <Wind size={13} className="text-arom" />
-              {practice.category}
+              {categoryLabel}
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-arom/90 px-3 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
@@ -126,7 +131,7 @@ export function PracticeDetailView({
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-arom">
             <span>{km ? "ប្រភេទ៖" : "Category:"}</span>
             <span className="rounded-md bg-arom-soft px-2 py-0.5 text-arom">
-              {practice.category}
+              {categoryLabel}
             </span>
             <span className="text-ink-muted/40">•</span>
             <span className="inline-flex items-center gap-1 text-ink-muted">
@@ -165,7 +170,7 @@ export function PracticeDetailView({
               <Zap size={16} />
             </span>
             <h2 id="what-youll-practice-title">
-              {km ? "អ្វីដែលអ្នកនឹងអនុវត្ត" : "What You Will Practice"}
+              {km ? "អ្វីដែលអ្នកនឹងអនុវត្ត (What You'll Practice)" : "What You Will Practice"}
             </h2>
           </div>
 
@@ -195,7 +200,7 @@ export function PracticeDetailView({
             className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-arom px-6 text-base font-bold text-white shadow-[0_12px_28px_rgba(31,111,91,0.2)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-arom-deep hover:shadow-[0_16px_36px_rgba(31,111,91,0.28)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
           >
             <span>
-              {km ? "ចាប់ផ្តើមការដកដង្ហើមឥឡូវនេះ" : "Start Breathing Session"}
+              {km ? "ចាប់ផ្តើមការហាត់ដកដង្ហើម (Start Breathing)" : "Start Breathing Session"}
             </span>
             <span className="transition-transform duration-150 group-hover:translate-x-1">
               →

@@ -270,7 +270,7 @@ function BreathingGuide({
               <RotateCcw aria-hidden="true" size={20} />
             </button>
             <span className="mt-1.5 text-[11px] font-medium text-white/70">
-              {km ? "សារដើម" : "Restart"}
+              {km ? "ចាប់ផ្ដើមឡើងវិញ" : "Restart"}
             </span>
           </div>
 
@@ -374,13 +374,13 @@ function SessionComplete({
               onClick={onRestart}
               className="flex h-12 w-full items-center justify-center rounded-xl bg-arom text-base font-semibold text-white transition-all active:scale-[0.98] hover:bg-arom-deep"
             >
-              {km ? "ហាត់ម្តងទៀត" : "Breathe More"}
+              {km ? "ហាត់ម្តងទៀត (Breathe More)" : "Breathe More"}
             </button>
             <Link
               href="/practice"
               className="flex h-12 w-full items-center justify-center rounded-xl border border-arom-border bg-white text-base font-semibold text-arom transition-all active:scale-[0.98] hover:bg-arom-wash"
             >
-              {km ? "ស្វែងរកការអនុវត្តផ្សេងទៀត" : "Explore More Practices"}
+              {km ? "ស្វែងរកការអនុវត្តផ្សេងទៀត (More Practices)" : "Explore More Practices"}
             </Link>
             <Link
               href="/mindguide"

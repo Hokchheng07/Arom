@@ -89,7 +89,7 @@ export function LearnHomeView({
             className="flex items-center gap-2 rounded-full border border-arom-border bg-white px-4 py-2 text-xs font-semibold text-arom shadow-sm transition-all hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-arom"
           >
             <Bookmark size={15} className="text-arom" />
-            <span>{km ? "មេរៀនដែលបានរក្សាទុក" : "Saved"}</span>
+            <span>{km ? "មេរៀនដែលបានរក្សាទុក (Saved)" : "Saved"}</span>
           </button>
         </div>
 
@@ -99,11 +99,11 @@ export function LearnHomeView({
             ARom MindGuide
           </span>
           <h1 className="mt-2.5 text-2xl font-bold tracking-tight text-arom sm:text-3xl lg:text-4xl">
-            {km ? "រៀនស្វែងយល់" : "Learn"}
+            {km ? "ស្វែងយល់ (Learn)" : "Learn"}
           </h1>
           <p className="mt-1 text-sm text-ink-muted sm:text-base">
             {km
-              ? "ស្វែងយល់ពីចិត្តរបស់អ្នក ម្តងមួយជំហានៗ។"
+              ? "ស្វែងយល់ពីផ្លូវចិត្តរបស់អ្នក ម្តងមួយជំហានៗ។"
               : "Understand your mind, one step at a time."}
           </p>
         </header>
@@ -121,7 +121,7 @@ export function LearnHomeView({
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={
                 km
-                  ? "ស្វែងរកប្រធានបទ... (ការថប់បារម្ភ, ភាពតានតឹង, ការគេង...)"
+                  ? "ស្វែងរកប្រធានបទ... (ការថប់បារម្ភ, ភាពតានតឹង, ដំណេក...)"
                   : "Search topics... (Anxiety, Stress, Sleep, Burnout, Emotions...)"
               }
               className="h-12 w-full rounded-2xl border border-arom-border bg-white pl-11 pr-10 text-sm text-ink outline-none transition-[border-color,box-shadow] placeholder:text-ink-muted/70 shadow-sm focus:border-arom focus:ring-4 focus:ring-arom/10"
@@ -170,7 +170,7 @@ export function LearnHomeView({
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider text-arom-accent">
-                {km ? "ណែនាំសម្រាប់អ្នក" : "Recommended For You"}
+                {km ? "ណែនាំសម្រាប់អ្នក (Recommended)" : "Recommended For You"}
               </span>
               <span className="rounded-full bg-arom-soft px-3 py-1 text-xs font-semibold text-arom">
                 MindGuide Match
@@ -180,7 +180,7 @@ export function LearnHomeView({
             <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="space-y-1">
                 <span className="text-xs font-semibold text-arom">
-                  {LESSON_ABOUT_STRESS.category} • {LESSON_ABOUT_STRESS.duration} • {LESSON_ABOUT_STRESS.difficulty}
+                  {LESSON_ABOUT_STRESS.category} • {LESSON_ABOUT_STRESS.duration} • {km ? LESSON_ABOUT_STRESS.kmDifficulty : LESSON_ABOUT_STRESS.difficulty}
                 </span>
                 <h2
                   id="recommended-heading"
@@ -222,12 +222,12 @@ export function LearnHomeView({
                   id="continue-learning-heading"
                   className="text-sm font-bold text-arom sm:text-base"
                 >
-                  {km ? "បន្តការរៀន" : "Continue Learning"}
+                  {km ? "បន្តការរៀនសូត្រ (Continue Learning)" : "Continue Learning"}
                 </h2>
               </div>
               <span className="text-xs font-semibold text-arom">
                 {progress.completedSections} {km ? "នៃ" : "of"}{" "}
-                {progress.totalSections} {km ? "មេរៀនបានបញ្ចប់" : "lessons completed"}
+                {progress.totalSections} {km ? "ផ្នែកបានបញ្ចប់" : "lessons completed"}
               </span>
             </div>
 
@@ -246,7 +246,7 @@ export function LearnHomeView({
                 onClick={() => onSelectLesson(LESSON_ABOUT_STRESS)}
                 className="inline-flex items-center justify-center rounded-xl bg-arom px-5 py-2.5 text-xs font-bold text-white transition-colors hover:bg-arom-deep"
               >
-                {km ? "បន្តមេរៀន →" : "Resume Lesson →"}
+                {km ? "បន្តមេរៀន (Resume) →" : "Resume Lesson →"}
               </button>
             </div>
 
@@ -272,10 +272,10 @@ export function LearnHomeView({
               id="all-lessons-heading"
               className="text-xl font-bold text-arom"
             >
-              {km ? "បញ្ជីមេរៀន" : "All Learning Topics"}
+              {km ? "ប្រធានបទសិក្សាទាំងអស់ (All Topics)" : "All Learning Topics"}
             </h2>
             <span className="text-xs font-medium text-ink-muted">
-              {filteredLessons.length} {km ? "ប្រធានបទ" : "topics"}
+              {filteredLessons.length} {km ? "ប្រធានបទ (Topics)" : "topics"}
             </span>
           </div>
 
@@ -318,7 +318,7 @@ export function LearnHomeView({
                       {lesson.badge && (
                         <span className="inline-flex items-center gap-1 rounded-full border border-arom-border bg-arom-wash px-2.5 py-0.5 text-[0.68rem] font-semibold text-ink-muted">
                           <Lock size={10} />
-                          {lesson.badge}
+                          {lesson.badge === "Coming Soon" && km ? "នឹងមកដល់ឆាប់ៗ (Coming Soon)" : lesson.badge}
                         </span>
                       )}
                     </div>

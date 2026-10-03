@@ -311,7 +311,7 @@ export function LessonScreen({
                       </span>
                       <span>
                         <span className="block font-bold">
-                          {km ? "ហាត់ដកដង្ហើម ១ នាទី" : "1-Minute Calming Breath"}
+                          {km ? "ហាត់ដកដង្ហើមស្ងប់ចិត្ត ១ នាទី (Breathing)" : "1-Minute Calming Breath"}
                         </span>
                         <span className="text-[0.72rem] opacity-80">
                           {km ? "ធ្វើលំហាត់ដកដង្ហើមឥឡូវនេះ" : "Practice calm breathing now"}
@@ -331,10 +331,10 @@ export function LessonScreen({
                       </span>
                       <span>
                         <span className="block font-bold text-arom">
-                          {km ? "ស្វែងរកអ្នកជំនាញ" : "Match Me With A Professional"}
+                          {km ? "ស្វែងរកអ្នកជំនាញ (Match Me)" : "Match Me With A Professional"}
                         </span>
                         <span className="text-[0.72rem] text-ink-muted">
-                          {km ? "ការសុំជំនួយជាការឆ្លាតវៃ [5]" : "Getting backup is smart [5]"}
+                          {km ? "ការស្វែងរកជំនួយជាការឆ្លាតវៃ [5]" : "Getting backup is smart [5]"}
                         </span>
                       </span>
                     </button>
@@ -372,7 +372,7 @@ export function LessonScreen({
                 className="inline-flex items-center gap-1.5 font-semibold text-arom hover:text-arom-deep"
               >
                 <Info size={13} />
-                <span>{km ? "មើលឯកសារយោង [1]-[6]" : "View Citations & References [1]-[6]"}</span>
+                <span>{km ? "មើលឯកសារយោង [1] ដល់ [6] (References)" : "View Citations & References [1] to [6]"}</span>
               </button>
               {showReferences && (
                 <ul className="mt-2.5 space-y-1 rounded-xl border border-arom-border bg-white p-3 text-[0.75rem] text-ink shadow-sm">

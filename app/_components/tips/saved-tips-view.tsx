@@ -67,7 +67,7 @@ export function SavedTipsView({
         </button>
 
         <h1 className="text-base font-bold text-arom sm:text-lg">
-          {km ? "គន្លឹះដែលបានរក្សាទុក" : "Saved Tips"}
+          {km ? "គន្លឹះដែលបានរក្សាទុក (Saved)" : "Saved Tips"}
         </h1>
 
         <div className="size-10" />
@@ -108,7 +108,7 @@ export function SavedTipsView({
 
               <div className="min-w-0 flex-1">
                 <span className="inline-block rounded-md bg-arom-soft px-2 py-0.5 text-[0.68rem] font-semibold text-arom">
-                  {TIP_CONTROL_STRESS.category}
+                  {km ? TIP_CONTROL_STRESS.kmCategory : TIP_CONTROL_STRESS.category}
                 </span>
                 <h3 className="mt-1 truncate text-sm font-bold text-ink sm:text-base">
                   {km && TIP_CONTROL_STRESS.kmTitle

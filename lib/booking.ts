@@ -9,6 +9,12 @@ export type BookingDay = {
   weekday: string;
   /** e.g. "Sep 17, 2026" */
   longLabel: string;
+  /** Khmer date label, e.g. "17 កញ្ញា" */
+  kmLabel: string;
+  /** Khmer weekday, e.g. "អង្គារ" */
+  kmWeekday: string;
+  /** Khmer full date label, e.g. "17 កញ្ញា 2026" */
+  kmLongLabel: string;
 };
 
 export type TimePeriod = {
@@ -24,20 +30,53 @@ export const timePeriods: TimePeriod[] = [
   { label: "Evening", times: ["6:00 PM", "7:30 PM"] },
 ];
 
-export const meetingTypes: { type: MeetingType; title: string; description: string; image: string }[] = [
+export const meetingTypes: {
+  type: MeetingType;
+  title: string;
+  kmTitle: string;
+  description: string;
+  kmDescription: string;
+  image: string;
+}[] = [
   {
     type: "Online",
     title: "Online",
+    kmTitle: "អនឡាញ (Online)",
     description: "Meet your therapist through a secure, private online session.",
+    kmDescription: "ជួបពិគ្រោះជាមួយអ្នកជំនាញតាមរយៈវីដេអូប្រកបដោយសុវត្ថិភាព និងការសម្ងាត់ខ្ពស់។",
     image: "/booking/online-laptop.svg",
   },
   {
     type: "In-person",
     title: "In Person",
+    kmTitle: "ជួបផ្ទាល់ (In Person)",
     description: "Visit the therapist at their clinic or hospital.",
+    kmDescription: "ជួបពិគ្រោះផ្ទាល់ជាមួយអ្នកជំនាញនៅគ្លីនិក ឬមន្ទីរពេទ្យ។",
     image: "/booking/in-person.svg",
   },
 ];
+
+export function getPeriodLabel(label: "Morning" | "Afternoon" | "Evening", km: boolean): string {
+  if (km) {
+    switch (label) {
+      case "Morning":
+        return "ពេលព្រឹក (Morning)";
+      case "Afternoon":
+        return "ពេលរសៀល (Afternoon)";
+      case "Evening":
+        return "ពេលល្ងាច (Evening)";
+    }
+  }
+  return label;
+}
+
+export function getMeetingTypeLabel(type: MeetingType | null, km: boolean): string {
+  if (!type) return "";
+  if (km) {
+    return type === "Online" ? "អនឡាញ (Online)" : "ជួបផ្ទាល់ (In Person)";
+  }
+  return type === "In-person" ? "In Person" : type;
+}
 
 /** Builds the next `count` bookable days, starting tomorrow in the clinic time zone. */
 export function getBookingDays(now: Date, count = 5): BookingDay[] {
@@ -52,14 +91,19 @@ export function getBookingDays(now: Date, count = 5): BookingDay[] {
 
   return Array.from({ length: count }, (_, index) => {
     const date = new Date(today + (index + 1) * 24 * 60 * 60 * 1000);
-    const format = (options: Intl.DateTimeFormatOptions) =>
+    const formatEn = (options: Intl.DateTimeFormatOptions) =>
       new Intl.DateTimeFormat("en-US", { timeZone: "UTC", ...options }).format(date);
+    const formatKm = (options: Intl.DateTimeFormatOptions) =>
+      new Intl.DateTimeFormat("km-KH", { timeZone: "UTC", ...options }).format(date);
 
     return {
       value: date.toISOString().slice(0, 10),
-      label: format({ month: "short", day: "numeric" }),
-      weekday: format({ weekday: "short" }),
-      longLabel: format({ month: "short", day: "numeric", year: "numeric" }),
+      label: formatEn({ month: "short", day: "numeric" }),
+      weekday: formatEn({ weekday: "short" }),
+      longLabel: formatEn({ month: "short", day: "numeric", year: "numeric" }),
+      kmLabel: formatKm({ month: "short", day: "numeric" }),
+      kmWeekday: formatKm({ weekday: "short" }),
+      kmLongLabel: formatKm({ month: "short", day: "numeric", year: "numeric" }),
     };
   });
 }

@@ -19,9 +19,9 @@ export function QuoteCard() {
       <p className="flex-1 text-[13px] sm:text-sm font-normal leading-snug text-[#1f6f5b]">
         {km ? (
           <>
-            ការរីកចម្រើននៅតែជាការរីកចម្រើន
+            ការបោះជំហានទៅមុខ ទោះជាតិចតួចក្តី
             <br />
-            ទោះបីតិចតួចក៏ដោយ។
+            ក៏នៅតែជាការរីកចម្រើនដ៏មានតម្លៃ។
           </>
         ) : (
           "Progress is still progress, no matter how small."

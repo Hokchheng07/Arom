@@ -84,7 +84,7 @@ export function TipsHomeView({
             className="flex items-center gap-2 rounded-full border border-arom-border bg-white px-4 py-2 text-xs font-semibold text-arom shadow-sm transition-all hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-arom"
           >
             <Bookmark size={15} className="text-arom" />
-            <span>{km ? "គន្លឹះដែលបានរក្សាទុក" : "Saved Tips"}</span>
+            <span>{km ? "គន្លឹះដែលបានរក្សាទុក (Saved)" : "Saved Tips"}</span>
           </button>
         </div>
 
@@ -94,7 +94,7 @@ export function TipsHomeView({
             ARom MindGuide
           </span>
           <h1 className="mt-2.5 text-2xl font-bold tracking-tight text-arom sm:text-3xl lg:text-4xl">
-            {km ? "គន្លឹះ" : "Tips"}
+            {km ? "គន្លឹះ (Tips)" : "Tips"}
           </h1>
           <p className="mt-1 text-sm text-ink-muted sm:text-base">
             {km
@@ -114,7 +114,11 @@ export function TipsHomeView({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={km ? "ស្វែងរកគន្លឹះ..." : "Search tips..."}
+              placeholder={
+                km
+                  ? "ស្វែងរកគន្លឹះ... (ភាពតានតឹង, ការថប់បារម្ភ, ដំណេក...)"
+                  : "Search tips... (Stress, Anxiety, Sleep...)"
+              }
               className="w-full rounded-2xl border border-arom-border bg-white py-3 pl-10 pr-10 text-sm text-ink placeholder:text-ink-muted/70 shadow-sm outline-none transition-all focus:border-arom focus:ring-2 focus:ring-arom/15"
             />
             {searchQuery && (
@@ -155,7 +159,7 @@ export function TipsHomeView({
           <section className="mt-8">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-bold text-arom sm:text-lg">
-                {km ? "ណែនាំសម្រាប់អ្នក" : "Recommended For You"}
+                {km ? "ណែនាំសម្រាប់អ្នក (Recommended)" : "Recommended For You"}
               </h2>
               <span className="text-xs font-semibold text-arom-accent">
                 {km ? "ផ្អែកលើ APA 2024" : "Based on APA 2024"}
@@ -216,7 +220,7 @@ export function TipsHomeView({
         <section className="mt-8">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-arom sm:text-lg">
-              {km ? "គន្លឹះទាំងអស់" : "All Tips"}
+              {km ? "គន្លឹះទាំងអស់ (All Tips)" : "All Tips"}
             </h2>
             <span className="text-xs font-medium text-ink-muted">
               {filteredTips.length} {km ? "ប្រធានបទ" : "topics"}
@@ -281,7 +285,7 @@ export function TipsHomeView({
                     ) : (
                       <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[0.68rem] font-semibold text-ink-muted">
                         <Lock size={11} />
-                        <span>{km ? "នឹងមកដល់ឆាប់ៗ" : "Coming Soon"}</span>
+                        <span>{km ? "នឹងមកដល់ឆាប់ៗ (Coming Soon)" : "Coming Soon"}</span>
                       </span>
                     )}
                   </div>
@@ -309,11 +313,11 @@ export function TipsHomeView({
                 : comingSoonModal.title}
             </h3>
             <p className="mt-1 text-xs font-semibold text-arom-accent">
-              {km ? "នឹងមកដល់ឆាប់ៗនេះ" : "Coming Soon"}
+              {km ? "នឹងមកដល់ឆាប់ៗ (Coming Soon)" : "Coming Soon"}
             </p>
             <p className="mt-3 text-xs leading-relaxed text-ink-muted">
               {km
-                ? "ក្រុមការងាររបស់យើងកំពុងរៀបចំខ្លឹមសារនេះ។ សូមសាកល្បងអានគន្លឹះស្តីពី 'របៀបគ្រប់គ្រងភាពតានតឹងរបស់អ្នក' ជាមុនសិន។"
+                ? "ក្រុមការងាររបស់យើងកំពុងរៀបចំខ្លឹមសារនេះ។ សូមសាកល្បងអានគន្លឹះស្តីពី 'របៀបគ្រប់គ្រងភាពតានតឹង' ជាមុនសិន។"
                 : "Our clinical team is preparing this topic guide. In the meantime, try 'How to control your Stress'."}
             </p>
             <div className="mt-5 flex flex-col gap-2">
@@ -325,7 +329,7 @@ export function TipsHomeView({
                 }}
                 className="w-full rounded-xl bg-arom py-2.5 text-xs font-semibold text-white transition-all hover:bg-arom-deep active:scale-95"
               >
-                {km ? "អានគន្លឹះគ្រប់គ្រងភាពតានតឹង" : "Read Stress Control Tips"}
+                {km ? "អានគន្លឹះគ្រប់គ្រងភាពតានតឹង (Read Tips)" : "Read Stress Control Tips"}
               </button>
               <button
                 type="button"

@@ -49,7 +49,7 @@ export function JoinedSuccessModal({
       {/* Header Info matching Figma */}
       <div className="text-center mt-3">
         <h1 className="text-3xl font-extrabold tracking-tight text-[#111827]">
-          {km ? "អ្នកបានចូលរួមហើយ!" : "You’ve joined!"}
+          {km ? "អ្នកបានចូលរួមជោគជ័យ!" : "You’ve joined!"}
         </h1>
         <p className="mt-1 text-sm text-[#4b5563]">
           {km ? "សូមស្វាគមន៍មកកាន់" : "Welcome to"}
@@ -68,7 +68,7 @@ export function JoinedSuccessModal({
             </span>
             <span className="leading-snug">
               {km
-                ? "អ្នកកំពុងចូលរួមជាសមាជិកអនាមិក។"
+                ? "អ្នកកំពុងចូលរួមជាសមាជិកអនាមិក (Anonymous Member)។"
                 : "You are joining as an anonymous member."}
             </span>
           </li>
@@ -79,7 +79,7 @@ export function JoinedSuccessModal({
             </span>
             <span className="leading-snug">
               {km
-                ? "អត្តសញ្ញាណរបស់អ្នកត្រូវបានលាក់ពីសមាជិកដទៃ។"
+                ? "អត្តសញ្ញាណ និងព័ត៌មានផ្ទាល់ខ្លួនត្រូវបានរក្សាជាការសម្ងាត់។"
                 : "Your identity is hidden from other members."}
             </span>
           </li>
@@ -103,14 +103,14 @@ export function JoinedSuccessModal({
           onClick={() => onGoToGroup(group.id)}
           className="w-full rounded-[18px] bg-[#1a5d4d] py-3.5 text-center text-base font-bold text-white shadow-lg shadow-[#1a5d4d]/25 transition-all duration-200 hover:bg-[#144b3e] active:scale-[0.99]"
         >
-          {km ? "ចូលទៅកាន់ក្រុម" : "Go to Group"}
+          {km ? "ចូលទៅកាន់ក្រុម (Go to Group)" : "Go to Group"}
         </button>
 
         <button
           onClick={onExploreMore}
           className="w-full rounded-[18px] border border-gray-300 bg-white py-3.5 text-center text-base font-bold text-[#111827] shadow-sm transition-all duration-200 hover:bg-gray-50 active:scale-[0.99]"
         >
-          {km ? "រុករកក្រុមបន្ថែម" : "Explore More Groups"}
+          {km ? "រុករកក្រុមបន្ថែម (Explore More Groups)" : "Explore More Groups"}
         </button>
       </div>
     </div>

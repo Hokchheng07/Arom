@@ -28,9 +28,9 @@ const baseActivities: PlanActivity[] = [
   {
     id: "mood",
     title: "Mood check in",
-    titleKm: "ពិនិត្យអារម្មណ៍",
+    titleKm: "ពិនិត្យអារម្មណ៍ (Mood Check-in)",
     subtitle: "Great Start",
-    subtitleKm: "ការចាប់ផ្តើមដ៏ល្អ",
+    subtitleKm: "ការចាប់ផ្តើមដ៏ស្រស់ស្រាយ",
     icon: "mdi_check-circle",
     href: "/detection/journal",
     completed: true,
@@ -38,9 +38,9 @@ const baseActivities: PlanActivity[] = [
   {
     id: "mindguide",
     title: "MindGuide Lesson",
-    titleKm: "មេរៀន MindGuide",
+    titleKm: "មេរៀនចិត្ត (MindGuide Lesson)",
     subtitle: "Understanding Anxiety (5min)",
-    subtitleKm: "ស្វែងយល់ពីការថប់បារម្ភ (៥នាទី)",
+    subtitleKm: "ស្វែងយល់ពីការថប់បារម្ភ (Anxiety) • ៥ នាទី",
     icon: "ant-design_play-circle-filled",
     href: "/mindguide",
     completed: true,
@@ -48,9 +48,9 @@ const baseActivities: PlanActivity[] = [
   {
     id: "meditation",
     title: "Guided Meditation",
-    titleKm: "សមាធិដោយមានការណែនាំ",
+    titleKm: "ការហាត់សមាធិ (Guided Meditation)",
     subtitle: "Relax and breathe (3min)",
-    subtitleKm: "សម្រាក និងដកដង្ហើម (៣នាទី)",
+    subtitleKm: "សម្រាកកាយ និងដកដង្ហើម • ៣ នាទី",
     icon: "hugeicons_yoga-03",
     href: "/practice",
     completed: false,
@@ -58,9 +58,9 @@ const baseActivities: PlanActivity[] = [
   {
     id: "community",
     title: "Explore Community",
-    titleKm: "ស្វែងយល់ពីសហគមន៍",
+    titleKm: "ចូលរួមសហគមន៍ (Community)",
     subtitle: "Share Each Other",
-    subtitleKm: "ចែករំលែកជាមួយគ្នាទៅវិញទៅមក",
+    subtitleKm: "ចែករំលែក និងលើកទឹកចិត្តគ្នា",
     icon: "fluent_people-community-32-filled",
     href: "/community",
     completed: false,
@@ -108,9 +108,9 @@ export function DailyPlanCard() {
           {
             id: "default-try-now",
             title: "Try now: Cut what you control",
-            titleKm: "សាកល្បង៖ កាត់បន្ថយអ្វីដែលអ្នកគ្រប់គ្រង",
+            titleKm: "សាកល្បង (Try now)៖ បន្ធូរបន្ថយអ្វីដែលអ្នកគ្រប់គ្រងបាន",
             subtitle: "drop or delay ONE thing this week.",
-            subtitleKm: "លុបចោល ឬពន្យារពេលរឿងមួយក្នុងសប្តាហ៍នេះ។",
+            subtitleKm: "កាត់បន្ថយ ឬពន្យារពេលការងារមួយក្នុងសប្តាហ៍នេះ",
             icon: "boxicons_note-filled",
             href: "/tips",
             completed: false,
@@ -138,10 +138,10 @@ export function DailyPlanCard() {
     >
       <div className="flex items-center justify-between">
         <h2 id="daily-plan-heading" className="text-sm font-medium tracking-normal sm:text-base">
-          {km ? "ផែនការរបស់អ្នកសម្រាប់ថ្ងៃនេះ" : "Your Plan For Today"}
+          {km ? "ផែនការប្រចាំថ្ងៃរបស់អ្នក (Daily Plan)" : "Your Plan For Today"}
         </h2>
         <span className="text-xs font-semibold text-[#83dfca]">
-          {completedTasks}/{totalTasks} {km ? "បានបញ្ចប់" : "done"}
+          {completedTasks}/{totalTasks} {km ? "រួចរាល់" : "done"}
         </span>
       </div>
 
@@ -202,7 +202,7 @@ export function DailyPlanCard() {
                 </p>
                 {item.isTryNow && (
                   <span className="rounded bg-[#23aa89]/30 px-1.5 py-0.5 text-[0.62rem] font-semibold text-[#a3edd9]">
-                    {km ? "សាកល្បង" : "Try Now"}
+                    {km ? "សាកល្បង (Try Now)" : "Try Now"}
                   </span>
                 )}
               </div>

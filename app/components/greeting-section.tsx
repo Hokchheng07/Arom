@@ -12,7 +12,7 @@ export function GreetingSection() {
         {km ? "អរុណសួស្តី Muoyly!" : "Good morning Muoyly!"}
       </h1>
       <p className="mt-1 text-sm font-normal text-black/90 sm:text-base">
-        {km ? "ថ្ងៃនេះអ្នកមានអារម្មណ៍យ៉ាងដូចម្តេច?" : "How are you feeling today?"}
+        {km ? "តើថ្ងៃនេះអារម្មណ៍របស់អ្នកយ៉ាងណាដែរ?" : "How are you feeling today?"}
       </p>
     </section>
   );

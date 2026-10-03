@@ -117,7 +117,7 @@ export function GroupHubView({
             </span>
             <span className="inline-flex items-center gap-1 rounded-md bg-[#e3f4ef] px-2 py-0.5 text-[11px] font-semibold text-[#1e6f5a]">
               <MaskIcon className="size-3 text-[#1e6f5a]" />
-              {km ? "ក្រុមអនាមិក" : "Anonymous group"}
+              {km ? "ក្រុមអនាមិក (Anonymous)" : "Anonymous group"}
             </span>
           </div>
         </div>
@@ -129,10 +129,10 @@ export function GroupHubView({
           const isActive = activeTab === tab;
           const label =
             tab === "chat"
-              ? km ? "ជជែក" : "Chat"
+              ? km ? "ការសន្ទនា (Chat)" : "Chat"
               : tab === "activities"
-              ? km ? "សកម្មភាព" : "Activities"
-              : km ? "សមាជិក" : "Member";
+              ? km ? "សកម្មភាព (Activities)" : "Activities"
+              : km ? "សមាជិក (Members)" : "Member";
 
           return (
             <button
@@ -164,14 +164,14 @@ export function GroupHubView({
                 <ShieldCheckIcon className="size-6 text-[#1b5e4c] shrink-0 mt-0.5" />
                 <div className="min-w-0">
                   <h3 className="text-sm font-bold">
-                    {km ? "គោលការណ៍ណែនាំក្រុម៖" : "Group Guideline:"}
+                    {km ? "គោលការណ៍ណែនាំក្រុម (Guidelines):" : "Group Guidelines:"}
                   </h3>
                   <ul className="mt-1.5 space-y-0.5 text-xs text-[#265d4c] leading-relaxed">
-                    <li>• {km ? "មានចិត្តសប្បុរស និងការគោរពគ្នា។" : "Be kind and respectful."}</li>
-                    <li>• {km ? "រក្សាការសន្ទនាជាសម្ងាត់។" : "Keep conversations private."}</li>
-                    <li>• {km ? "គ្មានការវិនិច្ឆ័យ។" : "No judgement."}</li>
-                    <li>• {km ? "មិនចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន។" : "No sharing of personal .information"}</li>
-                    <li>• {km ? "គ្មានការធ្វើរោគវិនិច្ឆ័យ ឬដំបូន្មានវេជ្ជសាស្ត្រ។" : "No diagnosis or medical advice."}</li>
+                    <li>• {km ? "មានចិត្តសប្បុរស និងការគោរពគ្នាទៅវិញទៅមក។" : "Be kind and respectful."}</li>
+                    <li>• {km ? "រក្សាការសន្ទនាទាំងអស់ជាការសម្ងាត់។" : "Keep conversations private."}</li>
+                    <li>• {km ? "គ្មានការរិះគន់ ឬវិនិច្ឆ័យ។" : "No judgment."}</li>
+                    <li>• {km ? "មិនចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន ឬលេខទូរស័ព្ទឡើយ។" : "No sharing of personal information."}</li>
+                    <li>• {km ? "គ្មានការធ្វើរោគវិនិច្ឆ័យ ឬផ្តល់ដំបូន្មានវេជ្ជសាស្ត្រ។" : "No diagnosis or medical advice."}</li>
                   </ul>
                 </div>
               </div>
@@ -180,6 +180,10 @@ export function GroupHubView({
             {/* Chat Stream matching Figma Screen 5 */}
             <div className="space-y-3.5 pt-1">
               {messages.map((msg) => {
+                const displayName = km ? (msg.senderNameKm || msg.senderName) : msg.senderName;
+                const displayTime = km ? (msg.timeKm || msg.time) : msg.time;
+                const displayText = km ? (msg.textKm || msg.text) : msg.text;
+
                 return (
                   <div
                     key={msg.id}
@@ -200,20 +204,20 @@ export function GroupHubView({
                     <div className="min-w-0 flex-1">
                       <div className="flex items-baseline justify-between gap-2">
                         <span className="truncate text-xs font-bold text-[#111827]">
-                          {msg.senderName}
+                          {displayName}
                           {msg.isMentor && (
                             <span className="ml-1.5 rounded bg-[#1b5e4c] px-1.5 py-0.2 text-[10px] font-semibold text-white">
-                              Mentor
+                              {km ? "អ្នកណែនាំ" : "Mentor"}
                             </span>
                           )}
                         </span>
                         <span className="shrink-0 text-[11px] text-gray-400">
-                          {msg.time}
+                          {displayTime}
                         </span>
                       </div>
-                      {msg.text && (
+                      {displayText && (
                         <p className="mt-1 text-xs sm:text-sm text-[#374151] leading-relaxed">
-                          {msg.text}
+                          {displayText}
                         </p>
                       )}
 
@@ -313,7 +317,7 @@ export function GroupHubView({
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={km ? "ចែករំលែកគំនិតរបស់អ្នក..." : "Share your thought..."}
+                  placeholder={km ? "ចែករំលែកគំនិត ឬសំណួររបស់អ្នក..." : "Share your thought..."}
                   className="flex-1 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none bg-transparent"
                 />
 
@@ -322,7 +326,7 @@ export function GroupHubView({
                   type="submit"
                   disabled={!inputText.trim() && !attachment}
                   className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#1b5e4c] text-white transition-all disabled:opacity-40 hover:bg-[#144b3e] active:scale-95 shadow-sm"
-                  aria-label={km ? "ផ្ញើ" : "Send"}
+                  aria-label={km ? "ផ្ញើសារ" : "Send"}
                 >
                   <PaperPlaneIcon className="size-4" />
                 </button>
@@ -337,7 +341,7 @@ export function GroupHubView({
             {/* Upcoming Activities matching Figma Screen 6 */}
             <div>
               <h2 className="text-base font-bold text-[#111827]">
-                {km ? "សកម្មភាពខាងមុខ" : "Upcoming Activities"}
+                {km ? "សកម្មភាពខាងមុខ (Upcoming Activities)" : "Upcoming Activities"}
               </h2>
 
               <div className="mt-3 flex flex-col gap-3">
@@ -363,10 +367,10 @@ export function GroupHubView({
                           {km ? act.titleKm : act.title}
                         </h3>
                         <p className="truncate text-xs text-[#6b7280]">
-                          {act.topic}
+                          {km ? (act.topicKm || act.topic) : act.topic}
                         </p>
                         <p className="mt-0.5 text-[11px] font-medium text-[#1f6f5b]">
-                          {act.dateStr}
+                          {km ? (act.dateStrKm || act.dateStr) : act.dateStr}
                         </p>
                       </div>
                     </div>
@@ -380,8 +384,8 @@ export function GroupHubView({
                       }`}
                     >
                       {act.isJoined
-                        ? km ? "បានចូល ✓" : "Joined ✓"
-                        : km ? "ចូលរួម" : "Join"}
+                        ? km ? "បានចូលរួម ✓" : "Joined ✓"
+                        : km ? "ចូលរួម (Join)" : "Join"}
                     </button>
                   </div>
                 ))}
@@ -391,7 +395,7 @@ export function GroupHubView({
             {/* Past Activities matching Figma Screen 6 */}
             <div>
               <h2 className="text-base font-bold text-[#111827]">
-                {km ? "សកម្មភាពកន្លងមក" : "Past Activities"}
+                {km ? "សកម្មភាពកន្លងមក (Past Events)" : "Past Activities"}
               </h2>
 
               <div className="mt-3 flex flex-col gap-3">
@@ -415,7 +419,9 @@ export function GroupHubView({
                       <h3 className="truncate text-sm font-bold text-[#111827]">
                         {km ? act.titleKm : act.title}
                       </h3>
-                      <p className="text-xs text-[#9ca3af]">{act.dateStr}</p>
+                      <p className="text-xs text-[#9ca3af]">
+                        {km ? (act.dateStrKm || act.dateStr) : act.dateStr}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -432,7 +438,7 @@ export function GroupHubView({
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <h2 className="text-xs font-bold uppercase tracking-wider text-[#1b5e4c]">
-                    {km ? "អ្នកណែនាំក្រុម" : "Group Mentor"}
+                    {km ? "អ្នកណែនាំក្រុម (Group Mentor)" : "Group Mentor"}
                   </h2>
                   <span className="rounded-full bg-[#e3f4ef] px-2.5 py-0.5 text-[11px] font-bold text-[#1b5e4c]">
                     {km ? (group.mentor.badgeKm || "អ្នកណែនាំក្រុម") : (group.mentor.badge || "Group Mentor")}
@@ -503,25 +509,28 @@ export function GroupHubView({
               </div>
 
               <div className="flex flex-col gap-2.5">
-                {members.map((mem) => (
-                  <div
-                    key={mem.id}
-                    className="flex items-center gap-3.5 rounded-[20px] border border-gray-100 bg-white px-4 py-3.5 shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    {mem.avatarType === "mask" ? (
-                      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#dff3ec] text-[#1b5e4c]">
-                        <MaskIcon className="size-5" />
-                      </div>
-                    ) : (
-                      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#e3f4ef] text-[#1b5e4c]">
-                        <UserCheck size={18} />
-                      </div>
-                    )}
-                    <span className="text-sm font-semibold text-[#111827]">
-                      {mem.name}
-                    </span>
-                  </div>
-                ))}
+                {members.map((mem) => {
+                  const memberName = km ? (mem.nameKm || mem.name) : mem.name;
+                  return (
+                    <div
+                      key={mem.id}
+                      className="flex items-center gap-3.5 rounded-[20px] border border-gray-100 bg-white px-4 py-3.5 shadow-sm hover:shadow-md transition-shadow"
+                    >
+                      {mem.avatarType === "mask" ? (
+                        <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#dff3ec] text-[#1b5e4c]">
+                          <MaskIcon className="size-5" />
+                        </div>
+                      ) : (
+                        <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#e3f4ef] text-[#1b5e4c]">
+                          <UserCheck size={18} />
+                        </div>
+                      )}
+                      <span className="text-sm font-semibold text-[#111827]">
+                        {memberName}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

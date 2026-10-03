@@ -98,7 +98,7 @@ export function TipInteractiveView({
 
           <div className="text-center">
             <span className="text-xs font-semibold uppercase tracking-wider text-arom-accent">
-              {km ? "គន្លឹះរហ័ស" : "Actionable Tips"}
+              {km ? "គន្លឹះរហ័ស (Actionable Tips)" : "Actionable Tips"}
             </span>
             <p className="text-sm font-semibold text-arom">
               {completedSteps.length} / {tip.steps.length} {km ? "បានអនុវត្ត" : "tried"}
@@ -189,7 +189,7 @@ export function TipInteractiveView({
                           className="mt-3 inline-flex items-center gap-2 rounded-xl bg-arom px-4 py-2 text-xs font-semibold text-white shadow-sm transition-all hover:bg-arom-deep active:scale-95"
                         >
                           <Wind aria-hidden="true" size={16} />
-                          <span>{km ? "ចាប់ផ្តើមការហាត់ដកដង្ហើម" : "Start 4-7-8 Breathing Now"}</span>
+                          <span>{km ? "ចាប់ផ្តើមការហាត់ដកដង្ហើម (Breathing)" : "Start 4-7-8 Breathing Now"}</span>
                         </button>
                       )}
                     </div>
@@ -217,7 +217,7 @@ export function TipInteractiveView({
                               ? "ក្នុងផែនការទំព័រដើម"
                               : "In Home Plan"
                             : km
-                            ? "បន្ថែមទៅផែនការទំព័រដើម"
+                            ? "បន្ថែមទៅផែនការទំព័រដើម (Add to Plan)"
                             : "Add to Plan at Home Screen"}
                         </span>
                       </button>
@@ -292,7 +292,7 @@ export function TipInteractiveView({
             onClick={onComplete}
             className="flex h-13 w-full items-center justify-center gap-2 rounded-2xl bg-arom text-base font-semibold text-white shadow-sm transition-all hover:bg-arom-deep active:scale-[0.98]"
           >
-            <span>{km ? "បញ្ចប់ការអានគន្លឹះ" : "Complete Tips"}</span>
+            <span>{km ? "បញ្ចប់ការអានគន្លឹះ (Complete Tips)" : "Complete Tips"}</span>
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>

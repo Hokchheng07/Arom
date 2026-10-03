@@ -63,7 +63,7 @@ export function LessonDetailView({
         </button>
 
         <span className="text-xs font-semibold tracking-wider uppercase text-arom">
-          {km ? "ទិដ្ឋភាពទូទៅនៃមេរៀន" : "Lesson Overview"}
+          {km ? "ទិដ្ឋភាពទូទៅនៃមេរៀន (Lesson Overview)" : "Lesson Overview"}
         </span>
 
         <button
@@ -113,7 +113,7 @@ export function LessonDetailView({
           {/* Badges on hero */}
           <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 sm:bottom-6 sm:left-6 sm:right-6">
             <span className="inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-arom shadow-sm backdrop-blur-md">
-              {lesson.category} &amp; {km ? "សុខុមាលភាព" : "Well-being"}
+              {lesson.category} &amp; {km ? "សុខុមាលភាព (Well-being)" : "Well-being"}
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-arom/90 px-3 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
@@ -162,7 +162,7 @@ export function LessonDetailView({
           {hasProgress && (
             <div className="mt-5 rounded-2xl border border-arom-border bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between text-xs font-semibold text-arom">
-                <span>{km ? "ដំណើរការរៀនបច្ចុប្បន្ន" : "Current Progress"}</span>
+                <span>{km ? "ដំណើរការរៀនបច្ចុប្បន្ន (Current Progress)" : "Current Progress"}</span>
                 <span>
                   {progress.completedSections} {km ? "នៃ" : "of"}{" "}
                   {lesson.totalSections} {km ? "ផ្នែកបានបញ្ចប់" : "sections done"}
@@ -193,7 +193,7 @@ export function LessonDetailView({
               <Zap size={16} />
             </span>
             <h2 id="what-youll-learn-title">
-              {km ? "អ្វីដែលអ្នកនឹងរៀន" : "What You'll Learn"}
+              {km ? "អ្វីដែលអ្នកនឹងរៀន (What You'll Learn)" : "What You'll Learn"}
             </h2>
           </div>
 
@@ -225,7 +225,7 @@ export function LessonDetailView({
             >
               <span className="flex items-center gap-1.5">
                 <Info size={14} />
-                {km ? "ឯកសារយោងវេជ្ជសាស្ត្រ និងស្រាវជ្រាវ (References [1] - [6])" : "Clinical & Research References ([1] - [6])"}
+                {km ? "ឯកសារយោងវេជ្ជសាស្ត្រ និងស្រាវជ្រាវ (References [1] ដល់ [6])" : "Clinical & Research References ([1] to [6])"}
               </span>
               <span>{showReferences ? "▲ " + (km ? "បិទ" : "Hide") : "▼ " + (km ? "មើលទាំងអស់" : "Show All")}</span>
             </button>
@@ -271,7 +271,7 @@ export function LessonDetailView({
                   ? `បន្តការរៀន (ផ្នែកទី ${startSectionNumber})`
                   : `Continue Learning (Section ${startSectionNumber})`
                 : km
-                  ? "ចាប់ផ្តើមរៀនឥឡូវនេះ"
+                  ? "ចាប់ផ្តើមរៀនឥឡូវនេះ (Start Learning)"
                   : "Start Learning"}
             </span>
             <span className="transition-transform duration-150 group-hover:translate-x-1">

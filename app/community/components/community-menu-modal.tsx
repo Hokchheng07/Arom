@@ -53,7 +53,7 @@ export function CommunityMenuModal({
       {/* Title matching Figma Screen 9 */}
       <div className="mt-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#111827]">
-          {km ? "សហគមន៍" : "Community"}
+          {km ? "សហគមន៍ (Community)" : "Community"}
         </h1>
       </div>
 
@@ -76,7 +76,7 @@ export function CommunityMenuModal({
                 />
               </div>
               <span className="text-sm font-bold text-[#111827]">
-                {km ? "ក្រុមរបស់ខ្ញុំ" : "My Groups"}
+                {km ? "ក្រុមរបស់ខ្ញុំ (My Groups)" : "My Groups"}
               </span>
             </div>
             <ChevronDown
@@ -127,7 +127,7 @@ export function CommunityMenuModal({
                 />
               </div>
               <span className="text-sm font-bold text-[#111827]">
-                {km ? "ណែនាំសម្រាប់អ្នក" : "Recommend for You"}
+                {km ? "ណែនាំសម្រាប់អ្នក (Recommend for You)" : "Recommend for You"}
               </span>
             </div>
             <ChevronDown
@@ -146,7 +146,7 @@ export function CommunityMenuModal({
                   className="flex w-full items-center justify-between rounded-xl bg-white p-3 text-xs font-semibold text-[#111827] shadow-sm hover:border-[#1f6f5b] transition-all"
                 >
                   <span>{km ? g.nameKm : g.name}</span>
-                  <span className="text-[#1f6f5b]">{km ? "មើល" : "View"} →</span>
+                  <span className="text-[#1f6f5b]">{km ? "មើល (View)" : "View"} →</span>
                 </button>
               ))}
             </div>
@@ -173,7 +173,7 @@ export function CommunityMenuModal({
                 />
               </div>
               <span className="text-sm font-bold text-[#111827]">
-                {km ? "ស្វែងរកក្រុមទាំងអស់" : "Explore All Groups"}
+                {km ? "ស្វែងរកក្រុមទាំងអស់ (Explore All Groups)" : "Explore All Groups"}
               </span>
             </div>
             <ChevronDown size={18} className="text-[#1b5e4c]" />
@@ -197,7 +197,7 @@ export function CommunityMenuModal({
                 />
               </div>
               <span className="text-sm font-bold text-[#111827]">
-                {km ? "គោលការណ៍ណែនាំសហគមន៍" : "Community Guidelines"}
+                {km ? "គោលការណ៍ណែនាំសហគមន៍ (Guidelines)" : "Community Guidelines"}
               </span>
             </div>
             <ChevronDown
@@ -209,9 +209,9 @@ export function CommunityMenuModal({
           </button>
           {expanded === "guidelines" && (
             <div className="border-t border-gray-100 bg-[#f9fbfb] p-4 text-xs text-[#374151] space-y-2.5 leading-relaxed">
-              <p>• <strong>{km ? "ភាពសប្បុរសធម៌" : "Kindness"}:</strong> {km ? "សូមគោរពសមាជិកទាំងអស់។" : "Treat everyone with empathy and dignity."}</p>
-              <p>• <strong>{km ? "អនាមិកភាព" : "Anonymity"}:</strong> {km ? "កុំចែករំលែកឈ្មោះ លេខទូរស័ព្ទ ឬព័ត៌មានសម្ងាត់។" : "Never reveal real identities, phone numbers, or private details."}</p>
-              <p>• <strong>{km ? "សុវត្ថិភាព" : "Safety"}:</strong> {km ? "សហគមន៍នេះមិនជំនួសការព្យាបាលវេជ្ជសាស្ត្រអាសន្នឡើយ។" : "Community support is not a replacement for emergency medical care."}</p>
+              <p>• <strong>{km ? "ភាពសប្បុរសធម៌ (Kindness)" : "Kindness"}:</strong> {km ? "សូមគោរពសមាជិកទាំងអស់ដោយក្តីយល់ចិត្ត និងសេចក្តីថ្លៃថ្នូរ។" : "Treat everyone with empathy and dignity."}</p>
+              <p>• <strong>{km ? "អនាមិកភាព (Anonymity)" : "Anonymity"}:</strong> {km ? "កុំចែករំលែកឈ្មោះពិត លេខទូរស័ព្ទ ឬព័ត៌មានសម្ងាត់។" : "Never reveal real identities, phone numbers, or private details."}</p>
+              <p>• <strong>{km ? "សុវត្ថិភាព (Safety)" : "Safety"}:</strong> {km ? "សហគមន៍នេះមិនជំនួសការព្យាបាលវេជ្ជសាស្ត្រអាសន្នឡើយ។" : "Community support is not a replacement for emergency medical care."}</p>
             </div>
           )}
         </div>
@@ -233,7 +233,7 @@ export function CommunityMenuModal({
                 />
               </div>
               <span className="text-sm font-bold text-[#111827]">
-                {km ? "រាយការណ៍អំពីក្រុម" : "Report a Group"}
+                {km ? "រាយការណ៍អំពីក្រុម (Report a Group)" : "Report a Group"}
               </span>
             </div>
             <ChevronDown
@@ -247,20 +247,20 @@ export function CommunityMenuModal({
             <div className="border-t border-gray-100 bg-gray-50/50 p-4 space-y-3">
               {reportSent ? (
                 <div className="rounded-xl bg-emerald-50 p-3 text-center text-xs font-semibold text-emerald-800">
-                  ✓ {km ? "អរគុណ! របាយការណ៍ត្រូវបានផ្ញើជូនក្រុមការងារ។" : "Thank you. Your report has been submitted to moderators."}
+                  ✓ {km ? "អរគុណ! របាយការណ៍ត្រូវបានផ្ញើជូនក្រុមការងារត្រួតពិនិត្យ។" : "Thank you. Your report has been submitted to moderators."}
                 </div>
               ) : (
                 <>
                   <p className="text-xs text-gray-600">
                     {km
-                      ? "ប្រសិនបើអ្នកឃើញខ្លឹមសារមិនសមរម្យ សូមរាយការណ៍មកកាន់យើងខ្ញុំ។"
+                      ? "ប្រសិនបើអ្នកឃើញខ្លឹមសារមិនសមរម្យ ឬបំពានគោលការណ៍ សូមរាយការណ៍មកកាន់ក្រុមការងាររបស់យើង។"
                       : "If you observe harmful or rule-violating behavior, let our moderation team know."}
                   </p>
                   <button
                     onClick={() => setReportSent(true)}
                     className="w-full rounded-xl bg-rose-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-rose-700 transition-colors"
                   >
-                    {km ? "ដាក់ស្នើរាយការណ៍" : "Submit Report to Moderation"}
+                    {km ? "ដាក់ស្នើរាយការណ៍ (Submit Report)" : "Submit Report to Moderation"}
                   </button>
                 </>
               )}
@@ -285,7 +285,7 @@ export function CommunityMenuModal({
                 />
               </div>
               <span className="text-sm font-bold text-[#111827]">
-                {km ? "ផ្តល់មតិកែលម្អ" : "Give Feedback"}
+                {km ? "ផ្តល់មតិកែលម្អ (Give Feedback)" : "Give Feedback"}
               </span>
             </div>
             <ChevronDown
@@ -307,7 +307,7 @@ export function CommunityMenuModal({
                     rows={3}
                     value={feedbackText}
                     onChange={(e) => setFeedbackText(e.target.value)}
-                    placeholder={km ? "តើយើងអាចកែលម្អសហគមន៍ដោយរបៀបណា?..." : "How can we make Arom Community better?..."}
+                    placeholder={km ? "តើយើងអាចកែលម្អសហគមន៍ ARom ឱ្យកាន់តែប្រសើរដោយរបៀបណា?..." : "How can we make Arom Community better?..."}
                     className="w-full rounded-xl border border-gray-200 p-3 text-xs focus:outline-none focus:ring-2 focus:ring-[#1f6f5b]/20"
                   />
                   <button
@@ -318,7 +318,7 @@ export function CommunityMenuModal({
                     }}
                     className="w-full rounded-xl bg-[#1b5e4c] py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#144b3e] disabled:opacity-40 transition-colors"
                   >
-                    {km ? "ផ្ញើមតិកែលម្អ" : "Send Feedback"}
+                    {km ? "ផ្ញើមតិកែលម្អ (Send Feedback)" : "Send Feedback"}
                   </button>
                 </>
               )}

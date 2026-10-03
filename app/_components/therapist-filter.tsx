@@ -5,12 +5,16 @@ import { useEffect, useRef, useState } from "react";
 import {
   emptyFilters,
   filterLanguages,
+  getLanguageLabel,
+  getSessionOptionLabel,
+  getSpecialtyLabel,
   matchesFilters,
   supportAreas,
   therapists,
   type SessionFilter,
   type TherapistFilters,
 } from "@/lib/therapists";
+import { useLanguage } from "./language-provider";
 
 const sessionFilters: { value: SessionFilter; icon: LucideIcon }[] = [
   { value: "Online", icon: Monitor },
@@ -37,6 +41,8 @@ type TherapistFilterProps = {
 };
 
 export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFilterProps) {
+  const { language } = useLanguage();
+  const km = language === "km";
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [draft, setDraft] = useState(filters);
   const [syncedFilters, setSyncedFilters] = useState(filters);
@@ -92,12 +98,12 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
             <ChevronLeft aria-hidden="true" size={26} strokeWidth={2.4} />
           </button>
           <h2 id="filter-title" className="text-2xl font-bold tracking-[-0.03em]">
-            Filter Professional
+            {km ? "ចម្រោះអ្នកជំនាញ (Filter)" : "Filter Professional"}
           </h2>
           <button
             type="button"
             onClick={close}
-            aria-label="Close filters"
+            aria-label={km ? "បិទផ្ទាំងចម្រោះ" : "Close filters"}
             className="ml-auto hidden size-10 items-center justify-center rounded-full text-ink-muted transition-colors duration-150 hover:bg-arom-wash hover:text-arom focus-visible:outline-2 focus-visible:outline-arom sm:flex"
           >
             <X aria-hidden="true" size={20} />
@@ -106,7 +112,9 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
 
         <div className="flex-1 space-y-7 overflow-y-auto px-4 pb-6 pt-2 sm:px-6">
           <fieldset>
-            <legend className="text-xl font-semibold tracking-[-0.02em]">Area of Support</legend>
+            <legend className="text-xl font-semibold tracking-[-0.02em]">
+              {km ? "ផ្នែកគាំទ្រ (Area of Support)" : "Area of Support"}
+            </legend>
             <div className="mt-3 flex flex-wrap gap-2.5">
               {supportAreas.map((area) => {
                 const selected = draft.areas.includes(area);
@@ -118,7 +126,7 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
                     onClick={() => setDraft((current) => ({ ...current, areas: toggle(current.areas, area) }))}
                     className={chipClass(selected)}
                   >
-                    {area}
+                    {getSpecialtyLabel(area, km)}
                   </button>
                 );
               })}
@@ -126,7 +134,9 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
           </fieldset>
 
           <fieldset>
-            <legend className="text-xl font-semibold tracking-[-0.02em]">Session Type</legend>
+            <legend className="text-xl font-semibold tracking-[-0.02em]">
+              {km ? "ទម្រង់នៃការប្រឹក្សា (Session Type)" : "Session Type"}
+            </legend>
             <div className="mt-3 flex flex-wrap gap-2.5">
               {sessionFilters.map(({ value, icon: Icon }) => {
                 const selected = draft.session === value;
@@ -141,7 +151,7 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
                     className={chipClass(selected)}
                   >
                     <Icon aria-hidden="true" size={18} className={selected ? "text-white" : "text-arom"} />
-                    {value}
+                    {getSessionOptionLabel(value, km)}
                   </button>
                 );
               })}
@@ -150,11 +160,11 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
 
           <section aria-labelledby="availability-title">
             <h3 id="availability-title" className="text-xl font-semibold tracking-[-0.02em]">
-              Availability
+              {km ? "ភាពទំនេរ (Availability)" : "Availability"}
             </h3>
             <label className="mt-3 flex min-h-13 cursor-pointer items-center justify-between gap-4 rounded-xl border border-arom-border bg-white px-4 shadow-[0_2px_8px_rgba(20,34,31,0.06)]">
               <span id="available-now-label" className="text-base font-medium">
-                Available Now
+                {km ? "ទំនេរឥឡូវនេះ (Available Now)" : "Available Now"}
               </span>
               <button
                 type="button"
@@ -177,7 +187,9 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
           </section>
 
           <fieldset>
-            <legend className="text-xl font-semibold tracking-[-0.02em]">Language</legend>
+            <legend className="text-xl font-semibold tracking-[-0.02em]">
+              {km ? "ភាសា (Language)" : "Language"}
+            </legend>
             <div className="mt-3 grid grid-cols-2 gap-2 rounded-xl border border-arom-border bg-white p-2 shadow-[0_2px_8px_rgba(20,34,31,0.06)]">
               {filterLanguages.map((language) => {
                 const checked = draft.languages.includes(language);
@@ -202,7 +214,7 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
                     >
                       {checked && <Check size={14} strokeWidth={3} />}
                     </span>
-                    {language}
+                    {getLanguageLabel(language, km)}
                   </label>
                 );
               })}
@@ -216,13 +228,13 @@ export function TherapistFilter({ open, filters, onClose, onApply }: TherapistFi
             onClick={() => setDraft(emptyFilters)}
             className="h-12 rounded-xl px-4 text-sm font-semibold text-arom transition-colors duration-150 hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-arom"
           >
-            Reset
+            {km ? "កំណត់ឡើងវិញ (Reset)" : "Reset"}
           </button>
           <button
             type="submit"
             className="flex h-12 flex-1 items-center justify-center rounded-xl bg-arom px-5 text-base font-semibold text-white transition-colors duration-150 hover:bg-arom-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
           >
-            Show {resultCount} {resultCount === 1 ? "Result" : "Results"}
+            {km ? `បង្ហាញលទ្ធផល (${resultCount})` : `Show ${resultCount} ${resultCount === 1 ? "Result" : "Results"}`}
           </button>
         </footer>
       </form>

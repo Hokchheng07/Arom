@@ -12,12 +12,12 @@ import { useLanguage } from "./language-provider";
 const easeOut = [0.23, 1, 0.32, 1] as const;
 
 const outcomes = [
-  { en: "What stress is", km: "ស្វែងយល់ថាភាពតានតឹងជាអ្វី" },
+  { en: "What stress is", km: "ស្វែងយល់ពីភាពតានតឹង (What Stress Is)" },
   {
     en: "Common signs and symptoms, and simple ways to manage stress",
     km: "សញ្ញា និងរោគសញ្ញាទូទៅ ព្រមទាំងវិធីងាយៗក្នុងការគ្រប់គ្រងភាពតានតឹង",
   },
-  { en: "Build healthy habits", km: "បង្កើតទម្លាប់ដែលមានសុខភាពល្អ" },
+  { en: "Build healthy habits", km: "បង្កើតទម្លាប់ល្អសម្រាប់សុខភាព (Healthy Habits)" },
 ];
 
 export function ManagingDailyStress() {
@@ -82,7 +82,7 @@ export function ManagingDailyStress() {
                   {km ? "៥ នាទី" : "5 mins"}
                 </span>
                 <span className="font-khmer absolute bottom-2.5 right-2.5 rounded-xl bg-arom/95 px-3 py-1.5 text-sm font-semibold text-white shadow-sm backdrop-blur-sm sm:bottom-3 sm:right-3 lg:px-4 lg:py-2 lg:text-base">
-                  {km ? "មេរៀន" : "Lesson"}
+                  {km ? "មេរៀន (Lesson)" : "Lesson"}
                 </span>
               </div>
 
@@ -91,7 +91,7 @@ export function ManagingDailyStress() {
                   {km ? "មេរៀនប្រចាំថ្ងៃ" : "Daily lesson"}
                 </p>
                 <h1 className="text-[1.55rem] font-bold leading-tight tracking-[-0.03em] text-arom sm:text-3xl lg:mt-2 lg:text-[2.55rem]">
-                  {km ? "ការគ្រប់គ្រងភាពតានតឹងប្រចាំថ្ងៃ" : "Managing Daily Stress"}
+                  {km ? "ការគ្រប់គ្រងភាពតានតឹងប្រចាំថ្ងៃ (Daily Stress)" : "Managing Daily Stress"}
                 </h1>
                 <p className="mt-7 max-w-2xl text-[0.95rem] leading-[1.25rem] text-ink sm:text-base sm:leading-6 lg:mt-5">
                   {km
@@ -104,7 +104,7 @@ export function ManagingDailyStress() {
                   onClick={() => setSessionOpen(true)}
                   className="mt-6 flex h-12 w-full items-center justify-center rounded-[1.1rem] bg-arom px-6 text-xl font-bold text-white shadow-[0_12px_28px_rgba(31,111,91,0.18)] transition-[background-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:bg-arom-deep hover:shadow-[0_15px_32px_rgba(31,111,91,0.24)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom lg:max-w-sm"
                 >
-                  {km ? "ចាប់ផ្តើម" : "Start"}
+                  {km ? "ចាប់ផ្តើម (Start)" : "Start"}
                 </button>
               </div>
             </motion.div>
@@ -112,7 +112,7 @@ export function ManagingDailyStress() {
             <motion.div variants={item} id="lesson-content" className="space-y-6 lg:pt-1">
               <section className="rounded-[0.9rem] bg-arom-accent/16 px-4 py-4 sm:px-6 sm:py-5 lg:rounded-[1.5rem] lg:p-7" aria-labelledby="learn-title">
                 <h2 id="learn-title" className="text-center text-xl font-semibold text-arom lg:text-2xl">
-                  {km ? "អ្វីដែលអ្នកនឹងរៀន" : "What you'd learn"}
+                  {km ? "អ្វីដែលអ្នកនឹងរៀន (What You'll Learn)" : "What you'd learn"}
                 </h2>
                 <ul className="mt-4 space-y-3 lg:mt-5 lg:space-y-4">
                   {outcomes.map((outcome) => (
@@ -126,21 +126,21 @@ export function ManagingDailyStress() {
 
               <section className="rounded-[0.9rem] border border-arom/25 bg-arom-accent/5 px-4 py-3.5 lg:rounded-[1.5rem] lg:p-6" aria-labelledby="completed-title">
                 <h2 id="completed-title" className="text-base font-semibold text-ink">
-                  {km ? "បានបញ្ចប់" : "Completed"}
+                  {km ? "បានបញ្ចប់ (Completed)" : "Completed"}
                 </h2>
                 <div className="mt-1 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-3 sm:grid-cols-[auto_minmax(0,1fr)_auto]">
                   <Image src="/mindguide/stress-assets/reward-bell.svg" alt="" width={34} height={39} className="h-10 w-9 shrink-0" unoptimized />
                   <div>
                     <p className="text-sm font-semibold text-ink">+XP</p>
                     <p className="mt-0.5 text-[0.7rem] font-medium text-arom">
-                      {km ? "បញ្ចប់មេរៀនឥឡូវនេះ!" : "End lesson now!"}
+                      {km ? "បញ្ចប់មេរៀនដើម្បីទទួលបានពិន្ទុ" : "End lesson now!"}
                     </p>
                   </div>
                   <Link
                     href="/mindguide"
                     className="col-span-2 flex min-h-10 items-center justify-center rounded-xl bg-arom px-5 text-sm font-medium text-white transition-colors duration-150 hover:bg-arom-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom sm:col-span-1"
                   >
-                    {km ? "ទៅមើល MindGuide" : "View MindGuide"}
+                    {km ? "ត្រឡប់ទៅ MindGuide" : "View MindGuide"}
                   </Link>
                 </div>
               </section>

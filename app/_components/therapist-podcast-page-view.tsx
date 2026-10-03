@@ -2,15 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Headphones, Sparkles, UserRound } from "lucide-react";
+import { ArrowLeft, CalendarCheck, Headphones, UserRound } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import type { Therapist } from "@/lib/therapists";
+import {
+  getSpecialtyLabel,
+  getTherapistName,
+  getTherapistRole,
+} from "@/lib/therapists";
 import { DesktopNavigation, MobileNavigation } from "./app-navigation";
 import { useLanguage } from "./language-provider";
 import { TherapistPodcastPlayer } from "./therapist-podcast-player";
 
 export function TherapistPodcastPageView({ therapist }: { therapist: Therapist }) {
   const { language } = useLanguage();
+  const km = language === "km";
+  const name = getTherapistName(therapist, km);
+  const role = getTherapistRole(therapist, km);
   const shouldReduceMotion = useReducedMotion();
   const podcast = therapist.podcast;
 
@@ -32,19 +40,17 @@ export function TherapistPodcastPageView({ therapist }: { therapist: Therapist }
                 <ArrowLeft aria-hidden="true" size={20} />
               </span>
               <span>
-                {language === "km"
-                  ? `ត្រឡប់ទៅ ${therapist.name}`
-                  : `Back to ${therapist.name}'s profile`}
+                {km ? `ត្រឡប់ទៅ ${name}` : `Back to ${therapist.name}'s profile`}
               </span>
             </Link>
 
             <div className="flex items-center gap-2 text-xs font-semibold text-ink-muted">
               <span className="hidden sm:inline">
-                {language === "km" ? "អ្នកជំនាញ" : "Professionals"} &rsaquo; {therapist.name} &rsaquo;
+                {km ? "អ្នកជំនាញ" : "Professionals"} &rsaquo; {name} &rsaquo;
               </span>
               <span className="flex items-center gap-1 rounded-full bg-arom-soft px-3 py-1 font-bold text-arom-deep">
                 <Headphones size={13} />
-                {language === "km" ? podcast.kmEpisodeNumber : podcast.episodeNumber}
+                {km ? podcast.kmEpisodeNumber : podcast.episodeNumber}
               </span>
             </div>
           </div>
@@ -60,7 +66,7 @@ export function TherapistPodcastPageView({ therapist }: { therapist: Therapist }
               <div className="relative size-14 shrink-0 overflow-hidden rounded-full ring-2 ring-arom-soft sm:size-16">
                 <Image
                   src={therapist.image}
-                  alt={therapist.name}
+                  alt={km ? name : therapist.name}
                   fill
                   sizes="64px"
                   className="object-cover"
@@ -68,15 +74,15 @@ export function TherapistPodcastPageView({ therapist }: { therapist: Therapist }
                 />
               </div>
               <div className="min-w-0">
-                <h1 className="text-base font-bold text-ink sm:text-lg">{therapist.name}</h1>
-                <p className="text-xs font-medium text-ink-muted sm:text-sm">{therapist.role}</p>
+                <h1 className="text-base font-bold text-ink sm:text-lg">{name}</h1>
+                <p className="text-xs font-medium text-ink-muted sm:text-sm">{role}</p>
                 <div className="mt-1 flex flex-wrap gap-1.5">
                   {therapist.specialties.slice(0, 3).map((specialty) => (
                     <span
                       key={specialty}
                       className="rounded-full bg-arom-soft/80 px-2 py-0.5 text-[0.68rem] font-semibold text-arom-deep"
                     >
-                      {specialty}
+                      {getSpecialtyLabel(specialty, km)}
                     </span>
                   ))}
                 </div>
@@ -95,8 +101,8 @@ export function TherapistPodcastPageView({ therapist }: { therapist: Therapist }
                 href={`/professional/${therapist.slug}/book`}
                 className="inline-flex items-center gap-1.5 rounded-xl bg-arom px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-arom-deep focus-visible:outline-2 focus-visible:outline-arom"
               >
-                <Sparkles size={14} />
-                {language === "km" ? "កក់ការណាត់ជួប" : "Book Session"}
+                <CalendarCheck size={14} />
+                <span>{language === "km" ? "កក់ការណាត់ជួប (Book Session)" : "Book Session"}</span>
               </Link>
             </div>
           </motion.div>

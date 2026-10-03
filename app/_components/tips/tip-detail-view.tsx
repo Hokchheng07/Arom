@@ -128,7 +128,7 @@ export function TipDetailView({
             <div className="mt-6 rounded-2xl border border-arom/20 bg-arom-soft/30 p-4">
               <div className="flex items-center gap-2 text-xs font-semibold text-arom">
                 <ShieldCheck aria-hidden="true" size={16} />
-                <span>{km ? "ការគាំទ្រវិជ្ជាជីវៈ" : "Professional Support"}</span>
+                <span>{km ? "ការគាំទ្រវិជ្ជាជីវៈ (Professional Support)" : "Professional Support"}</span>
               </div>
               <p className="mt-1.5 text-xs leading-relaxed text-ink">
                 {km ? tip.supportCallout.kmBody : tip.supportCallout.body}
@@ -148,7 +148,7 @@ export function TipDetailView({
                 className="flex h-13 w-full items-center justify-center gap-2 rounded-2xl bg-arom text-base font-semibold text-white shadow-sm transition-all hover:bg-arom-deep active:scale-[0.98]"
               >
                 <Play aria-hidden="true" size={18} className="fill-current" />
-                <span>{km ? "ចាប់ផ្តើមអានគន្លឹះ" : "Start Reading Tips"}</span>
+                <span>{km ? "ចាប់ផ្តើមអានគន្លឹះ (Start Reading)" : "Start Reading Tips"}</span>
               </button>
             </div>
           </div>

@@ -30,7 +30,7 @@ export function GroupDetailView({
 
   const mentorDisplay =
     (km ? group.mentorTitleKm : group.mentorTitle) ||
-    `${mentorName} · ${km ? "អ្នកណែនាំ ARom ផ្លូវការ" : "Verified ARom Mentor"}`;
+    `${mentorName}, ${km ? "អ្នកណែនាំ ARom ផ្លូវការ (Verified Mentor)" : "Verified ARom Mentor"}`;
 
   const expectations =
     km && group.expectationsKm?.length
@@ -73,7 +73,7 @@ export function GroupDetailView({
 
         <div className="flex items-center justify-between gap-3 text-sm border-t border-gray-100/90 pt-2.5">
           <span className="font-normal text-[#9ca3af]">
-            {km ? "អ្នកណែនាំ" : "Mentor"}
+            {km ? "អ្នកសម្របសម្រួល (Mentor)" : "Mentor"}
           </span>
           <span className="font-semibold text-[#111827] text-right truncate">
             {mentorDisplay}
@@ -84,7 +84,7 @@ export function GroupDetailView({
       {/* About This Group */}
       <div className="mt-6">
         <h2 className="text-base font-bold text-[#111827]">
-          {km ? "អំពីក្រុមនេះ" : "About This Group"}
+          {km ? "អំពីក្រុមនេះ (About Group)" : "About This Group"}
         </h2>
         <p className="mt-2 text-sm text-[#4b5563] leading-relaxed">
           {km ? group.aboutKm : group.about}
@@ -94,7 +94,7 @@ export function GroupDetailView({
       {/* What You Can Expect matching Screenshot */}
       <div className="mt-6">
         <h2 className="text-base font-bold text-[#111827]">
-          {km ? "អ្វីដែលអ្នកអាចរំពឹងទុក" : "What You Can Expect"}
+          {km ? "អ្វីដែលអ្នកអាចរំពឹងទុក (What to Expect)" : "What You Can Expect"}
         </h2>
 
         <ul className="mt-2.5 space-y-2">
@@ -110,7 +110,7 @@ export function GroupDetailView({
       {/* Group Rules matching Screenshot */}
       <div className="mt-6">
         <h2 className="text-base font-bold text-[#111827]">
-          {km ? "គោលការណ៍ណែនាំក្រុម" : "Group Rules"}
+          {km ? "គោលការណ៍ណែនាំក្រុម (Group Rules)" : "Group Rules"}
         </h2>
 
         <ul className="mt-2.5 space-y-2">
@@ -136,11 +136,10 @@ export function GroupDetailView({
           className="w-full rounded-[18px] bg-[#1a5d4d] py-3.5 text-center text-sm sm:text-base font-bold text-white shadow-lg shadow-[#1a5d4d]/25 transition-all duration-200 hover:bg-[#144b3e] active:scale-[0.99]"
         >
           {group.isJoined
-            ? km ? "ចូលទៅកាន់ក្រុម" : "Enter Group Hub"
-            : km ? "ចូលរួម" : "Join"}
+            ? km ? "ចូលទៅកាន់ក្រុម (Enter Group)" : "Enter Group Hub"
+            : km ? "ចូលរួម (Join)" : "Join"}
         </button>
       </div>
     </div>
   );
 }
-

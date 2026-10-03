@@ -62,7 +62,7 @@ export function AllGroupsView({
       {/* Title */}
       <div className="mt-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#111827]">
-          {km ? "ក្រុមគាំទ្រទាំងអស់" : "All Support Groups"}
+          {km ? "ក្រុមគាំទ្រទាំងអស់ (All Groups)" : "All Support Groups"}
         </h1>
       </div>
 
@@ -75,7 +75,7 @@ export function AllGroupsView({
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={km ? "ស្វែងរកក្រុម..." : "Search Groups ..."}
+          placeholder={km ? "ស្វែងរកក្រុម..." : "Search Groups..."}
           className="w-full rounded-[22px] border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-[#1f6f5b] focus:outline-none focus:ring-2 focus:ring-[#1f6f5b]/20"
         />
       </div>

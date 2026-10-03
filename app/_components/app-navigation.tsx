@@ -40,7 +40,7 @@ const navigationItems: NavigationItem[] = [
 const khmerNavigation: Record<NavigationLabel, string> = {
   Home: "ទំព័រដើម",
   MindGuide: "មគ្គុទ្ទេសក៍ចិត្ត",
-  Detection: "ពិនិត្យសុខភាព",
+  Detection: "ពិនិត្យអារម្មណ៍",
   Professional: "អ្នកជំនាញ",
   Community: "សហគមន៍",
   Profile: "ប្រវត្តិរូប",
@@ -68,7 +68,7 @@ export function AromBrand({ compact = false }: { compact?: boolean }) {
         </span>
         {!compact && (
           <span className="mt-2 block text-xs font-medium tracking-[-0.01em] text-ink-muted">
-            {language === "km" ? "ចិត្តស្ងប់ស្ងាត់ ជីវិតកាន់តែភ្លឺស្វាង" : "A calmer mind, a brighter you"}
+            {language === "km" ? "ចិត្តកាន់តែស្ងប់ ជីវិតកាន់តែភ្លឺស្វាង" : "A calmer mind, a brighter you"}
           </span>
         )}
       </span>
@@ -145,7 +145,7 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-bold leading-tight text-ink">Muoyly Seng</p>
             <p className="truncate text-[0.7rem] text-ink-muted">
-              {language === "km" ? "ប្រវត្តិរូប និងការកំណត់" : "Profile & Settings"}
+              {language === "km" ? "ប្រវត្តិរូប និងការកំណត់ (Profile & Settings)" : "Profile & Settings"}
             </p>
           </div>
           <Settings aria-hidden="true" size={17} className="text-ink-muted transition-transform duration-150 group-hover:rotate-45 group-hover:text-arom" />
@@ -156,11 +156,11 @@ export function DesktopNavigation({ active }: { active: NavigationLabel }) {
             <Heart aria-hidden="true" size={20} />
           </div>
           <p className="text-sm font-semibold">
-            {language === "km" ? "ទុកពេលឱ្យខ្លួនឯង។" : "Make space for yourself."}
+            {language === "km" ? "ទុកពេលវេលាសម្រាប់ខ្លួនឯង។" : "Make space for yourself."}
           </p>
           <p className="mt-1 text-xs leading-5 text-white/70">
             {language === "km"
-              ? "ការសួរសុខទុក្ខខ្លួនឯងបន្តិច អាចផ្លាស់ប្តូរថ្ងៃរបស់អ្នក។"
+              ? "ការពិនិត្យនិងសួរសុខទុក្ខចិត្តខ្លួនឯងបន្តិច អាចផ្លាស់ប្តូរថ្ងៃរបស់អ្នកឱ្យកាន់តែស្រស់បំព្រង។"
               : "A small check-in can change the shape of your day."}
           </p>
         </div>

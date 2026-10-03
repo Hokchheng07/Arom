@@ -72,7 +72,7 @@ export function SavedLearningView({
         </button>
 
         <h1 className="text-base font-bold text-arom sm:text-lg">
-          {km ? "មេរៀនដែលបានរក្សាទុក" : "Saved Learning"}
+          {km ? "មេរៀនដែលបានរក្សាទុក (Saved)" : "Saved Learning"}
         </h1>
 
         <div className="size-10" />
@@ -83,9 +83,9 @@ export function SavedLearningView({
         <div className="grid grid-cols-3 gap-1 rounded-2xl border border-arom-border bg-arom-wash p-1">
           {(
             [
-              { id: "lesson", label: "Lessons", kmLabel: "មេរៀន", icon: BookOpen },
-              { id: "tip", label: "Tips", kmLabel: "គន្លឹះ", icon: Lightbulb },
-              { id: "podcast", label: "Podcasts", kmLabel: "ផតខាស", icon: Headphones },
+              { id: "lesson", label: "Lessons", kmLabel: "មេរៀន (Lessons)", icon: BookOpen },
+              { id: "tip", label: "Tips", kmLabel: "គន្លឹះ (Tips)", icon: Lightbulb },
+              { id: "podcast", label: "Podcasts", kmLabel: "ផតខាស (Podcasts)", icon: Headphones },
             ] as const
           ).map((tab) => {
             const isActive = activeTab === tab.id;
@@ -116,11 +116,11 @@ export function SavedLearningView({
                 <Bookmark size={24} />
               </span>
               <p className="mt-4 text-sm font-bold text-arom">
-                {km ? "គ្មានមេរៀនដែលបានរក្សាទុកនៅឡើយទេ" : "No saved items in this category"}
+                {km ? "មិនទាន់មានអ្វីដែលបានរក្សាទុកក្នុងផ្នែកនេះទេ" : "No saved items in this category"}
               </p>
               <p className="mt-1 text-xs text-ink-muted">
                 {km
-                  ? "ចុចរូបសញ្ញាចំណាំដើម្បីរក្សាទុកសម្រាប់អានពេលក្រោយ"
+                  ? "ចុចលើរូបសញ្ញាចំណាំដើម្បីរក្សាទុកសម្រាប់អានពេលក្រោយ"
                   : "Tap the bookmark icon on any lesson to save it for later review."}
               </p>
             </div>

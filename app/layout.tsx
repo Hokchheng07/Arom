@@ -18,7 +18,7 @@ const kantumruyPro = Kantumruy_Pro({
 
 export const metadata: Metadata = {
   title: {
-    default: "AROM — Your wellness space",
+    default: "AROM: Your wellness space",
     template: "%s · AROM",
   },
   description: "A calmer mind, a brighter you.",

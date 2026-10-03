@@ -84,7 +84,7 @@ export function PracticeHomeView({
             className="flex items-center gap-2 rounded-full border border-arom-border bg-white px-4 py-2 text-xs font-semibold text-arom shadow-sm transition-all hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-arom"
           >
             <Bookmark size={15} className="text-arom" />
-            <span>{km ? "ការអនុវត្តដែលបានរក្សាទុក" : "Saved Practices"}</span>
+            <span>{km ? "លំហាត់ដែលបានរក្សាទុក (Saved)" : "Saved Practices"}</span>
           </button>
         </div>
 
@@ -94,11 +94,11 @@ export function PracticeHomeView({
             ARom MindGuide
           </span>
           <h1 className="mt-2.5 text-2xl font-bold tracking-tight text-arom sm:text-3xl lg:text-4xl">
-            {km ? "ការអនុវត្ត" : "Practice"}
+            {km ? "ការអនុវត្ត (Practice)" : "Practice"}
           </h1>
           <p className="mt-1 text-sm text-ink-muted sm:text-base">
             {km
-              ? "ធ្វើឱ្យចិត្ត និងរាងកាយរបស់អ្នកស្ងប់ស្ងាត់ តាមរយៈលំហាត់ណែនាំ។"
+              ? "ធ្វើឱ្យចិត្ត និងរាងកាយរបស់អ្នកស្ងប់ស្ងាត់ តាមរយៈលំហាត់អនុវត្តជាក់ស្តែង។"
               : "Calm your mind and body through guided exercises."}
           </p>
         </header>
@@ -116,7 +116,7 @@ export function PracticeHomeView({
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={
                 km
-                  ? "ស្វែងរកការអនុវត្ត... (ការដកដង្ហើម, សមាធិ, ការគេង...)"
+                  ? "ស្វែងរកការអនុវត្ត... (ការដកដង្ហើម, សមាធិ, ដំណេក...)"
                   : "Search practices... (Breathing, Meditation, Grounding, Sleep...)"
               }
               className="h-12 w-full rounded-2xl border border-arom-border bg-white pl-11 pr-10 text-sm text-ink outline-none transition-[border-color,box-shadow] placeholder:text-ink-muted/70 shadow-sm focus:border-arom focus:ring-4 focus:ring-arom/10"
@@ -165,17 +165,17 @@ export function PracticeHomeView({
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider text-arom-accent">
-                {km ? "ណែនាំសម្រាប់អ្នក" : "Recommended For You"}
+                {km ? "ណែនាំសម្រាប់អ្នក (Recommended)" : "Recommended For You"}
               </span>
               <span className="rounded-full bg-arom-soft px-3 py-1 text-xs font-semibold text-arom">
-                MindGuide Match
+                {km ? "សមស្របសម្រាប់អ្នក (MindGuide Match)" : "MindGuide Match"}
               </span>
             </div>
 
             <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="space-y-1">
                 <span className="text-xs font-semibold text-arom">
-                  {PRACTICE_BREATHING.category} • {PRACTICE_BREATHING.duration} • {PRACTICE_BREATHING.difficulty}
+                  {km ? "ការដកដង្ហើម" : PRACTICE_BREATHING.category} • {km ? PRACTICE_BREATHING.kmDuration : PRACTICE_BREATHING.duration} • {km ? PRACTICE_BREATHING.kmDifficulty : PRACTICE_BREATHING.difficulty}
                 </span>
                 <h2
                   id="recommended-practice-heading"
@@ -214,7 +214,7 @@ export function PracticeHomeView({
               id="all-practices-heading"
               className="text-xl font-bold text-arom"
             >
-              {km ? "បញ្ជីលំហាត់អនុវត្ត" : "All Practices"}
+              {km ? "បញ្ជីលំហាត់អនុវត្ត (All Practices)" : "All Practices"}
             </h2>
             <span className="text-xs font-medium text-ink-muted">
               {filteredPractices.length} {km ? "លំហាត់" : "exercises"}
@@ -224,6 +224,9 @@ export function PracticeHomeView({
           <div className="mt-4 space-y-3">
             {filteredPractices.map((practice) => {
               const isAvailable = practice.isAvailable;
+              const categoryLabel = km
+                ? PRACTICE_CATEGORIES.find((c) => c.id === practice.category)?.kmLabel || practice.category
+                : practice.category;
 
               return (
                 <motion.div
@@ -256,12 +259,12 @@ export function PracticeHomeView({
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-xs font-semibold text-arom">
-                        {practice.category}
+                        {categoryLabel}
                       </span>
                       {practice.badge && (
                         <span className="inline-flex items-center gap-1 rounded-full border border-arom-border bg-arom-wash px-2.5 py-0.5 text-[0.68rem] font-semibold text-ink-muted">
                           <Lock size={10} />
-                          {practice.badge}
+                          {km ? "នឹងមកដល់ឆាប់ៗ (Coming Soon)" : practice.badge}
                         </span>
                       )}
                     </div>

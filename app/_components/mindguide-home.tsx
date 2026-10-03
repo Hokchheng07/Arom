@@ -26,10 +26,10 @@ import { LessonScreen } from "./learn/lesson-screen";
 const easeOut = [0.23, 1, 0.32, 1] as const;
 
 const categories = [
-  { label: "Learn", khmer: "សិក្សា", icon: "/mindguide/icon-10.svg" },
-  { label: "Practice", khmer: "អនុវត្ត", icon: "/mindguide/icon-11.svg" },
-  { label: "Tips", khmer: "គន្លឹះ", icon: "/mindguide/icon-7.svg" },
-  { label: "Podcast", khmer: "ផតខាស", icon: "/mindguide/icon-9.svg" },
+  { label: "Learn", khmer: "ស្វែងយល់ (Learn)", icon: "/mindguide/icon-10.svg" },
+  { label: "Practice", khmer: "អនុវត្ត (Practice)", icon: "/mindguide/icon-11.svg" },
+  { label: "Tips", khmer: "គន្លឹះ (Tips)", icon: "/mindguide/icon-7.svg" },
+  { label: "Podcast", khmer: "ផតខាស (Podcast)", icon: "/mindguide/icon-9.svg" },
 ];
 
 export type TodayActivity = {
@@ -56,14 +56,14 @@ export const todayActivities: TodayActivity[] = [
   {
     id: "interactive-breathing",
     title: "Interactive Breathing Exercise",
-    khmerTitle: "ការហាត់ដកដង្ហើមអន្តរកម្ម",
+    khmerTitle: "ការហាត់ដកដង្ហើម (Breathing Exercise)",
     category: "Practice",
-    khmerCategory: "ការអនុវត្ត",
+    khmerCategory: "ការអនុវត្ត (Practice)",
     duration: "4 mins",
     khmerDuration: "៤ នាទី",
     image: "/mindguide/icon-11.svg",
     badge: "Practice",
-    khmerBadge: "អនុវត្ត",
+    khmerBadge: "អនុវត្ត (Practice)",
     description:
       "Follow the rhythmic expanding orb to balance your nervous system, slow down your heart rate, and bring gentle calm back to your day.",
     khmerDescription:
@@ -71,11 +71,11 @@ export const todayActivities: TodayActivity[] = [
     outcomes: [
       {
         en: "Continuous 4-4 cycles with live visual cues",
-        km: "វដ្តដកដង្ហើម ៤-៤ ជាមួយនឹងសញ្ញាបញ្ជាក់ច្បាស់លាស់",
+        km: "វដ្តដកដង្ហើម ៤-៤ ជាមួយសញ្ញាបញ្ជាក់ច្បាស់លាស់",
       },
       {
         en: "Manual start, pause, resume, and stop controls",
-        km: "ប៊ូតុងបញ្ជា ចាប់ផ្ដើម ផ្អាក បន្ត និងបញ្ចប់ដោយខ្លួនឯង",
+        km: "ប៊ូតុងបញ្ជា ចាប់ផ្តើម ផ្អាក បន្ត និងបញ្ចប់ដោយខ្លួនឯង",
       },
       {
         en: "Gentle relaxing audio guidance",
@@ -85,23 +85,23 @@ export const todayActivities: TodayActivity[] = [
     actionType: "breathing",
     hubHref: "/practice",
     hubLabelEn: "Explore Practice Hub",
-    hubLabelKm: "ស្វែងរកក្នុងផ្ទាំងអនុវត្ត",
+    hubLabelKm: "ស្វែងរកក្នុងផ្ទាំងអនុវត្ត (Practice Hub)",
   },
   {
     id: "learn-about-stress",
     title: "Learn About Stress",
-    khmerTitle: "រៀនស្វែងយល់ពីភាពតានតឹង",
+    khmerTitle: "ស្វែងយល់ពីភាពតានតឹង (Stress)",
     category: "Learn",
-    khmerCategory: "ការសិក្សា",
+    khmerCategory: "ការសិក្សា (Learn)",
     duration: "6 mins",
     khmerDuration: "៦ នាទី",
     image: "/mindguide/stress.png",
     badge: "Learn",
-    khmerBadge: "សិក្សា",
+    khmerBadge: "សិក្សា (Learn)",
     description:
       "Understand how stress affects your brain and body, learn natural physical reactions, explore practical coping tools, and review scientific citations.",
     khmerDescription:
-      "ស្វែងយល់ពីរបៀបដែលភាពតានតឹងប៉ះពាល់ដល់ខួរក្បាល និងរាងកាយ ស្គាល់រោគសញ្ញា និងវិធីដោះស្រាយងាយៗ។",
+      "ស្វែងយល់ពីរបៀបដែលភាពតានតឹង (Stress) ប៉ះពាល់ដល់ខួរក្បាល និងរាងកាយ ស្គាល់រោគសញ្ញា និងវិធីដោះស្រាយងាយៗ។",
     outcomes: [
       {
         en: "5 interactive sections with medical citations [1] to [6]",
@@ -113,29 +113,29 @@ export const todayActivities: TodayActivity[] = [
       },
       {
         en: "Actionable relief tips and professional support pathways",
-        km: "គន្លឹះអនុវត្តជាក់ស្តែង និងការស្វែងរកអ្នកជំនាញ",
+        km: "គន្លឹះអនុវត្តជាក់ស្តែង និងការស្វែងរកអ្នកជំនាញ (Professional)",
       },
     ],
     actionType: "learn-stress",
     hubHref: "/learn",
     hubLabelEn: "Explore Learn Hub",
-    hubLabelKm: "ស្វែងរកក្នុងផ្ទាំងសិក្សា",
+    hubLabelKm: "ស្វែងរកក្នុងផ្ទាំងសិក្សា (Learn Hub)",
   },
   {
     id: "managing-daily-stress",
     title: "Managing Daily Stress",
-    khmerTitle: "ការគ្រប់គ្រងភាពតានតឹងប្រចាំថ្ងៃ",
+    khmerTitle: "ការគ្រប់គ្រងភាពតានតឹងប្រចាំថ្ងៃ (Daily Stress)",
     category: "Guide",
-    khmerCategory: "ការណែនាំ",
+    khmerCategory: "ការណែនាំ (Guide)",
     duration: "5 mins",
     khmerDuration: "៥ នាទី",
     image: "/mindguide/strategies.png",
     badge: "Daily Guide",
-    khmerBadge: "ការណែនាំ",
+    khmerBadge: "ការណែនាំប្រចាំថ្ងៃ (Daily Guide)",
     description:
       "Explore common signs of ongoing tension, daily mental habits, and guided techniques to stay grounded throughout your routine.",
     khmerDescription:
-      "ស្វែងយល់ពីរោគសញ្ញានៃភាពតានតឹង ទម្លាប់ចិត្តគំនិតប្រចាំថ្ងៃ និងវិធីសាស្ត្ររក្សាលំនឹងអារម្មណ៍។",
+      "ស្វែងយល់ពីរោគសញ្ញានៃភាពតានតឹង (Stress) ទម្លាប់ចិត្តគំនិតប្រចាំថ្ងៃ និងវិធីសាស្ត្ររក្សាលំនឹងអារម្មណ៍។",
     outcomes: [
       {
         en: "Identify physical indicators before stress builds up",
@@ -143,17 +143,17 @@ export const todayActivities: TodayActivity[] = [
       },
       {
         en: "Practical routine resets and mindful pauses",
-        km: "ការសម្រាកខ្លីៗដើម្បីកំណត់ចិត្តឡើងវិញ",
+        km: "ការសម្រាកខ្លីៗដើម្បីកំណត់ចិត្តឡើងវិញ (Mindful Pauses)",
       },
       {
         en: "Integrated breathing exercises for instant relief",
-        km: "ការរួមបញ្ចូលការដកដង្ហើមដើម្បីបន្ធូរអារម្មណ៍ភ្លាមៗ",
+        km: "ការរួមបញ្ចូលការដកដង្ហើម (Breathing) ដើម្បីបន្ធូរអារម្មណ៍ភ្លាមៗ",
       },
     ],
     actionType: "daily-stress",
     hubHref: "/mindguide/managing-daily-stress",
     hubLabelEn: "View Full Daily Guide",
-    hubLabelKm: "មើលការណែនាំពេញលេញ",
+    hubLabelKm: "មើលការណែនាំពេញលេញ (Daily Guide)",
   },
 ];
 
@@ -253,7 +253,7 @@ function ActivityModal({
 
         <div className="mt-4 rounded-2xl bg-[#f4f9f7] p-3.5 sm:p-4">
           <p className="text-xs font-semibold uppercase tracking-wider text-arom">
-            {km ? "អ្វីដែលអ្នកនឹងទទួលបាន" : "What is included"}
+            {km ? "អ្វីដែលអ្នកនឹងទទួលបាន (What is Included)" : "What is included"}
           </p>
           <ul className="mt-2 space-y-2 text-xs leading-5 text-ink">
             {activity.outcomes.map((outcome) => (
@@ -275,14 +275,14 @@ function ActivityModal({
             <span>
               {activity.actionType === "breathing"
                 ? km
-                  ? "ចាប់ផ្តើមការហាត់ដកដង្ហើម"
+                  ? "ចាប់ផ្តើមការហាត់ដកដង្ហើម (Breathing)"
                   : "Start Breathing Session"
                 : activity.actionType === "learn-stress"
                 ? km
-                  ? "ចាប់ផ្តើមមេរៀនអន្តរកម្ម"
+                  ? "ចាប់ផ្តើមមេរៀនអន្តរកម្ម (Interactive Lesson)"
                   : "Start Interactive Lesson"
                 : km
-                ? "បើកការណែនាំប្រចាំថ្ងៃ"
+                ? "បើកការណែនាំប្រចាំថ្ងៃ (Daily Guide)"
                 : "Open Daily Guide"}
             </span>
           </button>
@@ -407,14 +407,14 @@ export function MindGuideHome() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#e8faf5]/96 via-[#e8faf5]/65 to-transparent lg:via-[#e8faf5]/35" />
             <div className="relative z-10 flex h-full max-w-[66%] flex-col justify-center px-4 py-5 sm:px-7 lg:max-w-[48%] lg:px-12">
               <p className="hidden text-xs font-semibold uppercase tracking-[0.15em] text-arom-accent lg:block">
-                {km ? "ស្វែងយល់ និងអនុវត្ត" : "Learn and practice"}
+                {km ? "ស្វែងយល់ និងអនុវត្ត (Learn & Practice)" : "Learn and practice"}
               </p>
               <h1 id="mindguide-title" className="text-[1.35rem] font-semibold leading-tight text-arom sm:text-2xl lg:mt-2 lg:text-[2.75rem]">
                 MindGuide
               </h1>
               <p className="mt-1 max-w-[14rem] text-[0.78rem] leading-[1.15rem] text-ink sm:max-w-sm sm:text-sm sm:leading-6 lg:mt-3 lg:text-base">
                 {km
-                  ? "រៀន អនុវត្ត និងថែរក្សាសុខភាពផ្លូវចិត្តរបស់អ្នក។"
+                  ? "រៀនសូត្រ អនុវត្ត និងថែរក្សាសុខភាពផ្លូវចិត្តរបស់អ្នក។"
                   : "Learn, practice, and take care of your mind."}
               </p>
             </div>
@@ -485,14 +485,14 @@ export function MindGuideHome() {
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="hidden text-xs font-semibold uppercase tracking-[0.15em] text-arom-accent lg:block">
-                  {km ? "ការណែនាំប្រចាំថ្ងៃ" : "Daily recommendations"}
+                  {km ? "ការណែនាំប្រចាំថ្ងៃ (Recommendations)" : "Daily recommendations"}
                 </p>
                 <h2 id="today-title" className="text-2xl font-semibold text-arom lg:mt-1.5 lg:text-3xl">
-                  {km ? "សម្រាប់ថ្ងៃនេះ" : "For Today"}
+                  {km ? "សកម្មភាពសម្រាប់ថ្ងៃនេះ (For Today)" : "For Today"}
                 </h2>
               </div>
               <span className="hidden rounded-full bg-arom-soft px-3 py-1 text-xs font-medium text-arom sm:block">
-                {km ? "៣ សកម្មភាព" : "3 activities"}
+                {km ? "៣ សកម្មភាព (3 Activities)" : "3 activities"}
               </span>
             </div>
 

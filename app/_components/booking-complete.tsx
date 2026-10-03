@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { useEffect, useRef } from "react";
+import { useLanguage } from "./language-provider";
 
 type BookingCompleteProps = {
   details: { icon: LucideIcon; label: string; value: string }[];
@@ -14,6 +15,8 @@ type BookingCompleteProps = {
 const easeOut = [0.23, 1, 0.32, 1] as const;
 
 export function BookingComplete({ details, viewHref }: BookingCompleteProps) {
+  const { language } = useLanguage();
+  const km = language === "km";
   const shouldReduceMotion = useReducedMotion();
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -96,11 +99,13 @@ export function BookingComplete({ details, viewHref }: BookingCompleteProps) {
         variants={item}
         className="mt-1 max-w-[17rem] text-[1.65rem] font-bold leading-tight tracking-[-0.03em] text-ink outline-none sm:max-w-none sm:text-[1.8rem]"
       >
-        Your Appointment is Booked!
+        {km ? "ការណាត់ជួបរបស់អ្នកត្រូវបានកក់រួចរាល់!" : "Your Appointment is Booked!"}
       </motion.h1>
 
       <motion.p variants={item} className="mt-2 max-w-[21rem] text-base leading-6 text-ink">
-        You will receive a confirmation or reminder before your session.
+        {km
+          ? "អ្នកនឹងទទួលបានការបញ្ជាក់ ឬការរំលឹកជាដំណឹងមុនពេលវគ្គពិគ្រោះចាប់ផ្តើម។"
+          : "You will receive a confirmation or reminder before your session."}
       </motion.p>
 
       <motion.dl
@@ -123,13 +128,13 @@ export function BookingComplete({ details, viewHref }: BookingCompleteProps) {
           href={viewHref}
           className="flex h-[3.4rem] items-center justify-center rounded-2xl bg-arom px-5 text-lg font-bold text-white transition-colors duration-150 hover:bg-arom-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
         >
-          View Appointment
+          {km ? "មើលការណាត់ជួប" : "View Appointment"}
         </Link>
         <Link
           href="/professional"
           className="flex h-11 items-center justify-center rounded-lg border border-[#bdbdbd] bg-white px-5 text-lg font-bold text-ink shadow-[0_4px_10px_rgba(20,34,31,0.1)] transition-colors duration-150 hover:bg-arom-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arom"
         >
-          Back to Professionals
+          {km ? "ត្រឡប់ទៅបញ្ជីអ្នកជំនាញ" : "Back to Professionals"}
         </Link>
       </motion.div>
     </motion.section>

@@ -33,15 +33,20 @@ export type TherapistPodcast = {
 export type Therapist = {
   slug: string;
   name: string;
+  kmName?: string;
   role: string;
+  kmRole?: string;
   specialties: string[];
   availability: string;
+  kmAvailability?: string;
   image: string;
   imagePosition?: string;
   experience: string;
+  kmExperience?: string;
   rating: number;
   reviews: number;
   about: string;
+  kmAbout?: string;
   languages: string[];
   sessionOptions: SessionOption[];
   podcast?: TherapistPodcast;
@@ -120,16 +125,22 @@ export const therapists: Therapist[] = [
   {
     slug: "sopheap-chan",
     name: "Dr. Sopheap Chan",
+    kmName: "វេជ្ជបណ្ឌិត ចាន់ សុភាព",
     role: "Clinical Psychologist",
+    kmRole: "អ្នកចិត្តវិទ្យាព្យាបាល (Clinical Psychologist)",
     specialties: ["Depression", "Anxiety", "Stress"],
     availability: "Available Now",
+    kmAvailability: "ទំនេរឥឡូវនេះ (Available Now)",
     image: "/therapists/sopheap-chan.jpg",
     imagePosition: "58% center",
     experience: "8+ years of experience",
+    kmExperience: "បទពិសោធន៍ ៨+ ឆ្នាំ",
     rating: 4.9,
     reviews: 127,
     about:
       "Dr. Chan has spent over eight years helping clients work through anxiety, depression, and everyday stress using an integrative, client-centered approach.",
+    kmAbout:
+      "លោកស្រីវេជ្ជបណ្ឌិត សុភាព មានបទពិសោធន៍ជាង ៨ ឆ្នាំ ក្នុងការជួយអតិថិជនដោះស្រាយការថប់បារម្ភ ការបាក់ទឹកចិត្ត និងភាពតានតឹងប្រចាំថ្ងៃ ដោយប្រើវិធីសាស្ត្រផ្តោតលើបុគ្គល និងការយល់ចិត្តគ្នា។",
     languages: ["Khmer", "English"],
     sessionOptions: ["Online", "In-person", "Both"],
     podcast: {
@@ -147,7 +158,7 @@ export const therapists: Therapist[] = [
       duration: "14:15",
       durationSeconds: 855,
       topic: "Anxiety & Therapy 101",
-      kmTopic: "ការថប់បារម្ភ និងចំណេះដឹងព្យាបាល",
+      kmTopic: "ការថប់បារម្ភ និងចំណេះដឹងព្យាបាល (Anxiety & Therapy)",
       publishedDate: "March 2026",
       kmPublishedDate: "មីនា ២០២៦",
       quote:
@@ -178,16 +189,22 @@ export const therapists: Therapist[] = [
   {
     slug: "ratanak-pich",
     name: "Dr. Ratanak Pich",
+    kmName: "វេជ្ជបណ្ឌិត ពេជ្រ រតនៈ",
     role: "Counselor",
+    kmRole: "អ្នកប្រឹក្សាផ្លូវចិត្ត (Counselor)",
     specialties: ["Anxiety", "Relationships", "Life transitions"],
     availability: "Available Today",
+    kmAvailability: "ទំនេរថ្ងៃនេះ (Available Today)",
     image: "/therapists/ratanak-pich.jpg",
     imagePosition: "50% center",
     experience: "6+ years of experience",
+    kmExperience: "បទពិសោធន៍ ៦+ ឆ្នាំ",
     rating: 4.8,
     reviews: 94,
     about:
       "Dr. Pich supports individuals and couples navigating anxiety, communication challenges, and major life transitions with practical, compassionate counseling.",
+    kmAbout:
+      "លោកវេជ្ជបណ្ឌិត រតនៈ ផ្តល់ការប្រឹក្សាគាំទ្រដល់បុគ្គល និងគូស្នេហ៍ ក្នុងការដោះស្រាយបញ្ហាថប់បារម្ភ ឧបសគ្គនៃការប្រាស្រ័យទាក់ទង និងការផ្លាស់ប្តូរជីវិតសំខាន់ៗ ប្រកបដោយការអនុវត្តជាក់ស្តែង និងក្តីមេត្តា។",
     languages: ["Khmer", "English", "French"],
     sessionOptions: ["Online", "In-person", "Both"],
     podcast: {
@@ -205,7 +222,7 @@ export const therapists: Therapist[] = [
       duration: "16:40",
       durationSeconds: 1000,
       topic: "Relationships & Life Transitions",
-      kmTopic: "ទំនាក់ទំនង និងការផ្លាស់ប្តូរជីវិត",
+      kmTopic: "ទំនាក់ទំនង និងការផ្លាស់ប្តូរជីវិត (Relationships)",
       publishedDate: "February 2026",
       kmPublishedDate: "កុម្ភៈ ២០២៦",
       quote:
@@ -236,16 +253,22 @@ export const therapists: Therapist[] = [
   {
     slug: "malika-sok",
     name: "Dr. Malika Sok",
+    kmName: "វេជ្ជបណ្ឌិត សុក ម៉ាលីកា",
     role: "Psychiatrist",
+    kmRole: "វេជ្ជបណ្ឌិតវិកលចរិត (Psychiatrist)",
     specialties: ["Sleep", "Burnout", "Stress", "Self-confidence"],
     availability: "Available Tomorrow",
+    kmAvailability: "ទំនេរថ្ងៃស្អែក (Available Tomorrow)",
     image: "/therapists/malika-sok.jpg",
     imagePosition: "50% center",
     experience: "9+ years of experience",
+    kmExperience: "បទពិសោធន៍ ៩+ ឆ្នាំ",
     rating: 4.9,
     reviews: 108,
     about:
       "Dr. Sok works with adults experiencing sleep difficulties, burnout, and chronic stress, combining careful assessment with clear, collaborative treatment plans.",
+    kmAbout:
+      "លោកស្រីវេជ្ជបណ្ឌិត ម៉ាលីកា ធ្វើការជាមួយមនុស្សពេញវ័យដែលជួបប្រទះការពិបាកក្នុងដំណេក ភាពហត់នឿយ (Burnout) និងភាពតានតឹងរ៉ាំរ៉ៃ ដោយរួមបញ្ចូលការវាយតម្លៃយ៉ាងម៉ត់ចត់ ជាមួយនឹងផែនការព្យាបាលច្បាស់លាស់ និងសហការគ្នា។",
     languages: ["Khmer", "English"],
     sessionOptions: ["Online", "In-person"],
     podcast: {
@@ -253,7 +276,7 @@ export const therapists: Therapist[] = [
       episodeNumber: "Episode 15",
       kmEpisodeNumber: "ភាគ ១៥",
       title: "The Science of Restful Sleep & Recovering from Burnout",
-      kmTitle: "វិទ្យាសាស្ត្រនៃការគេងលក់ស្រួល និងការស្តារថាមពលពីភាពហត់នឿយ",
+      kmTitle: "វិទ្យាសាស្ត្រនៃដំណេកលក់ស្រួល និងការស្តារថាមពលពីភាពហត់នឿយ",
       subtitle: "Resetting your nervous system before bed, distinguishing burnout from depression, and evidence-based mental rest.",
       kmSubtitle: "ការរំងាប់អារម្មណ៍មុនចូលគេង ភាពខុសគ្នារវាងការហត់នឿយនិងជំងឺបាក់ទឹកចិត្ត និងវិធីសម្រាកបែបវិទ្យាសាស្ត្រ។",
       description:
@@ -263,7 +286,7 @@ export const therapists: Therapist[] = [
       duration: "18:25",
       durationSeconds: 1105,
       topic: "Sleep & Burnout Recovery",
-      kmTopic: "ដំណេក និងការស្តារភាពហត់នឿយ",
+      kmTopic: "ដំណេក និងការស្តារភាពហត់នឿយ (Sleep & Burnout Recovery)",
       publishedDate: "March 2026",
       kmPublishedDate: "មីនា ២០២៦",
       quote:
@@ -277,15 +300,15 @@ export const therapists: Therapist[] = [
         "When to consider medical psychiatric support vs cognitive behavioral therapy.",
       ],
       kmTakeaways: [
-        "ទំនាក់ទំនងរវាងអ័រម៉ូនតានតឹង ពន្លឺទូរស័ព្ទ និងការគេងមិនលក់។",
-        "សញ្ញាព្រមានដំបូងដែលបង្ហាញថាភាពហត់នឿយបានក្លាយជា Burnout ធ្ងន់ធ្ងរ។",
+        "ទំនាក់ទំនងរវាងអ័រម៉ូនតានតឹង ពន្លឺទូរស័ព្ទ និងការពិបាកក្នុងដំណេក។",
+        "សញ្ញាព្រមានដំបូងដែលបង្ហាញថាភាពហត់នឿយបានក្លាយជាភាពតានតឹងធ្ងន់ធ្ងរ (Burnout)។",
         "ទម្លាប់រំសាយគំនិត ៣០ នាទីមុនចូលគេងរបស់លោកស្រីវេជ្ជបណ្ឌិត។",
         "ពេលណាដែលគួរស្វែងរកការព្យាបាលវេជ្ជសាស្ត្រ ឬការប្រឹក្សាផ្លូវចិត្ត។",
       ],
       chapters: [
         { timestamp: "00:00", seconds: 0, title: "Introduction to psychiatric wellness", kmTitle: "សេចក្តីផ្តើមអំពីសុខុមាលភាពផ្លូវចិត្ត" },
-        { timestamp: "03:40", seconds: 220, title: "The anatomy of insomnia & racing thoughts", kmTitle: "មូលហេតុនៃការគេងមិនលក់ និងការគិតច្រើន" },
-        { timestamp: "08:15", seconds: 495, title: "Burnout vs clinical depression", kmTitle: "ភាពខុសគ្នារវាង Burnout និងការបាក់ទឹកចិត្ត" },
+        { timestamp: "03:40", seconds: 220, title: "The anatomy of insomnia & racing thoughts", kmTitle: "មូលហេតុនៃការពិបាកក្នុងដំណេក និងការគិតច្រើន" },
+        { timestamp: "08:15", seconds: 495, title: "Burnout vs clinical depression", kmTitle: "ភាពខុសគ្នារវាងភាពហត់នឿយ (Burnout) និងការបាក់ទឹកចិត្ត" },
         { timestamp: "12:50", seconds: 770, title: "Evening wind-down & environmental cues", kmTitle: "ការរៀបចំបរិយាកាស និងទម្លាប់ពេលយប់" },
         { timestamp: "16:10", seconds: 970, title: "Closing thoughts on compassionate rest", kmTitle: "ការសន្និដ្ឋានអំពីការសម្រាកប្រកបដោយក្តីស្រឡាញ់" },
       ],
@@ -295,4 +318,88 @@ export const therapists: Therapist[] = [
 
 export function getTherapist(slug: string) {
   return therapists.find((therapist) => therapist.slug === slug);
+}
+
+export function getSpecialtyLabel(specialty: string, km: boolean): string {
+  if (!km) return specialty;
+  switch (specialty) {
+    case "Anxiety":
+      return "ការថប់បារម្ភ (Anxiety)";
+    case "Depression":
+      return "ការបាក់ទឹកចិត្ត (Depression)";
+    case "Stress":
+      return "ភាពតានតឹង (Stress)";
+    case "Sleep":
+      return "ដំណេក (Sleep)";
+    case "Relationships":
+      return "ទំនាក់ទំនង (Relationships)";
+    case "Burnout":
+      return "ភាពហត់នឿយ (Burnout)";
+    case "Life transitions":
+      return "ការផ្លាស់ប្តូរជីវិត (Life Transitions)";
+    case "Self-confidence":
+      return "ទំនុកចិត្តលើខ្លួនឯង (Self-Confidence)";
+    case "Other":
+      return "ផ្សេងទៀត (Other)";
+    default:
+      return specialty;
+  }
+}
+
+export function getSessionOptionLabel(option: SessionOption, km: boolean): string {
+  if (!km) return option;
+  switch (option) {
+    case "Online":
+      return "តាមអនឡាញ (Online)";
+    case "In-person":
+      return "ជួបផ្ទាល់ (In-Person)";
+    case "Both":
+      return "ទាំងពីរ (Both)";
+    default:
+      return option;
+  }
+}
+
+export function getAvailabilityLabel(availability: string, km: boolean): string {
+  if (!km) return availability;
+  switch (availability) {
+    case "Available Now":
+      return "ទំនេរឥឡូវនេះ (Available Now)";
+    case "Available Today":
+      return "ទំនេរថ្ងៃនេះ (Available Today)";
+    case "Available Tomorrow":
+      return "ទំនេរថ្ងៃស្អែក (Available Tomorrow)";
+    default:
+      return availability;
+  }
+}
+
+export function getLanguageLabel(lang: string, km: boolean): string {
+  if (!km) return lang;
+  switch (lang) {
+    case "English":
+      return "ភាសាអង់គ្លេស (English)";
+    case "Khmer":
+      return "ភាសាខ្មែរ (Khmer)";
+    case "French":
+      return "ភាសាបារាំង (French)";
+    default:
+      return lang;
+  }
+}
+
+export function getTherapistName(therapist: Therapist, km: boolean): string {
+  return km && therapist.kmName ? therapist.kmName : therapist.name;
+}
+
+export function getTherapistRole(therapist: Therapist, km: boolean): string {
+  return km && therapist.kmRole ? therapist.kmRole : therapist.role;
+}
+
+export function getTherapistExperience(therapist: Therapist, km: boolean): string {
+  return km && therapist.kmExperience ? therapist.kmExperience : therapist.experience;
+}
+
+export function getTherapistAbout(therapist: Therapist, km: boolean): string {
+  return km && therapist.kmAbout ? therapist.kmAbout : therapist.about;
 }

@@ -52,11 +52,11 @@ export function PracticeCompleteView({
 
           <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-arom-border bg-white px-4 py-1.5 text-xs font-semibold text-arom shadow-sm">
             <Award size={14} />
-            <span>+20 XP • {km ? "ការអនុវត្តដោយសតិ" : "Mindful Practice"}</span>
+            <span>+20 XP • {km ? "ការអនុវត្តដោយសតិ (Mindful Practice)" : "Mindful Practice"}</span>
           </div>
 
           <h1 className="mt-4 text-2xl font-bold tracking-tight text-arom sm:text-3xl">
-            {km ? "ការអនុវត្តត្រូវបានបញ្ចប់" : "Practice Complete"}
+            {km ? "ការអនុវត្តត្រូវបានបញ្ចប់ (Practice Complete)" : "Practice Complete"}
           </h1>
           <p className="mt-1.5 text-sm text-ink-muted sm:text-base">
             {km
@@ -92,7 +92,7 @@ export function PracticeCompleteView({
                 </span>
                 <div>
                   <span className="block text-sm font-bold text-arom sm:text-base">
-                    {km ? "អនុវត្តម្តងទៀត" : "Practice Again"}
+                    {km ? "អនុវត្តម្តងទៀត (Practice Again)" : "Practice Again"}
                   </span>
                   <span className="mt-0.5 block text-xs text-ink-muted">
                     {km
@@ -120,7 +120,7 @@ export function PracticeCompleteView({
                 </span>
                 <div>
                   <span className="block text-sm font-bold text-arom sm:text-base">
-                    {km ? "អានមេរៀនពាក់ព័ន្ធ៖ រៀនអំពីភាពតានតឹង" : "Read Related Lesson: Learn About Stress"}
+                    {km ? "អានមេរៀនពាក់ព័ន្ធ៖ រៀនអំពីភាពតានតឹង (Learn About Stress)" : "Read Related Lesson: Learn About Stress"}
                   </span>
                   <span className="mt-0.5 block text-xs text-ink-muted">
                     {km

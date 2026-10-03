@@ -18,31 +18,31 @@ const moods: MoodItem[] = [
   {
     id: "very-low",
     label: "Very Low",
-    labelKm: "ទាបខ្លាំង",
+    labelKm: "ពិបាកខ្លាំង (Very Low)",
     icon: "boxicons_tired",
   },
   {
     id: "low",
     label: "low",
-    labelKm: "ទាប",
+    labelKm: "មិនសូវល្អ (Low)",
     icon: "akar-icons_face-sad",
   },
   {
     id: "okay",
     label: "Okay",
-    labelKm: "ធម្មតា",
+    labelKm: "ធម្មតា (Okay)",
     icon: "teenyicons_mood-flat-outline",
   },
   {
     id: "good",
     label: "Good",
-    labelKm: "ល្អ",
+    labelKm: "ស្រួលចិត្ត (Good)",
     icon: "ic_outline-mood",
   },
   {
     id: "great",
     label: "Great",
-    labelKm: "ល្អប្រសើរ",
+    labelKm: "រីករាយ (Great)",
     icon: "boxicons_happy-beaming",
   },
 ];
@@ -81,13 +81,13 @@ export function MoodSelector() {
     <section id="mood-check-in" aria-labelledby="mood-heading" className="pt-1">
       <div className="flex items-center justify-between">
         <h2 id="mood-heading" className="text-sm font-medium text-[#1f6f5b] sm:text-base">
-          {km ? "ថ្ងៃនេះអ្នកមានអារម្មណ៍យ៉ាងដូចម្តេច?" : "How are you Feeling today?"}
+          {km ? "តើថ្ងៃនេះអារម្មណ៍របស់អ្នកយ៉ាងណាដែរ?" : "How are you Feeling today?"}
         </h2>
         <Link
           href={`/detection/journal?mood=${encodeURIComponent(selectedMood)}`}
           className="text-xs font-semibold text-[#1f6f5b] hover:underline"
         >
-          {km ? "សៀវភៅកំណត់ហេតុ" : "Journal"} &rarr;
+          {km ? "កំណត់ត្រាអារម្មណ៍ (Journal)" : "Journal"} &rarr;
         </Link>
       </div>
 
@@ -105,7 +105,7 @@ export function MoodSelector() {
               role="radio"
               aria-checked={isSelected}
               onClick={() => handleSelectMood(mood.label)}
-              title={`${mood.label} - ${km ? "បើកសរសេរកំណត់ហេតុ" : "Open in Journal"}`}
+              title={`${mood.label}: ${km ? "បើកសរសេរកំណត់ហេតុ" : "Open in Journal"}`}
               className="group flex flex-col items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f6f5b] rounded-xl py-1 transition-transform active:scale-95"
             >
               <div

@@ -13,7 +13,7 @@ import {
   Radio,
   RotateCcw,
   RotateCw,
-  Sparkles,
+  Lightbulb,
   Volume2,
   VolumeX,
 } from "lucide-react";
@@ -478,8 +478,8 @@ export function TherapistPodcastPlayer({ therapist }: { therapist: Therapist }) 
         <div className="flex flex-col gap-4">
           <div className="rounded-2xl border border-arom-border bg-white p-5 shadow-sm">
             <h3 className="flex items-center gap-2 text-base font-bold text-ink">
-              <Sparkles size={16} className="text-arom-accent" />
-              {language === "km" ? "ចំណុចគន្លឹះដែលអ្នកនឹងរៀន" : "Key Clinical Takeaways"}
+              <Lightbulb size={16} className="text-arom-accent" />
+              {language === "km" ? "ចំណុចគន្លឹះដែលអ្នកនឹងរៀន (Key Takeaways)" : "Key Clinical Takeaways"}
             </h3>
             <ul className="mt-3.5 space-y-2.5 text-xs sm:text-sm text-ink-muted">
               {takeaways.map((takeaway, i) => (

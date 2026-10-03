@@ -17,7 +17,6 @@ import {
   X,
   Calendar,
   Trash2,
-  Sparkles,
   Check,
   MessageSquarePlus,
 } from "lucide-react";
@@ -61,18 +60,18 @@ const DEFAULT_QUESTIONS: JournalQuestionItem[] = [
   {
     id: "q_happy",
     labelEn: "What made you happy today?",
-    labelKm: "អ្វីដែលធ្វើឲ្យសប្បាយចិត្ត",
+    labelKm: "អ្វីដែលធ្វើឱ្យអ្នកសប្បាយចិត្តថ្ងៃនេះ (Positive Moments)",
     placeholderEn: "e.g. A friend smiled at me, had good lunch",
-    placeholderKm: "ឧ. មិត្តភក្តិញញឹមដាក់",
+    placeholderKm: "ឧ. មិត្តភក្តិញញឹមដាក់ ឬបានញ៉ាំអាហារឆ្ងាញ់",
     answer: "",
     isRemovable: false,
   },
   {
     id: "q_difficult",
     labelEn: "What was challenging or difficult?",
-    labelKm: "អ្វីដែលធ្វើឲ្យពិបាកចិត្ត",
+    labelKm: "អ្វីដែលជាឧបសគ្គ ឬពិបាកចិត្ត (Challenges)",
     placeholderEn: "e.g. Study pressure, unexpected delays",
-    placeholderKm: "ឧ. សម្ពាធរៀនសូត្រ",
+    placeholderKm: "ឧ. សម្ពាធរៀនសូត្រ ឬការងារដែលត្រូវប្រគល់បន្ទាន់",
     answer: "",
     isRemovable: false,
   },
@@ -82,7 +81,7 @@ const PRESET_ADDITIONAL_QUESTIONS = [
   {
     id: "preset_grateful",
     labelEn: "What are you grateful for today?",
-    labelKm: "អ្វីដែលអ្នកដឹងគុណថ្ងៃនេះ",
+    labelKm: "អ្វីដែលអ្នកដឹងគុណថ្ងៃនេះ (Gratitude)",
     placeholderEn: "e.g. Family, good health, peaceful morning",
     placeholderKm: "ឧ. គ្រួសារមានសុខភាពល្អ និងពេលព្រឹកស្ងប់ស្ងាត់",
     sampleKm: "ដឹងគុណដែលមានគ្រួសារ និងមិត្តភក្តិនៅក្បែរជួយលើកទឹកចិត្ត",
@@ -91,7 +90,7 @@ const PRESET_ADDITIONAL_QUESTIONS = [
   {
     id: "preset_calm",
     labelEn: "What helped you feel calm or grounded?",
-    labelKm: "អ្វីដែលជួយឱ្យអ្នកធូរស្បើយ ឬស្ងប់ចិត្ត",
+    labelKm: "អ្វីដែលជួយឱ្យអ្នកស្ងប់ចិត្ត (Calm & Grounding)",
     placeholderEn: "e.g. Took deep breaths, listened to calm music",
     placeholderKm: "ឧ. ដកដង្ហើមវែងៗ ឬស្តាប់បទភ្លេងស្រាលៗ",
     sampleKm: "បានដកដង្ហើមវែងៗ ៥ នាទី និងដើរលំហែកាយ",
@@ -100,7 +99,7 @@ const PRESET_ADDITIONAL_QUESTIONS = [
   {
     id: "preset_learned",
     labelEn: "What did you learn about yourself today?",
-    labelKm: "អ្វីដែលអ្នកបានរៀនដឹងពីខ្លួនឯងថ្ងៃនេះ",
+    labelKm: "អ្វីដែលអ្នកបានរៀនដឹងពីខ្លួនឯង (Self-Discovery)",
     placeholderEn: "e.g. Handled an argument patiently",
     placeholderKm: "ឧ. ខ្ញុំអាចរក្សាភាពស្ងប់ស្ងាត់បានល្អពេលជួបបញ្ហា",
     sampleKm: "ខ្ញុំអាចអត់ធ្មត់ និងយល់ចិត្តខ្លួនឯងបានប្រសើរជាងមុន",
@@ -109,7 +108,7 @@ const PRESET_ADDITIONAL_QUESTIONS = [
   {
     id: "preset_tomorrow",
     labelEn: "A small positive intention for tomorrow",
-    labelKm: "បំណងប្រាថ្នាតូចមួយសម្រាប់ថ្ងៃស្អែក",
+    labelKm: "បំណងប្រាថ្នាតូចមួយសម្រាប់ថ្ងៃស្អែក (Tomorrow's Intention)",
     placeholderEn: "e.g. Sleep 8 hours, go for a short walk",
     placeholderKm: "ឧ. ចូលគេងឱ្យបានលឿន និងផឹកទឹកឱ្យបានច្រើន",
     sampleKm: "សម្រាកឱ្យបានគ្រប់គ្រាន់ និងរក្សាភាពវិជ្ជមាន",
@@ -172,11 +171,11 @@ type MoodOption = {
 };
 
 const MOODS: MoodOption[] = [
-  { en: "Great", km: "អស្ចារ្យ", icon: "boxicons_happy-beaming" },
-  { en: "Good", km: "ល្អ", icon: "ic_outline-mood" },
-  { en: "Okay", km: "ធម្មតា", icon: "teenyicons_mood-flat-outline" },
-  { en: "Not Good", km: "មិនល្អ", icon: "akar-icons_face-sad" },
-  { en: "Very difficult", km: "ពិបាកខ្លាំង", icon: "boxicons_tired" },
+  { en: "Great", km: "អស្ចារ្យ (Great)", icon: "boxicons_happy-beaming" },
+  { en: "Good", km: "ល្អ (Good)", icon: "ic_outline-mood" },
+  { en: "Okay", km: "ធម្មតា (Okay)", icon: "teenyicons_mood-flat-outline" },
+  { en: "Not Good", km: "មិនសូវល្អ (Not Good)", icon: "akar-icons_face-sad" },
+  { en: "Very difficult", km: "ពិបាកខ្លាំង (Very Difficult)", icon: "boxicons_tired" },
 ];
 
 type EmotionOption = {
@@ -188,21 +187,21 @@ type EmotionOption = {
 
 const EMOTIONS: EmotionOption[] = [
   // Positive & Uplifting
-  { en: "Happy", km: "រីករាយ", emoji: "😊", category: "positive" },
-  { en: "Grateful", km: "ដឹងគុណ", emoji: "✨", category: "positive" },
-  { en: "Calm", km: "ស្ងប់ស្ងាត់", emoji: "🌿", category: "positive" },
-  { en: "Proud", km: "មានមោទនភាព", emoji: "⭐", category: "positive" },
-  { en: "Hopeful", km: "មានសង្ឃឹម", emoji: "🌱", category: "positive" },
-  { en: "Energetic", km: "មានថាមពល", emoji: "⚡", category: "positive" },
-  { en: "Relaxed", km: "ធូរស្រាល", emoji: "🕊️", category: "positive" },
+  { en: "Happy", km: "រីករាយ (Happy)", emoji: "😊", category: "positive" },
+  { en: "Grateful", km: "ដឹងគុណ (Grateful)", emoji: "✨", category: "positive" },
+  { en: "Calm", km: "ស្ងប់ស្ងាត់ (Calm)", emoji: "🌿", category: "positive" },
+  { en: "Proud", km: "មានមោទនភាព (Proud)", emoji: "⭐", category: "positive" },
+  { en: "Hopeful", km: "មានសង្ឃឹម (Hopeful)", emoji: "🌱", category: "positive" },
+  { en: "Energetic", km: "មានថាមពល (Energetic)", emoji: "⚡", category: "positive" },
+  { en: "Relaxed", km: "ធូរស្រាល (Relaxed)", emoji: "🕊️", category: "positive" },
   // Reflective & Challenging
-  { en: "Tired", km: "អស់កម្លាំង", emoji: "😴", category: "reflective" },
-  { en: "Stressed", km: "តានតឹង", emoji: "🌪️", category: "reflective" },
-  { en: "Anxious", km: "ថប់បារម្ភ", emoji: "💭", category: "reflective" },
-  { en: "Sad", km: "កើតទុក្ខ", emoji: "🌧️", category: "reflective" },
-  { en: "Overwhelmed", km: "លើសលប់", emoji: "🌊", category: "reflective" },
-  { en: "Lonely", km: "ឯកោ", emoji: "🥀", category: "reflective" },
-  { en: "Angry", km: "ខឹង", emoji: "🔥", category: "reflective" },
+  { en: "Tired", km: "អស់កម្លាំង (Tired)", emoji: "😴", category: "reflective" },
+  { en: "Stressed", km: "តានតឹង (Stressed)", emoji: "🌪️", category: "reflective" },
+  { en: "Anxious", km: "ថប់បារម្ភ (Anxious)", emoji: "💭", category: "reflective" },
+  { en: "Sad", km: "កើតទុក្ខ (Sad)", emoji: "🌧️", category: "reflective" },
+  { en: "Overwhelmed", km: "លើសលប់ (Overwhelmed)", emoji: "🌊", category: "reflective" },
+  { en: "Lonely", km: "ឯកោ (Lonely)", emoji: "🥀", category: "reflective" },
+  { en: "Angry", km: "ខឹង (Angry)", emoji: "🔥", category: "reflective" },
 ];
 
 function mapMoodParam(param: string | null): string {
@@ -712,19 +711,19 @@ function JournalContent() {
                   onClick={() => setView("history")}
                   className="text-xs sm:text-sm font-semibold text-[#1f6f5b] hover:underline"
                 >
-                  {km ? "មើលប្រវត្តិ" : "View History"} ({entries.length})
+                  {km ? "មើលប្រវត្តិ (History)" : "View History"} ({entries.length})
                 </button>
               </div>
 
               {/* Title */}
               <h1 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight text-[#111827]">
-                {km ? "តើអ្នកមានអារម្មណ៍យ៉ាងណាដែរ?" : "How are you feeling?"}
+                {km ? "តើអ្នកមានអារម្មណ៍យ៉ាងណាដែរថ្ងៃនេះ?" : "How are you feeling?"}
               </h1>
 
               {/* Section 1: Mood */}
               <div className="mt-6">
                 <label className="block text-sm font-medium text-[#4b5563]">
-                  {km ? "អារម្មណ៍" : "Mood"}
+                  {km ? "កម្រិតអារម្មណ៍ (Mood)" : "Mood"}
                 </label>
                 <div className="mt-2.5 flex flex-wrap gap-2 sm:gap-2.5">
                   {MOODS.map((m) => {
@@ -754,10 +753,10 @@ function JournalContent() {
               <div className="mt-6">
                 <div className="flex items-center justify-between">
                   <label className="block text-sm font-medium text-[#4b5563]">
-                    {km ? "តើមានអ្វីកើតឡើងចំពោះអ្នក?" : "What’s coming up for you?"}
+                    {km ? "តើអ្នកកំពុងមានអារម្មណ៍បែបណាខ្លះ? (Emotions)" : "What’s coming up for you?"}
                   </label>
                   <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
-                    {km ? "អារម្មណ៍ និងការឆ្លុះបញ្ចាំង" : "Feelings & reflection"}
+                    {km ? "អារម្មណ៍ និងការឆ្លុះបញ្ចាំង (Feelings & Reflection)" : "Feelings & reflection"}
                   </span>
                 </div>
                 <div className="mt-2.5 flex flex-wrap gap-2 sm:gap-2.5">
@@ -786,10 +785,10 @@ function JournalContent() {
               <div className="mt-7">
                 <div className="flex items-center justify-between">
                   <label className="block text-sm font-semibold text-[#374151]">
-                    {km ? "សំណួរឆ្លុះបញ្ចាំង និងកំណត់ត្រា" : "Guided Reflection Questions"}
+                    {km ? "សំណួរឆ្លុះបញ្ចាំង និងកំណត់ត្រា (Guided Reflection)" : "Guided Reflection Questions"}
                   </label>
                   <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
-                    {km ? "ឆ្លើយ ឬកត់ត្រាជាសំឡេង" : "Type or speak by voice"}
+                    {km ? "ឆ្លើយ ឬកត់ត្រាជាសំឡេង (Voice or Text)" : "Type or speak by voice"}
                   </span>
                 </div>
                 <p className="mt-1 text-xs text-[#6b7280]">
@@ -873,7 +872,7 @@ function JournalContent() {
                     className="inline-flex items-center gap-1.5 rounded-xl border border-dashed border-[#1f6f5b]/40 bg-white px-3.5 py-2 text-xs font-semibold text-[#1f6f5b] shadow-2xs transition-all hover:border-[#1f6f5b] hover:bg-[#dff3ee]/30 active:scale-98"
                   >
                     <Plus size={15} />
-                    <span>{km ? "បន្ថែមសំណួរឆ្លុះបញ្ចាំង" : "Add a Question"}</span>
+                    <span>{km ? "បន្ថែមសំណួរឆ្លុះបញ្ចាំង (Add Question)" : "Add a Question"}</span>
                   </button>
 
                   {/* Add Question Popover / Presets */}
@@ -881,7 +880,7 @@ function JournalContent() {
                     <div className="mt-3 rounded-2xl border border-emerald-100 bg-[#f4faf8] p-4 shadow-sm animate-in fade-in duration-150">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-[#1f6f5b]">
-                          {km ? "ជ្រើសរើសសំណួរដែលចង់សួរ ឬសរសេរដោយខ្លួនឯង" : "Pick a prompt or write custom question"}
+                          {km ? "ជ្រើសរើសសំណួរគំរូ ឬសរសេរសំណួរផ្ទាល់ខ្លួន" : "Pick a prompt or write custom question"}
                         </span>
                         <button
                           type="button"
@@ -928,7 +927,7 @@ function JournalContent() {
                           disabled={!customQuestionInput.trim()}
                           className="rounded-xl bg-[#1f6f5b] px-3.5 text-xs font-semibold text-white hover:bg-[#185848] disabled:opacity-50 transition-colors"
                         >
-                          {km ? "បញ្ចូល" : "Add"}
+                          {km ? "បញ្ចូល (Add)" : "Add"}
                         </button>
                       </div>
                     </div>
@@ -959,7 +958,7 @@ function JournalContent() {
                             {km ? "កំពុងស្តាប់កំណត់ហេតុបន្ថែម... សូមនិយាយ" : "Listening to additional notes... speak now"}
                           </span>
                         ) : (
-                          km ? "កំណត់ត្រាបន្ថែម (ស្រេចចិត្ត)" : "Additional notes (optional)"
+                          km ? "កំណត់ត្រាបន្ថែម (ស្រេចចិត្ត) (Additional Notes)" : "Additional notes (optional)"
                         )}
                       </span>
                       <span>{additionalNotes.length}/500</span>
@@ -981,14 +980,14 @@ function JournalContent() {
                         <>
                           <MicOff size={18} className="text-red-600" />
                           <span className="text-sm font-semibold">
-                            {km ? "បញ្ឈប់ការថតសំឡេង" : "Stop recording"}
+                            {km ? "បញ្ឈប់ការថតសំឡេង (Stop)" : "Stop recording"}
                           </span>
                         </>
                       ) : (
                         <>
                           <Mic size={18} className="text-[#1f6f5b]" />
                           <span className="text-sm font-semibold">
-                            {km ? "កត់ត្រាជាសំឡេង" : "Record with voice"}
+                            {km ? "កត់ត្រាជាសំឡេង (Record with Voice)" : "Record with voice"}
                           </span>
                         </>
                       )}
@@ -1019,7 +1018,7 @@ function JournalContent() {
                 <ShieldCheck size={14} className="text-emerald-600" />
                 <span>
                   {km
-                    ? "កំណត់ត្រាផ្ទាល់ខ្លួនរបស់អ្នកត្រូវបានរក្សាទុកដោយសុវត្ថិភាព។"
+                    ? "កំណត់ត្រាផ្ទាល់ខ្លួនរបស់អ្នកត្រូវបានរក្សាទុកដោយសុវត្ថិភាព និងជាឯកជនភាព។"
                     : "Journal entries are private and handled securely."}
                 </span>
               </div>
@@ -1031,7 +1030,7 @@ function JournalContent() {
                   onClick={handleSave}
                   className="w-full rounded-2xl bg-[#1f6f5b] py-4 text-center text-base font-semibold text-white shadow-[0_4px_16px_rgba(31,111,91,0.28)] transition-all duration-150 hover:bg-[#185848] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f6f5b]"
                 >
-                  {km ? "រក្សាទុកកំណត់ហេតុ" : "Save Journal"}
+                  {km ? "រក្សាទុកកំណត់ត្រា (Save Journal)" : "Save Journal"}
                 </button>
               </div>
             </div>
@@ -1067,11 +1066,11 @@ function JournalContent() {
                 </div>
 
                 <h1 className="mt-6 text-2xl sm:text-3xl font-bold tracking-tight text-[#111827]">
-                  {km ? "ការឆ្លុះបញ្ចាំងរបស់អ្នកត្រូវបានរក្សាទុក។" : "Your reflection has been saved."}
+                  {km ? "ការឆ្លុះបញ្ចាំងរបស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ។" : "Your reflection has been saved."}
                 </h1>
                 <p className="mt-2.5 max-w-sm text-sm sm:text-base text-[#4b5563] leading-relaxed">
                   {km
-                    ? "ការចំណាយពេលស្វែងយល់ពីអារម្មណ៍របស់អ្នក ជួយឱ្យអ្នកកត់សម្គាល់ពីទម្លាប់តាមពេលវេលា។"
+                    ? "ការចំណាយពេលស្វែងយល់ពីអារម្មណ៍របស់អ្នក ជួយឱ្យអ្នកកត់សម្គាល់ពីទម្លាប់ និងការប្រែប្រួលតាមពេលវេលា។"
                     : "Taking a moment to understand your feelings can help you notice patterns over time."}
                 </p>
               </div>
@@ -1079,7 +1078,7 @@ function JournalContent() {
               {/* Today’s Journal Summary Card */}
               <div className="mt-8 rounded-[22px] border border-gray-200/90 bg-white p-5 sm:p-6 shadow-sm">
                 <h2 className="text-base sm:text-lg font-bold text-[#111827]">
-                  {km ? "កំណត់ហេតុថ្ងៃនេះ" : "Today’s Journal"}
+                  {km ? "កំណត់ត្រាថ្ងៃនេះ (Today's Journal)" : "Today’s Journal"}
                 </h2>
                 <div className="mt-1.5 flex items-center gap-2">
                   {(() => {
@@ -1109,7 +1108,7 @@ function JournalContent() {
                     {savedEntry.additionalNotes && (
                       <div className="rounded-xl bg-gray-50 p-2.5 text-xs sm:text-sm">
                         <span className="font-bold text-gray-700">
-                          {km ? "កំណត់ហេតុបន្ថែម: " : "Additional Notes: "}
+                          {km ? "កំណត់ត្រាបន្ថែម: " : "Additional Notes: "}
                         </span>
                         <span className="text-[#374151]">{savedEntry.additionalNotes}</span>
                       </div>
@@ -1146,14 +1145,14 @@ function JournalContent() {
                   onClick={() => setView("history")}
                   className="w-full rounded-2xl bg-[#1f6f5b] py-3.5 sm:py-4 text-center text-base font-semibold text-white shadow-sm transition-all duration-150 hover:bg-[#185848] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-[#1f6f5b]"
                 >
-                  {km ? "មើលសៀវភៅកំណត់ហេតុ" : "View Journal"}
+                  {km ? "មើលកំណត់ត្រាទាំងអស់ (View Journal)" : "View Journal"}
                 </button>
 
                 <Link
                   href="/"
                   className="w-full rounded-2xl border border-[#1f6f5b] bg-white py-3.5 sm:py-4 text-center text-base font-semibold text-[#1f6f5b] transition-all duration-150 hover:bg-emerald-50 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-[#1f6f5b]"
                 >
-                  {km ? "ត្រឡប់ទៅទំព័រដើម" : "Back to Home"}
+                  {km ? "ត្រឡប់ទៅទំព័រដើម (Back to Home)" : "Back to Home"}
                 </Link>
               </div>
             </div>
@@ -1176,7 +1175,7 @@ function JournalContent() {
                     <ArrowLeft size={22} />
                   </button>
                   <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111827]">
-                    {km ? "សៀវភៅកំណត់ហេតុរបស់ខ្ញុំ" : "My Journal"}
+                    {km ? "កំណត់ត្រាអារម្មណ៍របស់ខ្ញុំ (My Journal)" : "My Journal"}
                   </h1>
                 </div>
 
@@ -1193,7 +1192,7 @@ function JournalContent() {
                   className="flex items-center gap-1.5 rounded-full bg-[#e6f6f1] px-3.5 py-1.5 text-xs font-semibold text-[#1f6f5b] hover:bg-[#d2eee8] transition-colors"
                 >
                   <Plus size={16} />
-                  <span>{km ? "សរសេរថ្មី" : "New Entry"}</span>
+                  <span>{km ? "សរសេរថ្មី (New Entry)" : "New Entry"}</span>
                 </button>
               </div>
 
@@ -1215,14 +1214,14 @@ function JournalContent() {
                       <div>
                         <div className="flex items-center gap-2">
                           <h2 className="text-sm sm:text-base font-bold text-[#111827]">
-                            {km ? "ការវិភាគសង្ខេប AI" : "AI Journal Summary"}
+                            {km ? "ការវិភាគសង្ខេបអារម្មណ៍ (Mood Insights)" : "AI Journal Summary"}
                           </h2>
                           <span className="rounded-full bg-[#1f6f5b]/10 px-2.5 py-0.5 text-[10px] font-semibold text-[#1f6f5b]">
-                            {km ? "ឆ្លុះបញ្ចាំងឆ្លាតវៃ" : "Smart Reflection"}
+                            {km ? "ការឆ្លុះបញ្ចាំង (Reflection)" : "Smart Reflection"}
                           </span>
                         </div>
                         <p className="text-[11px] text-[#4b5563]">
-                          {km ? "ការយល់ដឹងពីលំនាំនៃអារម្មណ៍ ៧ ថ្ងៃចុងក្រោយ" : "Emotional patterns from your past 7 days"}
+                          {km ? "ស្វែងយល់ពីលំនាំនៃអារម្មណ៍ ៧ ថ្ងៃចុងក្រោយ" : "Emotional patterns from your past 7 days"}
                         </p>
                       </div>
                     </div>
@@ -1237,7 +1236,7 @@ function JournalContent() {
                       <span>
                         {isAiGenerating
                           ? (km ? "កំពុងវិភាគ..." : "Synthesizing...")
-                          : (km ? "វិភាគឡើងវិញ" : "Regenerate")}
+                          : (km ? "វិភាគឡើងវិញ (Refresh)" : "Regenerate")}
                       </span>
                     </button>
                   </div>
@@ -1247,7 +1246,7 @@ function JournalContent() {
                     <div className="mt-4 rounded-2xl bg-white/70 p-4 border border-emerald-100/80 animate-pulse">
                       <div className="flex items-center gap-2 text-xs font-medium text-[#1f6f5b]">
                         <span className="inline-block size-2 rounded-full bg-[#1f6f5b] animate-ping" />
-                        <span>{km ? "AI កំពុងអានកំណត់ត្រា និងវិភាគអារម្មណ៍របស់អ្នក..." : "AI is reading recent entries and evaluating emotional themes..."}</span>
+                        <span>{km ? "ប្រព័ន្ធកំពុងអានកំណត់ត្រា និងវិភាគអារម្មណ៍របស់អ្នក..." : "AI is reading recent entries and evaluating emotional themes..."}</span>
                       </div>
                       <div className="mt-3 h-3 w-4/5 rounded bg-emerald-200/50" />
                       <div className="mt-2 h-3 w-3/5 rounded bg-emerald-200/40" />
@@ -1270,7 +1269,7 @@ function JournalContent() {
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">
-                              {km ? "និន្នាការអារម្មណ៍" : "Mood Trend"}
+                              {km ? "និន្នាការអារម្មណ៍ (Mood Trend)" : "Mood Trend"}
                             </p>
                             <p className="text-xs font-bold text-[#1f6f5b] leading-tight">
                               {km ? currentAiSummary.trendKm : currentAiSummary.trendEn}
@@ -1285,7 +1284,7 @@ function JournalContent() {
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">
-                              {km ? "ប្រធានបទស្នូល" : "Core Theme"}
+                              {km ? "ប្រធានបទស្នូល (Core Theme)" : "Core Theme"}
                             </p>
                             <p className="text-xs font-bold text-[#111827] leading-tight">
                               {km ? currentAiSummary.themeKm : currentAiSummary.themeEn}
@@ -1300,7 +1299,7 @@ function JournalContent() {
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider">
-                              {km ? "ការណែនាំសុខុមាលភាព" : "Wellness Tip"}
+                              {km ? "ការណែនាំសុខុមាលភាព (Wellness Tip)" : "Wellness Tip"}
                             </p>
                             <p className="text-xs font-bold text-[#b45309] leading-tight">
                               {km ? currentAiSummary.actionKm : currentAiSummary.actionEn}
@@ -1316,7 +1315,7 @@ function JournalContent() {
                           onClick={() => setShowAiBreakdown(!showAiBreakdown)}
                           className="group flex items-center gap-1.5 text-xs font-semibold text-[#1f6f5b] hover:text-[#165344] transition-colors"
                         >
-                          <span>{showAiBreakdown ? (km ? "លាក់ការវិភាគលម្អិត" : "Hide detailed breakdown") : (km ? "មើលការវិភាគលម្អិត" : "View detailed breakdown")}</span>
+                          <span>{showAiBreakdown ? (km ? "លាក់ការវិភាគលម្អិត" : "Hide detailed breakdown") : (km ? "មើលការវិភាគលម្អិត (Detailed Breakdown)" : "View detailed breakdown")}</span>
                           {showAiBreakdown ? <ChevronUp size={14} /> : <ChevronDown size={14} className="transition-transform group-hover:translate-y-0.5" />}
                         </button>
                         <span className="text-[11px] text-[#6b7280]">
@@ -1343,10 +1342,10 @@ function JournalContent() {
               {/* Journal Entries List Header */}
               <div className="mt-6 flex items-center justify-between px-1">
                 <h3 className="text-sm font-bold text-[#111827]">
-                  {km ? "កំណត់ត្រាទាំងអស់" : "Past Reflections"} ({entries.length})
+                  {km ? "កំណត់ត្រាកន្លងមក (Past Reflections)" : "Past Reflections"} ({entries.length})
                 </h3>
                 <span className="text-xs text-[#6b7280]">
-                  {km ? "រៀបតាមកាលបរិច្ឆេទ" : "Chronological"}
+                  {km ? "រៀបតាមកាលបរិច្ឆេទ (Chronological)" : "Chronological"}
                 </span>
               </div>
 
@@ -1404,7 +1403,7 @@ function JournalContent() {
                   <div className="max-w-[62%] sm:max-w-[68%]">
                     <p className="text-base sm:text-lg font-medium leading-snug text-[#1f6f5b]">
                       {km
-                        ? "រាល់គំនិតដែលអ្នកសរសេរ គឺជាជំហានមួយឆ្ពោះទៅរកភាពច្បាស់លាស់ និងស្ងប់ស្ងាត់នៃចិត្ត។"
+                        ? "រាល់គំនិតដែលអ្នកកត់ត្រា គឺជាជំហានមួយឆ្ពោះទៅរកភាពច្បាស់លាស់ និងស្ងប់ស្ងាត់នៃផ្លូវចិត្ត។"
                         : "Every thought you write is a step towards a clearer, calmer you."}
                     </p>
                   </div>
@@ -1457,7 +1456,7 @@ function JournalContent() {
 
                 <div className="mt-4">
                   <h3 className="text-xl font-bold text-[#111827]">
-                    {km ? "កំណត់ត្រាការឆ្លុះបញ្ចាំង" : "Reflection Details"}
+                    {km ? "សេចក្តីលម្អិតនៃការឆ្លុះបញ្ចាំង (Reflection Details)" : "Reflection Details"}
                   </h3>
 
                   {selectedDetailEntry.questions && selectedDetailEntry.questions.length > 0 ? (
@@ -1473,7 +1472,7 @@ function JournalContent() {
                       {selectedDetailEntry.additionalNotes && (
                         <div className="rounded-2xl border border-gray-100 bg-gray-50 p-3.5">
                           <p className="text-xs font-bold text-gray-700">
-                            {km ? "កំណត់ហេតុបន្ថែម" : "Additional Notes"}
+                            {km ? "កំណត់ត្រាបន្ថែម (Additional Notes)" : "Additional Notes"}
                           </p>
                           <p className="mt-1 text-sm text-[#374151]">
                             {selectedDetailEntry.additionalNotes}
@@ -1512,14 +1511,14 @@ function JournalContent() {
                     className="flex items-center gap-1.5 text-xs font-semibold text-rose-600 hover:text-rose-800 transition-colors"
                   >
                     <Trash2 size={14} />
-                    <span>{km ? "លុបកំណត់ត្រា" : "Delete Entry"}</span>
+                    <span>{km ? "លុបកំណត់ត្រា (Delete Entry)" : "Delete Entry"}</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedDetailEntry(null)}
                     className="rounded-xl bg-[#1f6f5b] px-5 py-2 text-xs font-semibold text-white hover:bg-[#185848] transition-colors"
                   >
-                    {km ? "បិទ" : "Close"}
+                    {km ? "បិទ (Close)" : "Close"}
                   </button>
                 </div>
               </div>

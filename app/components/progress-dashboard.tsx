@@ -12,7 +12,7 @@ import {
   BookOpen,
   CheckCircle2,
   Wind,
-  Sparkles,
+  Compass,
   Smile,
   Lightbulb,
 } from "lucide-react";
@@ -135,7 +135,7 @@ export function ProgressDashboard() {
       deltaEn: "+6% vs prev",
       deltaKm: "+៦% ធៀបសប្តាហ៍មុន",
       moodEn: "Good",
-      moodKm: "ល្អ",
+      moodKm: "ស្រួលចិត្ត (Good)",
       emoji: "😊",
       feelingEn: "Calm & refreshed morning",
       feelingKm: "ព្រឹកស្ងប់ស្ងាត់ និងស្រស់ស្រាយ",
@@ -151,7 +151,7 @@ export function ProgressDashboard() {
       deltaEn: "Steady pace",
       deltaKm: "ល្បឿនមានស្ថិរភាព",
       moodEn: "Peaceful",
-      moodKm: "ស្ងប់ចិត្ត",
+      moodKm: "ស្ងប់ចិត្ត (Peaceful)",
       emoji: "🙂",
       feelingEn: "Gentle walk & steady balance",
       feelingKm: "ការដើរស្រូបខ្យល់បរិសុទ្ធ",
@@ -167,10 +167,10 @@ export function ProgressDashboard() {
       deltaEn: "+8% vs prev",
       deltaKm: "+៨% ធៀបសប្តាហ៍មុន",
       moodEn: "Calm",
-      moodKm: "ធូរស្រាល",
+      moodKm: "ធូរស្រាល (Calm)",
       emoji: "😌",
       feelingEn: "Breathing released study stress",
-      feelingKm: "លំហាត់ដកដង្ហើមបន្ធូរសម្ពាធ",
+      feelingKm: "លំហាត់ដកដង្ហើមបន្ធូរភាពតានតឹង (Stress)",
     },
     {
       x: 175,
@@ -183,10 +183,10 @@ export function ProgressDashboard() {
       deltaEn: "+12% from last week",
       deltaKm: "+១២% ធៀបនឹងសប្តាហ៍មុន",
       moodEn: todayMood,
-      moodKm: todayMood === "Great" ? "ល្អប្រសើរ" : todayMood === "Okay" ? "ធម្មតា" : "ល្អ",
+      moodKm: todayMood === "Great" ? "រីករាយ (Great)" : todayMood === "Okay" ? "ធម្មតា (Okay)" : "ស្រួលចិត្ត (Good)",
       emoji: todayMood === "Great" ? "😄" : todayMood === "Okay" ? "😐" : "😊",
       feelingEn: "Grounding check-in & journal",
-      feelingKm: "ការពិនិត្យ និងកត់ត្រាអារម្មណ៍",
+      feelingKm: "ពិនិត្យ និងកត់ត្រាអារម្មណ៍ (Check-in & Journal)",
       isToday: true,
     },
     {
@@ -200,7 +200,7 @@ export function ProgressDashboard() {
       deltaEn: "+15% vs prev",
       deltaKm: "+១៥% ធៀបសប្តាហ៍មុន",
       moodEn: "Uplifted",
-      moodKm: "រីករាយ",
+      moodKm: "ស្រស់ស្រាយ (Uplifted)",
       emoji: "😊",
       feelingEn: "Restful music evening",
       feelingKm: "តន្ត្រីសម្រាកអារម្មណ៍",
@@ -216,10 +216,10 @@ export function ProgressDashboard() {
       deltaEn: "+18% vs prev",
       deltaKm: "+១៨% ធៀបសប្តាហ៍មុន",
       moodEn: "Great",
-      moodKm: "ល្អប្រសើរ",
+      moodKm: "រីករាយ (Great)",
       emoji: "😄",
       feelingEn: "Peer community shared joy",
-      feelingKm: "ការចែករំលែកជាមួយសហគមន៍",
+      feelingKm: "ចែករំលែកជាមួយសហគមន៍ (Community)",
     },
     {
       x: 325,
@@ -232,10 +232,10 @@ export function ProgressDashboard() {
       deltaEn: "+20% vs prev",
       deltaKm: "+២០% ធៀបសប្តាហ៍មុន",
       moodEn: "Harmony",
-      moodKm: "សុខដុម",
+      moodKm: "សុខដុម (Harmony)",
       emoji: "✨",
       feelingEn: "Weekly recharge & reset",
-      feelingKm: "ការបញ្ចូលថាមពល និងសម្រាកចិត្ត",
+      feelingKm: "បញ្ចូលថាមពល និងសម្រាកចិត្ត (Recharge & Reset)",
     },
   ];
 
@@ -251,10 +251,10 @@ export function ProgressDashboard() {
       deltaEn: "Baseline start",
       deltaKm: "ការចាប់ផ្តើមដំបូង",
       moodEn: "Okay",
-      moodKm: "ធម្មតា",
+      moodKm: "ធម្មតា (Okay)",
       emoji: "😐",
       feelingEn: "Midterm workload stress",
-      feelingKm: "សម្ពាធការងារសាលា",
+      feelingKm: "សម្ពាធការងារ និងការរៀន (Stress)",
     },
     {
       x: 75,
@@ -267,10 +267,10 @@ export function ProgressDashboard() {
       deltaEn: "+2%",
       deltaKm: "+២%",
       moodEn: "Reflective",
-      moodKm: "គិតច្រើន",
+      moodKm: "គិតពិចារណា (Reflective)",
       emoji: "🙂",
       feelingEn: "Paced daily tasks slowly",
-      feelingKm: "ការបន្ថយល្បឿន",
+      feelingKm: "ការបន្ថយល្បឿន និងធ្វើចិត្តឱ្យស្ងប់",
     },
     {
       x: 125,
@@ -283,10 +283,10 @@ export function ProgressDashboard() {
       deltaEn: "+4%",
       deltaKm: "+៤%",
       moodEn: "Calm",
-      moodKm: "ធូរស្រាល",
+      moodKm: "ធូរស្រាល (Calm)",
       emoji: "😌",
       feelingEn: "Evening pause helped relax",
-      feelingKm: "ការផ្អាកពេលល្ងាច",
+      feelingKm: "ការផ្អាកសម្រាកពេលល្ងាច",
     },
     {
       x: 175,
@@ -299,10 +299,10 @@ export function ProgressDashboard() {
       deltaEn: "+5%",
       deltaKm: "+៥%",
       moodEn: "Good",
-      moodKm: "ល្អ",
+      moodKm: "ស្រួលចិត្ត (Good)",
       emoji: "😊",
       feelingEn: "MindGuide lesson completed",
-      feelingKm: "បានអានមេរៀន",
+      feelingKm: "បញ្ចប់មេរៀនចិត្ត (MindGuide Lesson)",
     },
     {
       x: 225,
@@ -315,10 +315,10 @@ export function ProgressDashboard() {
       deltaEn: "+8%",
       deltaKm: "+៨%",
       moodEn: "Uplifted",
-      moodKm: "រីករាយ",
+      moodKm: "ស្រស់ស្រាយ (Uplifted)",
       emoji: "😊",
       feelingEn: "Relaxing soundscape session",
-      feelingKm: "សម្លេងរំងាប់អារម្មណ៍",
+      feelingKm: "ស្ដាប់សំឡេងបន្ធូរអារម្មណ៍ (Soundscape)",
     },
     {
       x: 275,
@@ -331,10 +331,10 @@ export function ProgressDashboard() {
       deltaEn: "+10%",
       deltaKm: "+១០%",
       moodEn: "Great",
-      moodKm: "ល្អប្រសើរ",
+      moodKm: "រីករាយ (Great)",
       emoji: "😄",
       feelingEn: "Outdoor walk with friends",
-      feelingKm: "ដើរលេងជាមួយមិត្ត",
+      feelingKm: "ដើរលេងជាមួយមិត្តភក្តិ",
     },
     {
       x: 325,
@@ -347,10 +347,10 @@ export function ProgressDashboard() {
       deltaEn: "+12%",
       deltaKm: "+១២%",
       moodEn: "Peaceful",
-      moodKm: "ស្ងប់ចិត្ត",
+      moodKm: "ស្ងប់ចិត្ត (Peaceful)",
       emoji: "✨",
       feelingEn: "Restful sleep preparation",
-      feelingKm: "ការរៀបចំខ្លួនសម្រាក",
+      feelingKm: "ការរៀបចំខ្លួនសម្រាកដំណេក",
     },
   ];
 
@@ -368,11 +368,11 @@ export function ProgressDashboard() {
       shortKm: "ច",
       emoji: "😊",
       moodNameEn: "Good",
-      moodNameKm: "ល្អ",
+      moodNameKm: "ស្រួលចិត្ត (Good)",
       score: 7.2,
       time: "8:30 AM",
       noteEn: "Morning meditation helped start the day refreshed.",
-      noteKm: "ការធ្វើសមាធិពេលព្រឹកជួយឱ្យថ្ងៃថ្មីចាប់ផ្តើមយ៉ាងស្រស់ស្រាយ។",
+      noteKm: "ការធ្វើសមាធិ (Meditation) ពេលព្រឹក ជួយឱ្យថ្ងៃថ្មីចាប់ផ្តើមយ៉ាងស្រស់ស្រាយ។",
     },
     {
       dayEn: "Tue",
@@ -381,11 +381,11 @@ export function ProgressDashboard() {
       shortKm: "អ",
       emoji: "🙂",
       moodNameEn: "Peaceful",
-      moodNameKm: "ស្ងប់ចិត្ត",
+      moodNameKm: "ស្ងប់ចិត្ត (Peaceful)",
       score: 6.8,
       time: "12:15 PM",
       noteEn: "Took a walk outside, feeling balanced and grounded.",
-      noteKm: "បានដើរស្រូបខ្យល់ខាងក្រៅ មានអារម្មណ៍ស្ងប់និងមានលំនឹង។",
+      noteKm: "បានដើរស្រូបខ្យល់ខាងក្រៅ មានអារម្មណ៍ស្ងប់ និងមានលំនឹងផ្លូវចិត្ត។",
     },
     {
       dayEn: "Wed",
@@ -394,11 +394,11 @@ export function ProgressDashboard() {
       shortKm: "ព",
       emoji: "😌",
       moodNameEn: "Calm",
-      moodNameKm: "ធូរស្រាល",
+      moodNameKm: "ធូរស្រាល (Calm)",
       score: 7.0,
       time: "9:45 AM",
       noteEn: "Focused breathing session eased study tension.",
-      noteKm: "ការដកដង្ហើមស្ងប់ចិត្តជួយបន្ធូរការតានតឹងពីការរៀន។",
+      noteKm: "ការដកដង្ហើម (Breathing) ជួយបន្ធូរភាពតានតឹង (Stress) ពីការរៀន។",
     },
     {
       dayEn: "Thu",
@@ -407,11 +407,11 @@ export function ProgressDashboard() {
       shortKm: "ព្រ",
       emoji: todayMood === "Great" ? "😄" : todayMood === "Okay" ? "😐" : "😊",
       moodNameEn: todayMood,
-      moodNameKm: todayMood === "Great" ? "ល្អប្រសើរ" : todayMood === "Okay" ? "ធម្មតា" : "ល្អ",
+      moodNameKm: todayMood === "Great" ? "រីករាយ (Great)" : todayMood === "Okay" ? "ធម្មតា (Okay)" : "ស្រួលចិត្ត (Good)",
       score: 7.4,
       time: "Today",
       noteEn: "Checked in today. Practiced mindfulness and self-care.",
-      noteKm: "បានពិនិត្យអារម្មណ៍ថ្ងៃនេះ។ បានអនុវត្តការដកដង្ហើមនិងថែទាំចិត្ត។",
+      noteKm: "បានពិនិត្យអារម្មណ៍ថ្ងៃនេះ (Check-in) និងអនុវត្តការដកដង្ហើមថែទាំចិត្ត។",
       isToday: true,
     },
     {
@@ -421,11 +421,11 @@ export function ProgressDashboard() {
       shortKm: "ស",
       emoji: "😊",
       moodNameEn: "Uplifted",
-      moodNameKm: "រីករាយ",
+      moodNameKm: "ស្រស់ស្រាយ (Uplifted)",
       score: 7.5,
       time: "Yesterday",
       noteEn: "Enjoyed music and rested well.",
-      noteKm: "បានស្តាប់តន្ត្រី និងសម្រាកបានស្រួល។",
+      noteKm: "បានស្តាប់តន្ត្រី និងសម្រាកបានយ៉ាងស្រួល។",
     },
     {
       dayEn: "Sat",
@@ -434,20 +434,20 @@ export function ProgressDashboard() {
       shortKm: "សៅ",
       emoji: "😄",
       moodNameEn: "Great",
-      moodNameKm: "ល្អប្រសើរ",
+      moodNameKm: "រីករាយ (Great)",
       score: 8.0,
       time: "Weekend",
       noteEn: "Shared moments with friends in the community.",
-      noteKm: "បានជជែកលេងជាមួយមិត្តភក្តិក្នុងសហគមន៍។",
+      noteKm: "បានជជែកលេងជាមួយមិត្តភក្តិក្នុងសហគមន៍ (Community)។",
     },
     {
       dayEn: "Sun",
       dayKm: "អាទិត្យ",
       shortEn: "S",
       shortKm: "អា",
-      emoji: "—",
+      emoji: "⏳",
       moodNameEn: "Upcoming",
-      moodNameKm: "គ្រោងទុក",
+      moodNameKm: "គ្រោងទុក (Upcoming)",
       score: 0,
       time: "Tomorrow",
       noteEn: "Take time for a mindful rest day.",
@@ -468,10 +468,10 @@ export function ProgressDashboard() {
         <div className="flex items-center justify-between px-1">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#14221f]">
-              {km ? "ដំណើរការរបស់អ្នក" : "Your Progress"}
+              {km ? "ដំណើរការវិវឌ្ឍរបស់អ្នក (Your Progress)" : "Your Progress"}
             </h2>
             <p className="mt-0.5 text-xs sm:text-sm text-[#4b5563]">
-              {km ? "«ជំហានតូចៗនៅតែជាការរីកចម្រើន។»" : "“Small steps are still progress.”"}
+              {km ? "«រាល់ជំហានតូចៗ សុទ្ធតែជាការរីកចម្រើនដ៏មានតម្លៃ។»" : "“Small steps are still progress.”"}
             </p>
           </div>
 
@@ -480,7 +480,7 @@ export function ProgressDashboard() {
             onClick={() => setIsFullDashboardOpen(true)}
             className="group inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-[#1f6f5b] hover:text-[#144b3e] transition-colors focus-visible:outline-2 focus-visible:outline-[#1f6f5b]"
           >
-            <span>{km ? "មើលទាំងអស់" : "View All"}</span>
+            <span>{km ? "មើលលម្អិត (View All)" : "View All"}</span>
             <ArrowRight
               size={15}
               className="transition-transform group-hover:translate-x-0.5"
@@ -501,12 +501,12 @@ export function ProgressDashboard() {
                   <TrendingUp size={14} />
                 </span>
                 <h3 className="text-base sm:text-lg font-bold text-[#14221f]">
-                  {km ? "អារម្មណ៍របស់អ្នកកំពុងប្រសើរឡើង" : "Your mood is improving"}
+                  {km ? "អារម្មណ៍របស់អ្នកកំពុងតែប្រសើរឡើង" : "Your mood is improving"}
                 </h3>
               </div>
               <p className="text-xs sm:text-sm text-[#4b5563]">
                 {km
-                  ? "អារម្មណ៍របស់អ្នកមានស្ថិរភាពល្អប្រសើរក្នុងសប្តាហ៍នេះ។"
+                  ? "អារម្មណ៍របស់អ្នកមានលំនឹង និងធូរស្រាលល្អក្នុងសប្តាហ៍នេះ។"
                   : "Your mood has been more stable this week."}
               </p>
             </div>
@@ -734,7 +734,7 @@ export function ProgressDashboard() {
           <div className="flex flex-col justify-between rounded-[20px] border border-[#e8f2ee] bg-white p-3.5 sm:p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="text-[11px] sm:text-xs font-medium text-[#6b7280]">
-                {km ? "ការពិនិត្យប្រចាំថ្ងៃ" : "Daily check-ins"}
+                {km ? "ពិនិត្យអារម្មណ៍ (Daily Check-ins)" : "Daily check-ins"}
               </span>
               <div className="flex size-6 sm:size-7 items-center justify-center rounded-full bg-[#eaf5f1] text-[#1f6f5b]">
                 <Smile size={14} />
@@ -754,7 +754,7 @@ export function ProgressDashboard() {
           <div className="flex flex-col justify-between rounded-[20px] border border-[#e8f2ee] bg-white p-3.5 sm:p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="text-[11px] sm:text-xs font-medium text-[#6b7280]">
-                {km ? "បានសម្រេច" : "Completed"}
+                {km ? "សម្រេចបាន (Completed)" : "Completed"}
               </span>
               <div className="flex size-6 sm:size-7 items-center justify-center rounded-full bg-[#fcedd7] text-[#d97706]">
                 <CheckCircle2 size={14} />
@@ -774,7 +774,7 @@ export function ProgressDashboard() {
           <div className="flex flex-col justify-between rounded-[20px] border border-[#e8f2ee] bg-white p-3.5 sm:p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="text-[11px] sm:text-xs font-medium text-[#6b7280] truncate">
-                {km ? "សកម្មភាព" : "MindGuide"}
+                {km ? "មេរៀនចិត្ត (MindGuide)" : "MindGuide"}
               </span>
               <div className="flex size-6 sm:size-7 items-center justify-center rounded-full bg-[#e8edfa] text-[#2563eb]">
                 <BookOpen size={14} />
@@ -785,7 +785,7 @@ export function ProgressDashboard() {
                 12
               </p>
               <p className="text-[10px] text-[#6b7280] truncate">
-                {km ? "បានបញ្ចប់" : "Activities done"}
+                {km ? "សកម្មភាពរួចរាល់" : "Activities done"}
               </p>
             </div>
           </div>
@@ -798,7 +798,7 @@ export function ProgressDashboard() {
               {km ? "សប្តាហ៍នេះ" : "This Week"}
             </h3>
             <span className="text-xs text-[#6b7280]">
-              {km ? "ចុចលើថ្ងៃដើម្បីមើលកំណត់ត្រា" : "Tap a day to view mood"}
+              {km ? "ចុចលើថ្ងៃនីមួយៗដើម្បីមើលកំណត់ត្រាអារម្មណ៍" : "Tap a day to view mood"}
             </span>
           </div>
 
@@ -842,7 +842,7 @@ export function ProgressDashboard() {
                       day.isToday ? "font-bold text-[#1f6f5b]" : "text-[#6b7280]"
                     }`}
                   >
-                    {day.isToday ? (km ? "ថ្ងៃនេះ" : "Today") : day.moodNameEn === "Upcoming" ? "—" : day.moodNameEn}
+                    {day.isToday ? (km ? "ថ្ងៃនេះ" : "Today") : day.moodNameEn === "Upcoming" ? (km ? "ស្អែក" : "Pending") : day.moodNameEn}
                   </span>
                 </button>
               );
@@ -879,15 +879,15 @@ export function ProgressDashboard() {
             <div>
               <div className="flex items-center gap-2">
                 <h4 className="text-sm sm:text-base font-bold text-[#14221f]">
-                  {km ? "៦ ថ្ងៃជាប់គ្នា" : "6 Day Streak"}
+                  {km ? "៦ ថ្ងៃជាប់គ្នា (6 Day Streak)" : "6 Day Streak"}
                 </h4>
                 <span className="rounded-full bg-[#fef3c7] px-2 py-0.5 text-[10px] font-bold text-[#b45309]">
-                  {km ? "គោលដៅ ៧ ថ្ងៃ" : "Goal: 7 days"}
+                  {km ? "គោលដៅ ៧ ថ្ងៃ (Goal)" : "Goal: 7 days"}
                 </span>
               </div>
               <p className="mt-0.5 text-xs text-[#6b7280]">
                 {km
-                  ? "បន្តការពិនិត្យដើម្បីបន្តដំណើរស្វែងរកភាពស្ងប់ស្ងាត់របស់អ្នក។"
+                  ? "បន្តពិនិត្យអារម្មណ៍ជារៀងរាល់ថ្ងៃ ដើម្បីរក្សាភាពស្ងប់ស្ងាត់ផ្លូវចិត្ត។"
                   : "Keep checking in to continue your journey."}
               </p>
             </div>
@@ -910,11 +910,11 @@ export function ProgressDashboard() {
             </div>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#1f6f5b]">
-                {km ? "ជំហានបន្ទាប់របស់អ្នក" : "Your next step"}
+                {km ? "ការអនុវត្តបន្ទាប់ (Next Step)" : "Your next step"}
               </span>
               <p className="mt-0.5 text-xs sm:text-sm font-semibold text-[#14221f]">
                 {km
-                  ? "សាកល្បងលំហាត់ដកដង្ហើមរយៈពេល ២ នាទី។"
+                  ? "សាកល្បងលំហាត់ដកដង្ហើមបន្ធូរអារម្មណ៍ ២ នាទី (Breathing)"
                   : "Try a 2-minute breathing exercise."}
               </p>
             </div>
@@ -934,7 +934,7 @@ export function ProgressDashboard() {
           onClick={() => setIsFullDashboardOpen(true)}
           className="group flex w-full items-center justify-center gap-2 rounded-[20px] border border-[#1f6f5b]/30 bg-white py-3.5 text-sm font-bold text-[#1f6f5b] shadow-xs transition-all hover:bg-[#f0f9f6] hover:border-[#1f6f5b] active:scale-[0.99]"
         >
-          <span>{km ? "មើលដំណើរការពេញលេញ" : "View Full Progress"}</span>
+          <span>{km ? "មើលរបាយការណ៍ពេញលេញ (View Full Progress)" : "View Full Progress"}</span>
           <ArrowRight
             size={16}
             className="transition-transform group-hover:translate-x-1"
@@ -967,10 +967,10 @@ export function ProgressDashboard() {
                   </button>
                   <div>
                     <h3 className="text-lg sm:text-xl font-bold text-[#14221f]">
-                      {km ? "ផ្ទាំងវិភាគដំណើរការពេញលេញ" : "Full Progress Dashboard"}
+                      {km ? "ផ្ទាំងតាមដានការវិវឌ្ឍពេញលេញ (Full Progress)" : "Full Progress Dashboard"}
                     </h3>
                     <p className="text-xs text-[#6b7280]">
-                      {km ? "ទិដ្ឋភាពទូទៅនៃដំណើរការសុខុមាលភាពផ្លូវចិត្ត" : "Holistic mental wellness journey & insights"}
+                      {km ? "ទិដ្ឋភាពទូទៅនៃសុខុមាលភាពផ្លូវចិត្ត និងការយល់ដឹងពីខ្លួនឯង" : "Holistic mental wellness journey & insights"}
                     </p>
                   </div>
                 </div>
@@ -986,17 +986,17 @@ export function ProgressDashboard() {
 
               {/* Modal Body - 8 Comprehensive Sections */}
               <div className="mt-5 flex flex-col gap-5">
-                {/* 1. AI-Generated Progress Summary */}
+                {/* 1. Weekly Progress Summary */}
                 <div className="rounded-[22px] border border-[#cce8dc] bg-gradient-to-br from-[#eaf6f2] to-[#f4fbf8] p-4.5 sm:p-5 shadow-xs">
                   <div className="flex items-center gap-2 text-[#1f6f5b]">
-                    <Sparkles size={17} />
+                    <Compass size={17} />
                     <span className="text-xs font-bold uppercase tracking-wider">
-                      {km ? "ការសង្ខេបដំណើរការឆ្លាតវៃ (ARom MindGuide)" : "AI-Generated Progress Summary"}
+                      {km ? "ការសង្ខេបការវិវឌ្ឍប្រចាំសប្តាហ៍ (Weekly Summary)" : "Weekly Progress Summary"}
                     </span>
                   </div>
                   <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#144b3e]">
                     {km
-                      ? "«ក្នុងរយៈពេល ៧ ថ្ងៃកន្លងមកនេះ អារម្មណ៍របស់អ្នកមានភាពស្ងប់ស្ងាត់និងមានស្ថិរភាពគួរឱ្យកត់សម្គាល់ (+12%)។ ការអនុវត្តលំហាត់ដកដង្ហើមទៀងទាត់បានជួយកាត់បន្ថយសម្ពាធអារម្មណ៍នាពេលព្រឹក។ អ្នកកំពុងស្ថិតក្នុងលំហូរល្អបំផុត!»"
+                      ? "«ក្នុងរយៈពេល ៧ ថ្ងៃនេះ អារម្មណ៍របស់អ្នកមានលំនឹង និងភាពស្ងប់ស្ងាត់ល្អគួរឱ្យកត់សម្គាល់ (+១២%)។ ការអនុវត្តលំហាត់ដកដង្ហើម និងការឆ្លុះបញ្ចាំងអារម្មណ៍ពេលព្រឹក ជួយកាត់បន្ថយភាពតានតឹង (Stress) បានយ៉ាងមានប្រសិទ្ធភាព។ អ្នកកំពុងដើរលើផ្លូវដ៏ល្អប្រសើរ!»"
                       : "“Over the past 7 days, your emotional rhythm has shown remarkable consistency (+12% stability). Regular guided pauses and morning reflections contributed to lower midday stress. You are building durable calm.”"}
                   </p>
                 </div>
@@ -1005,7 +1005,7 @@ export function ProgressDashboard() {
                 <div className="rounded-[22px] border border-[#e5efe9] bg-white p-4.5 sm:p-5 shadow-sm">
                   <div className="flex items-center justify-between">
                     <h4 className="text-sm font-bold text-[#14221f]">
-                      {km ? "និន្នាការ និងទម្រង់នៃអារម្មណ៍" : "Mood Trends & Emotional Patterns"}
+                      {km ? "និន្នាការ និងទម្រង់អារម្មណ៍ (Mood Trends)" : "Mood Trends & Emotional Patterns"}
                     </h4>
                     <span className="text-xs font-semibold text-[#1f6f5b]">
                       72% Positive
@@ -1023,19 +1023,19 @@ export function ProgressDashboard() {
                   <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-[#4b5563]">
                     <div className="flex items-center gap-1.5">
                       <span className="size-2 rounded-full bg-[#1f6f5b]" />
-                      <span>{km ? "ល្អប្រសើរ: ៣ ថ្ងៃ (៤៣%)" : "Great: 3 days (43%)"}</span>
+                      <span>{km ? "រីករាយ (Great): ៣ ថ្ងៃ (៤៣%)" : "Great: 3 days (43%)"}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="size-2 rounded-full bg-[#3ea285]" />
-                      <span>{km ? "ល្អ: ២ ថ្ងៃ (២៩%)" : "Good: 2 days (29%)"}</span>
+                      <span>{km ? "ស្រួលចិត្ត (Good): ២ ថ្ងៃ (២៩%)" : "Good: 2 days (29%)"}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="size-2 rounded-full bg-[#83cfb9]" />
-                      <span>{km ? "ស្ងប់ចិត្ត: ១ ថ្ងៃ (១៤%)" : "Calm: 1 day (14%)"}</span>
+                      <span>{km ? "ស្ងប់ចិត្ត (Calm): ១ ថ្ងៃ (១៤%)" : "Calm: 1 day (14%)"}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="size-2 rounded-full bg-[#d0e2db]" />
-                      <span>{km ? "តានតឹងស្រាល: ១ ថ្ងៃ (១៤%)" : "Restless: 1 day (14%)"}</span>
+                      <span>{km ? "តានតឹង (Restless): ១ ថ្ងៃ (១៤%)" : "Restless: 1 day (14%)"}</span>
                     </div>
                   </div>
                 </div>
@@ -1043,7 +1043,7 @@ export function ProgressDashboard() {
                 {/* 3. Symptom & Assessment Trends (Non-Clinical Wellness) */}
                 <div className="rounded-[22px] border border-[#e5efe9] bg-white p-4.5 sm:p-5 shadow-sm">
                   <h4 className="text-sm font-bold text-[#14221f]">
-                    {km ? "សូចនាករសុខុមាលភាពប្រចាំសប្តាហ៍" : "Wellness & Balance Indicators"}
+                    {km ? "សូចនាករសុខុមាលភាពប្រចាំសប្តាហ៍ (Wellness Indicators)" : "Wellness & Balance Indicators"}
                   </h4>
                   <p className="mt-0.5 text-xs text-[#6b7280]">
                     {km ? "ការវាយតម្លៃថាមពល និងការសម្រាក" : "Non-clinical wellness and energy indicators"}
@@ -1051,21 +1051,21 @@ export function ProgressDashboard() {
 
                   <div className="mt-3.5 grid gap-3 sm:grid-cols-3">
                     <div className="rounded-xl bg-[#f7faf9] border border-[#e8f2ee] p-3 text-center">
-                      <span className="text-[11px] font-medium text-[#6b7280]">{km ? "គុណភាពនៃការគេង" : "Sleep Rest"}</span>
+                      <span className="text-[11px] font-medium text-[#6b7280]">{km ? "ដំណេក (Sleep Rest)" : "Sleep Rest"}</span>
                       <p className="text-base font-bold text-[#14221f] mt-1">7.8 / 10</p>
-                      <span className="text-[10px] text-[#1f6f5b] font-semibold">{km ? "ល្អប្រសើរ" : "Uplifted"}</span>
+                      <span className="text-[10px] text-[#1f6f5b] font-semibold">{km ? "ស្រស់ស្រាយ" : "Uplifted"}</span>
                     </div>
 
                     <div className="rounded-xl bg-[#f7faf9] border border-[#e8f2ee] p-3 text-center">
-                      <span className="text-[11px] font-medium text-[#6b7280]">{km ? "លំនឹងស្ត្រេស" : "Stress Balance"}</span>
+                      <span className="text-[11px] font-medium text-[#6b7280]">{km ? "លំនឹងស្ត្រេស (Stress Balance)" : "Stress Balance"}</span>
                       <p className="text-base font-bold text-[#14221f] mt-1">6.9 / 10</p>
-                      <span className="text-[10px] text-[#1f6f5b] font-semibold">{km ? "មានស្ថិរភាព" : "Balanced"}</span>
+                      <span className="text-[10px] text-[#1f6f5b] font-semibold">{km ? "មានលំនឹង" : "Balanced"}</span>
                     </div>
 
                     <div className="rounded-xl bg-[#f7faf9] border border-[#e8f2ee] p-3 text-center">
-                      <span className="text-[11px] font-medium text-[#6b7280]">{km ? "កម្រិតថាមពល" : "Daily Energy"}</span>
+                      <span className="text-[11px] font-medium text-[#6b7280]">{km ? "កម្រិតថាមពល (Daily Energy)" : "Daily Energy"}</span>
                       <p className="text-base font-bold text-[#14221f] mt-1">8.2 / 10</p>
-                      <span className="text-[10px] text-[#1f6f5b] font-semibold">{km ? "ខ្លាំង" : "Strong"}</span>
+                      <span className="text-[10px] text-[#1f6f5b] font-semibold">{km ? "រឹងមាំ" : "Strong"}</span>
                     </div>
                   </div>
                 </div>
@@ -1075,19 +1075,19 @@ export function ProgressDashboard() {
                   {/* MindGuide & Goals */}
                   <div className="rounded-[22px] border border-[#e5efe9] bg-white p-4.5 shadow-sm">
                     <h4 className="text-sm font-bold text-[#14221f]">
-                      {km ? "ការសិក្សា និងគោលដៅ" : "MindGuide & Goals"}
+                      {km ? "មេរៀនចិត្ត និងគោលដៅ (MindGuide & Goals)" : "MindGuide & Goals"}
                     </h4>
                     <ul className="mt-3 space-y-2 text-xs">
                       <li className="flex items-center justify-between">
-                        <span className="text-[#4b5563]">{km ? "មេរៀន 'ស្វែងយល់ការថប់បារម្ភ'" : "Lesson: Understanding Anxiety"}</span>
+                        <span className="text-[#4b5563]">{km ? "មេរៀន 'ស្វែងយល់ការថប់បារម្ភ (Anxiety)'" : "Lesson: Understanding Anxiety"}</span>
                         <span className="font-bold text-[#1f6f5b]">100%</span>
                       </li>
                       <li className="flex items-center justify-between">
-                        <span className="text-[#4b5563]">{km ? "លំហាត់ដកដង្ហើម ៤-៧-៨" : "Practice: 4-7-8 Breathing"}</span>
+                        <span className="text-[#4b5563]">{km ? "លំហាត់ដកដង្ហើម ៤-៧-៨ (Breathing)" : "Practice: 4-7-8 Breathing"}</span>
                         <span className="font-bold text-[#1f6f5b]">3 / 4</span>
                       </li>
                       <li className="flex items-center justify-between">
-                        <span className="text-[#4b5563]">{km ? "កំណត់ត្រាការដឹងគុណ" : "Gratitude Journaling"}</span>
+                        <span className="text-[#4b5563]">{km ? "កំណត់ត្រាដឹងគុណ (Gratitude Journal)" : "Gratitude Journaling"}</span>
                         <span className="font-bold text-[#1f6f5b]">{journalEntriesCount} / 7</span>
                       </li>
                     </ul>
@@ -1096,16 +1096,16 @@ export function ProgressDashboard() {
                   {/* Therapy & Consultations */}
                   <div className="rounded-[22px] border border-[#e5efe9] bg-white p-4.5 shadow-sm">
                     <h4 className="text-sm font-bold text-[#14221f]">
-                      {km ? "ការគាំទ្រវិជ្ជាជីវៈ" : "Therapy & Support"}
+                      {km ? "ការពិគ្រោះយោបល់វិជ្ជាជីវៈ (Therapy & Support)" : "Therapy & Support"}
                     </h4>
                     <p className="mt-1 text-xs text-[#6b7280]">
                       {km
-                        ? "អ្នកមានការណាត់ពិគ្រោះយោបល់បន្ទាប់នៅថ្ងៃច័ន្ទក្រោយ។"
+                        ? "អ្នកមានការណាត់ជួបពិគ្រោះយោបល់បន្ទាប់ជាមួយអ្នកជំនាញ (Counselor) នៅថ្ងៃច័ន្ទក្រោយ។"
                         : "Next consultation session ready with Licensed Counselor."}
                     </p>
                     <div className="mt-3 rounded-xl bg-[#eaf5f1] p-3 text-xs text-[#1b5e4c]">
-                      <span className="font-bold">{km ? "ប្រធានបទផ្តោត៖" : "Focus area:"} </span>
-                      <span>{km ? "ការគ្រប់គ្រងការងារ និងកាលវិភាគគេង" : "Work-life balance & healthy sleep rhythm"}</span>
+                      <span className="font-bold">{km ? "ប្រធានបទសំខាន់ (Focus Area)៖" : "Focus area:"} </span>
+                      <span>{km ? "លំនឹងការងារ និងជីវិត ព្រមទាំងដំណេក (Work-Life Balance & Sleep)" : "Work-life balance & healthy sleep rhythm"}</span>
                     </div>
                   </div>
                 </div>
@@ -1115,7 +1115,7 @@ export function ProgressDashboard() {
                   <div className="flex items-center gap-2 text-[#1f6f5b]">
                     <Lightbulb size={18} />
                     <span className="text-xs font-bold uppercase tracking-wider">
-                      {km ? "អនុសាសន៍បន្ទាប់សម្រាប់អ្នក" : "Recommended Next Steps"}
+                      {km ? "អនុសាសន៍ណែនាំសម្រាប់អ្នក (Next Steps)" : "Recommended Next Steps"}
                     </span>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -1123,19 +1123,19 @@ export function ProgressDashboard() {
                       href="/practice"
                       className="rounded-xl bg-white border border-[#cce8dc] px-3.5 py-2 text-xs font-semibold text-[#1f6f5b] shadow-xs hover:bg-[#e0f3ed]"
                     >
-                      🧘 {km ? "ដកដង្ហើម ២ នាទី" : "2-Min Breathing Session"}
+                      🧘 {km ? "ដកដង្ហើម ២ នាទី (Breathing)" : "2-Min Breathing Session"}
                     </Link>
                     <Link
                       href="/detection/journal"
                       className="rounded-xl bg-white border border-[#cce8dc] px-3.5 py-2 text-xs font-semibold text-[#1f6f5b] shadow-xs hover:bg-[#e0f3ed]"
                     >
-                      ✍️ {km ? "សរសេរកំណត់ហេតុពេលល្ងាច" : "Evening Reflection"}
+                      ✍️ {km ? "កត់ត្រាអារម្មណ៍ពេលល្ងាច (Journal)" : "Evening Reflection"}
                     </Link>
                     <Link
                       href="/community"
                       className="rounded-xl bg-white border border-[#cce8dc] px-3.5 py-2 text-xs font-semibold text-[#1f6f5b] shadow-xs hover:bg-[#e0f3ed]"
                     >
-                      🤝 {km ? "ចែករំលែកក្នុងសហគមន៍" : "Peer Community Group"}
+                      🤝 {km ? "ចូលរួមសហគមន៍ (Community)" : "Peer Community Group"}
                     </Link>
                   </div>
                 </div>
@@ -1148,7 +1148,7 @@ export function ProgressDashboard() {
                   onClick={() => setIsFullDashboardOpen(false)}
                   className="rounded-xl bg-[#1f6f5b] px-6 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#175646] active:scale-95"
                 >
-                  {km ? "បិទផ្ទាំង" : "Done"}
+                  {km ? "រួចរាល់ (Done)" : "Done"}
                 </button>
               </div>
             </motion.div>

@@ -67,7 +67,7 @@ export function SavedPracticesView({
         </button>
 
         <h1 className="text-base font-bold text-arom sm:text-lg">
-          {km ? "ការអនុវត្តដែលបានរក្សាទុក" : "Saved Practices"}
+          {km ? "លំហាត់ដែលបានរក្សាទុក (Saved)" : "Saved Practices"}
         </h1>
 
         <div className="size-10" />
@@ -108,7 +108,7 @@ export function SavedPracticesView({
 
               <div className="min-w-0 flex-1">
                 <span className="inline-block rounded-md bg-arom-soft px-2 py-0.5 text-[0.68rem] font-semibold text-arom">
-                  {PRACTICE_BREATHING.category}
+                  {km ? "ការដកដង្ហើម" : PRACTICE_BREATHING.category}
                 </span>
                 <h3 className="mt-1 truncate text-sm font-bold text-ink sm:text-base">
                   {km && PRACTICE_BREATHING.kmTitle

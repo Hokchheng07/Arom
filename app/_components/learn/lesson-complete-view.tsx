@@ -87,15 +87,15 @@ export function LessonCompleteView({
 
           <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-arom-border bg-white px-4 py-1.5 text-xs font-semibold text-arom shadow-sm">
             <Award size={14} />
-            <span>+25 XP • {km ? "អ្នករៀនដឹងចិត្ត" : "Mindful Learner"}</span>
+            <span>+25 XP • {km ? "អ្នករៀនដឹងចិត្ត (Mindful Learner)" : "Mindful Learner"}</span>
           </div>
 
           <h1 className="mt-4 text-2xl font-bold tracking-tight text-arom sm:text-3xl">
-            {km ? "មេរៀនត្រូវបានបញ្ចប់" : "Lesson Complete"}
+            {km ? "មេរៀនត្រូវបានបញ្ចប់ (Lesson Complete)" : "Lesson Complete"}
           </h1>
           <p className="mt-1.5 text-sm text-ink-muted sm:text-base">
             {km
-              ? `អ្នកបានបញ្ចប់មេរៀន ${lesson.kmTitle || lesson.title}`
+              ? `អ្នកបានបញ្ចប់មេរៀន ${lesson.kmTitle || lesson.title} ដោយជោគជ័យ!`
               : `You finished ${lesson.title}`}
           </p>
 
@@ -128,7 +128,7 @@ export function LessonCompleteView({
                 </span>
                 <div>
                   <span className="block text-sm font-bold text-arom sm:text-base">
-                    {km ? "សាកល្បងធ្វើលំហាត់ដកដង្ហើម" : "Try an Exercise"}
+                    {km ? "សាកល្បងធ្វើលំហាត់ដកដង្ហើម (Breathing)" : "Try an Exercise"}
                   </span>
                   <span className="mt-0.5 block text-xs text-ink-muted">
                     {km
@@ -156,7 +156,7 @@ export function LessonCompleteView({
                 </span>
                 <div>
                   <span className="block text-sm font-bold text-arom sm:text-base">
-                    {km ? "រៀនមេរៀនផ្សេងទៀត" : "Read Another Lesson"}
+                    {km ? "រៀនមេរៀនផ្សេងទៀត (Read Another)" : "Read Another Lesson"}
                   </span>
                   <span className="mt-0.5 block text-xs text-ink-muted">
                     {km ? "បន្តស្វែងយល់ពីប្រធានបទថ្មីៗ" : "Explore more MindGuide topics."}
@@ -200,7 +200,7 @@ export function LessonCompleteView({
                         ? "បានរក្សាទុកក្នុងមេរៀនរបស់ខ្ញុំ ✓"
                         : "Saved to My Learning ✓"
                       : km
-                        ? "រក្សាទុកក្នុងមេរៀនរបស់ខ្ញុំ"
+                        ? "រក្សាទុកក្នុងមេរៀនរបស់ខ្ញុំ (Save)"
                         : "Save to My Learning"}
                   </span>
                   <span className="mt-0.5 block text-xs text-ink-muted">
@@ -218,7 +218,7 @@ export function LessonCompleteView({
         {/* Connected MindGuide Recommendations */}
         <div className="mt-10 rounded-3xl border border-arom-border bg-white p-5 sm:p-6 shadow-sm">
           <p className="text-xs font-bold uppercase tracking-wider text-arom">
-            {km ? "ការណែនាំភ្ជាប់ទំនាក់ទំនង" : "Connect With Other MindGuide Features"}
+            {km ? "ការណែនាំបន្ថែមក្នុង MindGuide" : "Connect With Other MindGuide Features"}
           </p>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <div className="flex items-center gap-3 rounded-2xl border border-arom-border bg-arom-wash/60 p-3.5 text-xs text-ink">
@@ -226,8 +226,8 @@ export function LessonCompleteView({
                 <BookOpen size={18} />
               </span>
               <div>
-                <p className="font-bold text-arom">5 Ways to Manage Stress</p>
-                <p className="text-[0.72rem] text-ink-muted">Quick practical tips</p>
+                <p className="font-bold text-arom">{km ? "៥ វិធីគ្រប់គ្រងភាពតានតឹង" : "5 Ways to Manage Stress"}</p>
+                <p className="text-[0.72rem] text-ink-muted">{km ? "គន្លឹះអនុវត្តជាក់ស្តែងងាយៗ" : "Quick practical tips"}</p>
               </div>
             </div>
 
@@ -236,8 +236,8 @@ export function LessonCompleteView({
                 <Headphones size={18} />
               </span>
               <div>
-                <p className="font-bold text-arom">Listening: Calm Mindset</p>
-                <p className="text-[0.72rem] text-ink-muted">10 min audio podcast</p>
+                <p className="font-bold text-arom">{km ? "ការស្តាប់៖ ចិត្តស្ងប់ (Calm Mindset)" : "Listening: Calm Mindset"}</p>
+                <p className="text-[0.72rem] text-ink-muted">{km ? "ផតខាសសំឡេង ១០ នាទី" : "10 min audio podcast"}</p>
               </div>
             </div>
           </div>
@@ -250,7 +250,7 @@ export function LessonCompleteView({
             onClick={onReadAnother}
             className="text-xs font-semibold text-arom hover:underline"
           >
-            ← {km ? "ត្រឡប់ទៅទំព័រដើមនៃការរៀន" : "Back to Learn Home"}
+            ← {km ? "ត្រឡប់ទៅទំព័រដើមនៃការរៀន (Learn Home)" : "Back to Learn Home"}
           </button>
         </div>
       </main>

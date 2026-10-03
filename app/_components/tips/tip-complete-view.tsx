@@ -101,7 +101,7 @@ export function TipCompleteView({
               className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-arom text-base font-semibold text-white shadow-sm transition-all hover:bg-arom-deep active:scale-[0.98]"
             >
               <Wind aria-hidden="true" size={18} />
-              <span>{km ? "សាកល្បងហាត់ដកដង្ហើម" : "Try Breathing Exercise"}</span>
+              <span>{km ? "សាកល្បងហាត់ដកដង្ហើម (Breathing)" : "Try Breathing Exercise"}</span>
             </button>
 
             <button
@@ -109,7 +109,7 @@ export function TipCompleteView({
               onClick={onBackToTips}
               className="flex h-12 w-full items-center justify-center rounded-xl border border-arom-border bg-white text-base font-semibold text-arom transition-all hover:bg-arom-wash active:scale-[0.98]"
             >
-              {km ? "ស្វែងរកគន្លឹះផ្សេងទៀត" : "Explore More Tips"}
+              {km ? "ស្វែងរកគន្លឹះផ្សេងទៀត (More Tips)" : "Explore More Tips"}
             </button>
 
             <Link
