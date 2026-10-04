@@ -9,6 +9,36 @@ Each entry lists the commit it landed in, so you can match it to a version of th
 
 ---
 
+## 4 Oct 2026: Isolated Design Sandbox Route (/preview) for Risk-Free Redesign Exploration
+
+Commit `59aca02`. No database step: completely isolated design environment with zero impact on production screens.
+
+**Why.** When exploring new aesthetic directions (such as a calmer, prettier sanctuary design for the Community module), editing production files directly risks breaking working features, component bindings, or stored state. This new `/preview` route provides a self-contained, interactive design sandbox where new visuals, organic card shapes, color palettes, and micro-interactions can be freely tested and reviewed live in the browser without touching any production code.
+
+**What changed for users:**
+
+- **Dedicated design preview playground.** Visiting `/preview` provides a live, interactive environment displaying the proposed calm redesign for AROM Community.
+- **Interactive Sanctuary Overview.** Features an organic soft sage arch header, reassuring anonymous security pills, an active circle card with mentor credentials, and botanical upcoming activity cards.
+- **Interactive Circle Chat Hub.** Test the proposed peaceful group conversation interface with pinned kindness guidelines, distinct speech bubbles for peers and verified mentors, and a working message input bar.
+- **Top Sandbox Control Bar.** Effortlessly toggle between Overview and Chat views, switch between English and Khmer, toggle mobile device frame mode, or return to the live app with a single click.
+
+**What changed for the team:**
+
+- **Zero-risk design iteration.** The team and vibe coders can experiment with CSS, typography, and component structures in `app/preview/page.tsx` without modifying `app/community/`, `app/page.tsx`, or any working features.
+- **Client-side interactive sandbox.** Includes self-contained state for joining activity circles and sending test messages in real time.
+
+**What to re-test:**
+
+- Visit `http://localhost:3000/preview` in your browser;
+- Click "ទិដ្ឋភាពទូទៅ (Overview)" and "ការសន្ទនាក្រុម (Chat)" in the top control bar to switch views;
+- In Overview, tap "ចូលរួម (Join)" on any of the upcoming mindful circles to see the state toggle to "បានចូលរួម ✓";
+- Tap "ចូលរង្វង់ (Enter Circle)" on the active support card to seamlessly transition into the Circle Chat;
+- In Circle Chat, type a test message in the floating input bar and tap Send: verify your message renders with your avatar and timestamp;
+- Tap the language toggle `🇰🇭 ខ្មែរ / 🇺🇸 EN` to verify bilingual labels;
+- Click "← ត្រឡប់ទៅកម្មវិធីពិត" to return to the live application.
+
+---
+
 ## 3 Oct 2026: Comprehensive Natural Khmer Localization, Anti-AI Typography, and Icon Standards
 
 Commit `6eca0fd`. No database step: state is stored in memory and browser local storage.
