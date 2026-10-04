@@ -53,4 +53,15 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   - For takeaways or key points: use `CheckCircle2`, `Bookmark`, or `Lightbulb`.
   - For booking or sessions: use `Calendar` or `CalendarCheck`.
 
+## 8. Change Reporting Standard: Always Update `report.md`
+- **Whenever you make a meaningful change or commit code, you MUST document it in `report.md` immediately.**
+- **Format:** Match the BrachNha change report style:
+  - Heading: `## [Date]: [Title of What Changed]`
+  - Commit line: `Commit \`[hash]\`. [Any migration or database notes].`
+  - `**Why.**` Plain-language explanation of why the change was made, who it serves, and what problem it solves.
+  - `**What changed for users:**` Bulleted list with bold summaries describing real user experience changes.
+  - `**What changed for the team:**` Bulleted list with bold summaries explaining developer/team impact.
+  - `**What to re-test:**` Step-by-step checklist of specific test actions to verify the feature works.
+- Keep newest entries first at the top of the log.
+
 
