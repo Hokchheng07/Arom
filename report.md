@@ -9,6 +9,41 @@ Each entry lists the commit it landed in, so you can match it to a version of th
 
 ---
 
+## 5 Oct 2026: Duolingo-Style Gamified Community Design Sample in /preview Sandbox
+
+Commit `186c702`. No database step: client-side visual exploration inside isolated sandbox route.
+
+**Why.** Mental health and emotional peer support can sometimes feel intimidating or clinical. Exploring a playful, encouraging gamification model inspired by Duolingo (streaks, gem rewards, uplifting mascots, daily quests, and cheer leaderboards) offers a fun and low-pressure alternative for community connection. To protect all working production code, this entire interactive design experience was implemented inside the `/preview` sandbox route with a toggle switch, allowing the team and users to compare the Duolingo style side-by-side with the calm sanctuary design without risking any production changes.
+
+**What changed for users:**
+
+- **Duolingo-style wellness community experience.** In `/preview`, users can explore a gamified community interface featuring flame streaks (`🔥 37`), gem tokens (`💎 300`), and compassion hearts (`💖 5`).
+- **Interactive wellness mascot and tactile 3D buttons.** Includes a friendly leafy wellness companion SVG, bouncy progress indicators, and Duolingo signature tactile 3D pushable buttons (`START CHAT`).
+- **Daily Community Quests.** An interactive quest card where users can complete daily micro-actions (Mood Check-in, Explore Peer Circles, Send 1 Supportive Cheer) and earn gem rewards (+15 💎) with responsive feedback.
+- **Weekly Cheers Leaderboard.** Displays community supporters with gold, silver, and bronze ranks along with current peer ranking.
+- **Playful group chat stream.** High-contrast bubbly chat bubbles with support reactions (`❤️ លើកទឹកចិត្ត`, `👏 អស្ចារ្យ`, `🌱 រីកចម្រើន`) and real-time message sending that awards +5 gems.
+- **Instant style toggle.** Switch between `🦉 Duolingo Style` and `🌿 Calm Sanctuary` with a single tap in the top control bar.
+
+**What changed for the team:**
+
+- **Zero production risk.** Main routes (`app/community/`, `app/page.tsx`, etc.) remain completely untouched.
+- **Side-by-side visual evaluation.** Product managers, designers, and developers can test both design paradigms on live desktop and mobile frame viewports in real time.
+
+**What to re-test:**
+
+- Visit `http://localhost:3000/preview` in your browser;
+- Verify that the default view loads with `🦉 Duolingo Style` selected;
+- Check the top header stats: verify streak flame (`🔥 37`), gem counter (`💎 300`), and heart counter (`💖 5`);
+- Under "Daily Community Quests", tap on the quest "ផ្ញើពាក្យលើកទឹកចិត្ត ១ (Send 1 Cheer)": verify the checkmark animates and gem count increases to 315 💎;
+- Tap the 3D green button "ចូលជជែកក្នុងក្រុម (START CHAT)" or click "Chat" in the top bar to open the chat stream;
+- Type a message in the input box and tap Send: verify the message appears as a green chat bubble and adds +5 gems;
+- Tap quick cheer pills (`❤️ លើកទឹកចិត្ត`, `👏 អស្ចារ្យ`, `🌱 រីកចម្រើន`) below messages;
+- Tap `🌿 Calm Sanctuary` in the top switcher to instantly switch back to the botanical calm design;
+- Tap the language toggle `🇰🇭 ខ្មែរ / 🇺🇸 EN` to verify bilingual labels in both modes;
+- Click "← ត្រឡប់ទៅកម្មវិធីពិត" to navigate back to `/community`.
+
+---
+
 ## 4 Oct 2026: Isolated Design Sandbox Route (/preview) for Risk-Free Redesign Exploration
 
 Commit `59aca02`. No database step: completely isolated design environment with zero impact on production screens.
