@@ -9,6 +9,40 @@ Each entry lists the commit it landed in, so you can match it to a version of th
 
 ---
 
+## 5 Oct 2026: Gamified Home Page Design Sample in /preview Sandbox
+
+Commit `b518b1e`. No database step: client-side gamified wellness exploration inside /preview route.
+
+**Why.** Gamification can dramatically boost daily mindfulness consistency when done with emotional depth and visual beauty (like Forest and Fabulous). This design introduces game loops, leveling, daily quests, and living visual progression without compromising mental health dignity. The experience is fully contained inside `/preview`, preserving working production code completely intact.
+
+**What changed for users:**
+
+- **Player Status HUD.** Top status bar showing Player Crest (`កម្រិត ៦: Mindful Guardian`), glowing live XP progress bar (`420 / 500 XP`), Flame Streak shield (`🔥 14 Days`), and Crystals (`💎 275`).
+- **Living Bonsai Lotus Sanctuary.** A glowing digital Bonsai plant that blooms new lotus flowers and radiates golden spores as users complete daily self-care actions.
+- **Carved Daily Quests Board.** 3 interactive daily quest cards with reward pills (+20 XP, +35 XP) and one-click completion: Mood Check-in, 4-7-8 Breathing, and Gratitude Journal.
+- **Floating XP Toast Animations.** Completing any quest triggers dynamic floating reward toasts with gem audio-visual cues and smooth level progress increases.
+- **Unlockable Mystery Wellness Chest.** When 3/3 daily quests are completed, an ornate golden emerald chest unlocks with a celebratory reward modal awarding a Golden Lotus Seed and +100 XP.
+- **Design Switcher.** Seamlessly toggle between `🎮 គំរូហ្គេម (Gamified)` and `🌿 គំរូស្ងប់ស្ងាត់ (Editorial)` at the top bar.
+
+**What changed for the team:**
+
+- **Production safety.** Zero changes to production `app/page.tsx` or production routes.
+- **Gamification benchmark.** Provides a working reference implementation of XP calculations, quest completion state, and milestone rewards.
+
+**What to re-test:**
+
+- Open `http://localhost:3000/preview` in your browser;
+- Verify that the Gamified Sanctuary Home view loads by default;
+- Observe the top HUD: Level 6, XP bar at 420/500, 14-day streak, and 275 gems;
+- Observe the living Bonsai tree in the center with 1 bloomed lotus;
+- Tap "Start (+35)" on Quest 2 (4-7-8 Breathing): verify the button toggles to "✓ Done", XP increases to 455, gems increase to 280, a second lotus blooms on the tree, and a floating XP toast appears;
+- Tap "Write (+20)" on Quest 3 (Gratitude Journal): verify the third lotus blooms and the Mystery Chest triggers an unlock pulse;
+- Tap "OPEN CHEST": verify the celebration modal opens awarding the Golden Lotus Seed and +100 bonus XP;
+- Tap `🌿 គំរូស្ងប់ស្ងាត់ (Editorial)` to compare with the minimalist calm layout;
+- Tap the language toggle `🇰🇭 ខ្មែរ / 🇺🇸 EN` to verify bilingual labels.
+
+---
+
 ## 5 Oct 2026: Serene Editorial Home Page Sample Design in /preview Sandbox
 
 Commit `5b18b2c`. No database step: self-contained visual exploration of the Home page in /preview route.
