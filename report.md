@@ -9,6 +9,38 @@ Each entry lists the commit it landed in, so you can match it to a version of th
 
 ---
 
+## 5 Oct 2026: Refined Duolingo Concept (Stepping-Stone Path, Aromi Mascot, Community Kindness Garden)
+
+Commit `e98d505`. No database step: visual and interaction refinement inside isolated /preview sandbox.
+
+**Why.** Copying Duolingo directly (neon lime green, aggressive fire streaks, owl) does not fit AROM's gentle mental wellness identity. Instead, we adapted the core concepts of Duolingo (the winding stepping-stone roadmap, bite-sized daily micro-actions, an empathetic botanical mascot, tactile 3D cards, and positive reinforcement) into AROM's soothing botanical green, cream, and terracotta design system.
+
+**What changed for users:**
+
+- **Winding Stepping-Stones Path (ផ្លូវសតិសហគមន៍).** Instead of a generic card list or a Duolingo clone, users navigate an organic curved S-path with 5 tactile stepping-stone nodes for peer circles and daily calm milestones.
+- **Empathetic Mascot "Aromi" (អារម្មណ៍តូច).** Replaced the owl with an adorable, gentle blooming sprout companion who waves and speaks in friendly speech balloons beside active support circles.
+- **Soothing Wellness Counters.** Replaced intense flame streaks and gems with gentle Mindfulness Streaks (`🌿 15 ថ្ងៃ`), Kindness Drops (`💧 24 តំណក់`), and Heart Blooms (`🌸 10 ផ្កា`).
+- **Interactive Cheer Drop (Node 3).** Tap the sky-blue water droplet stone to send supportive cheer to a peer, awarding +5 Kindness Drops and a celebratory toast notification.
+- **Community Kindness Garden.** Transformed Duolingo's competitive league/quest model into a collective wellness garden where peers water the garden together (82% bloomed) with a tactile "💧 ស្រោចទឹក (+5)" action.
+- **Serene Tactile 3D Styling.** Chunky pushable buttons and speech bubbles rendered in AROM's deep forest green (`#245242`), sage mint, and warm terracotta instead of neon green.
+
+**What changed for the team:**
+
+- **Authentic brand alignment.** The sandbox now demonstrates how to translate gamification concepts into mental wellness without sacrificing clinical warmth, psychological safety, or brand identity.
+
+**What to re-test:**
+
+- Open `http://localhost:3000/preview` in your browser;
+- Verify the winding green journey line connecting the 5 stepping-stone nodes;
+- Check Node 1 (Check-in complete with checkmark);
+- Observe Node 2: verify Aromi the sprout mascot waving next to the active Stress & Burnout Circle with an "Enter Chat" speech balloon;
+- Click on Node 3 ("ផ្ញើតំណក់លើកទឹកចិត្ត ១"): verify the water droplet button animates, drops count increases to 29 💧, and a floating green toast appears;
+- Scroll down to "Community Kindness Garden" and tap "💧 ស្រោចទឹក (+5)": verify the bloom bar animates and kindness drops increase;
+- Tap "Enter Chat" or the active circle node to test the bubbly chat view with reaction pills (`💧`, `🌱`, `❤️`, `🙏`);
+- Tap `🌿 Calm Sanctuary` at the top to toggle between both designs seamlessly.
+
+---
+
 ## 5 Oct 2026: Duolingo-Style Gamified Community Design Sample in /preview Sandbox
 
 Commit `186c702`. No database step: client-side visual exploration inside isolated sandbox route.
