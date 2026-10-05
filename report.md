@@ -9,6 +9,40 @@ Each entry lists the commit it landed in, so you can match it to a version of th
 
 ---
 
+## 5 Oct 2026: Serene Editorial Home Page Sample Design in /preview Sandbox
+
+Commit `5b18b2c`. No database step: self-contained visual exploration of the Home page in /preview route.
+
+**Why.** Gamified or cartoonish elements can feel out of place for serious mental health and emotional well-being. A mental wellness home page should feel like entering a peaceful sanctuary: uncluttered, grounded, breathable, and deeply comforting. To help the team evaluate a modern, editorial aesthetic inspired by top wellness apps like Calm and Headspace, an interactive Home page redesign sample was created inside `/preview` with zero risk to working production code.
+
+**What changed for users:**
+
+- **Calm, editorial visual identity.** In `/preview`, users can explore a refined Home page design featuring soft organic cream (`#faf9f6`), deep forest green (`#1b4332`), and gentle sage tones.
+- **Interactive Mood Check-in Pebbles.** 5 organic glowing pebbles (`ស្ងប់សុខ (Calm)`, `រីករាយ (Joyful)`, `មានលំនឹង (Balanced)`, `ថប់បារម្ភ (Anxious)`, `ហត់នឿយ (Tired)`) with dynamic clinical empathy responses based on the selected emotion.
+- **Morning Clarity Reset with Live Breathing Simulator.** A central hero card with an animated breathing circle displaying real-time phases (`Inhale`, `Hold`, `Exhale`), a 4-minute session timer, play/pause controls, and ambient soundscapes (`Rain`, `Forest`, `Bell`).
+- **Bento Grid of Daily Practices.** Clean cards for 4-7-8 Breathing with minimalist line art, Sleep Meditation with soft moon icon, and an interactive Daily Reflection Journal prompt with save action.
+- **Weekly Emotional Rhythm Wave.** A clean SVG mood wave showing 7-day emotional stability (`76% មានលំនឹងល្អ`) with MindGuide clinical commentary.
+- **Screen Switcher in Control Bar.** Instantly switch between `🏠 គំរូទំព័រដើម (Home Sample)` and `👥 សហគមន៍ (Community)` to explore both redesigns.
+
+**What changed for the team:**
+
+- **Production safety.** All changes are confined to `app/preview/page.tsx`, leaving `app/page.tsx` and all production components untouched.
+- **Clear aesthetic benchmark.** Provides a high-fidelity visual and interactive reference point for the future evolution of the main home screen.
+
+**What to re-test:**
+
+- Open `http://localhost:3000/preview` in your browser;
+- Verify that the new Home Page sample renders by default;
+- Tap each of the 5 mood pebbles (`ស្ងប់សុខ`, `រីករាយ`, `មានលំនឹង`, `ថប់បារម្ភ`, `ហត់នឿយ`) and observe the dynamic empathy response text update;
+- Tap "ចាប់ផ្តើមហាត់ (Start Session)" on the Morning Clarity Reset card: verify the breathing circle smoothly animates between Inhale, Hold, and Exhale phases;
+- Tap soundscape pills ("ទឹកភ្លៀង", "ព្រៃព្រឹក្សា", "កណ្តឹងសតិ") to switch ambient focus;
+- In the Daily Reflection prompt, type a short thought and tap "កត់ត្រា (Save)" to see the "✓ បានរក្សាទុក" confirmation badge;
+- Verify the Weekly Emotional Rhythm curve renders smoothly;
+- Tap the language toggle `🇰🇭 ខ្មែរ / 🇺🇸 EN` to verify bilingual labels across the entire page;
+- Tap "👥 សហគមន៍ (Community)" in the top bar to switch to the community view, or click "← ត្រឡប់ទៅកម្មវិធីពិត" to return to production.
+
+---
+
 ## 5 Oct 2026: Refined Duolingo Concept (Stepping-Stone Path, Aromi Mascot, Community Kindness Garden)
 
 Commit `e98d505`. No database step: visual and interaction refinement inside isolated /preview sandbox.
