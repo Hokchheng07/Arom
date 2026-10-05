@@ -3,21 +3,36 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
+  Activity,
   ArrowLeft,
   Award,
+  BookOpen,
+  Calendar,
   Check,
+  CheckCircle2,
   ChevronRight,
   Clock,
+  Compass,
   Droplets,
+  Headphones,
   Heart,
   Leaf,
+  Lightbulb,
   Lock,
   MessageSquare,
+  Moon,
+  Pause,
+  Play,
+  RotateCcw,
   SendHorizontal,
   ShieldCheck,
   Smartphone,
   Smile,
+  Sun,
+  UserCheck,
   Users,
+  Volume2,
+  Wind,
 } from "lucide-react";
 
 // Safe SVG Mask for Anonymous Members
@@ -29,68 +44,43 @@ function DominoMaskIcon({ className = "size-5" }: { className?: string }) {
   );
 }
 
-// Cute Gentle Sprout Mascot "Aromi" (AROM's Empathetic Wellness Companion)
-function AromiSproutMascot({ className = "size-20" }: { className?: string }) {
+// Minimalist Breathing Face Line Art
+function BreathingLineArt({ className = "size-16" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 120 120" fill="none" className={className} aria-hidden="true">
-      {/* Ground Soft Shadow */}
-      <ellipse cx="60" cy="112" rx="34" ry="6" fill="#1b4d3d" fillOpacity="0.16" />
-      {/* Tiny Rounded Feet */}
-      <ellipse cx="46" cy="106" rx="8" ry="5" fill="#7ba88a" />
-      <ellipse cx="74" cy="106" rx="8" ry="5" fill="#7ba88a" />
-      {/* Plump Round Sprout Body in Calming Sage Matcha */}
+    <svg viewBox="0 0 100 100" fill="none" className={className} aria-hidden="true">
+      {/* Profile Outline */}
       <path
-        d="M60 26 C36 26 22 48 22 74 C22 98 38 106 60 106 C82 106 98 98 98 74 C98 48 84 26 60 26 Z"
-        fill="#98caa4"
+        d="M38 18 C46 18 52 24 52 32 C52 38 48 42 45 45 C48 48 54 49 56 53 C58 57 56 61 50 63 C52 66 51 70 48 74 C44 78 38 82 28 82"
+        stroke="#245242"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      {/* Soft Belly Light Patch */}
-      <ellipse cx="60" cy="80" rx="26" ry="18" fill="#b9e1c3" fillOpacity="0.6" />
-      {/* Twin Sprout Leaves on Head */}
+      {/* Gentle Inhale Waves */}
       <path
-        d="M60 28 C56 12 44 8 36 12 C28 16 34 28 58 28 Z"
-        fill="#5a9c70"
-      />
-      <path
-        d="M60 28 C64 12 76 8 84 12 C92 16 86 28 62 28 Z"
-        fill="#6fb085"
-      />
-      {/* Leaf Vein Details */}
-      <path d="M50 22 C44 18 40 16 38 14" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      <path d="M70 22 C76 18 80 16 82 14" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      {/* Cheerful Friendly Eyes */}
-      <ellipse cx="45" cy="62" rx="5" ry="6.5" fill="#1a3d2e" />
-      <ellipse cx="75" cy="62" rx="5" ry="6.5" fill="#1a3d2e" />
-      {/* Catchlight Highlights */}
-      <circle cx="47" cy="59.5" r="2.2" fill="#ffffff" />
-      <circle cx="77" cy="59.5" r="2.2" fill="#ffffff" />
-      <circle cx="43.5" cy="64" r="1.1" fill="#ffffff" />
-      <circle cx="73.5" cy="64" r="1.1" fill="#ffffff" />
-      {/* Sweet Peachy Cheeks */}
-      <ellipse cx="34" cy="70" rx="6" ry="3.5" fill="#f09a82" fillOpacity="0.85" />
-      <ellipse cx="86" cy="70" rx="6" ry="3.5" fill="#f09a82" fillOpacity="0.85" />
-      {/* Empathetic Smile */}
-      <path
-        d="M53 69 Q60 76 67 69"
-        stroke="#1a3d2e"
+        d="M62 48 C68 44 76 44 82 48"
+        stroke="#5a9c70"
         strokeWidth="2.5"
         strokeLinecap="round"
-        fill="none"
-      />
-      {/* Welcoming Little Hands */}
-      <path
-        d="M24 68 C16 64 12 56 16 54 C20 52 24 60 26 66"
-        fill="#85be93"
       />
       <path
-        d="M96 68 C104 64 108 56 104 54 C100 52 96 60 94 66"
-        fill="#85be93"
+        d="M58 56 C66 52 74 52 84 56"
+        stroke="#5a9c70"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M64 64 C70 60 76 60 82 64"
+        stroke="#5a9c70"
+        strokeWidth="2.5"
+        strokeLinecap="round"
       />
     </svg>
   );
 }
 
-type StyleMode = "duolingo" | "sanctuary";
-type SandboxView = "overview" | "chat";
+type PreviewScreen = "home" | "community";
+type MoodType = "calm" | "joyful" | "balanced" | "anxious" | "tired";
 
 type Message = {
   id: string;
@@ -123,35 +113,62 @@ const initialMessages: Message[] = [
     text: "ខ្ញុំទើបតែចូលរួម ឃើញបរិយាកាសស្ងប់ស្ងាត់បែបនេះមានអារម្មណ៍កក់ក្តៅខ្លាំងណាស់។ (Just joined, feeling really comforted by this calm circle.)",
     time: "10:19 AM",
   },
-  {
-    id: "msg-4",
-    sender: "Mentor Tivea",
-    role: "mentor",
-    text: "ពិតណាស់! សូមចាំថានៅទីនេះ យើងមិនវិនិច្ឆ័យគ្នាឡើយ។ សូមចំណាយពេលតាមសម្រួល។ (Remember that there is zero judgment here. Take all the time you need.)",
-    time: "10:21 AM",
-  },
 ];
 
 export default function DesignSandboxPreviewPage() {
-  const [styleMode, setStyleMode] = useState<StyleMode>("duolingo");
-  const [activeView, setActiveView] = useState<SandboxView>("overview");
+  const [activeScreen, setActiveScreen] = useState<PreviewScreen>("home");
   const [isKhmer, setIsKhmer] = useState(true);
   const [isMobileFrame, setIsMobileFrame] = useState(true);
-  const [kindnessDrops, setKindnessDrops] = useState(24);
-  const [mindfulnessStreak] = useState(15);
-  const [heartBlooms] = useState(10);
-  const [gardenBloom, setGardenBloom] = useState(82);
-  const [cheeredStep3, setCheeredStep3] = useState(false);
-  const [showCheerToast, setShowCheerToast] = useState(false);
+
+  // Home Screen Interactive State
+  const [selectedMood, setSelectedMood] = useState<MoodType>("calm");
+  const [isPlayingBreath, setIsPlayingBreath] = useState(false);
+  const [breathTimer, setBreathTimer] = useState(240); // 4 mins in seconds
+  const [breathPhase, setBreathPhase] = useState<"inhale" | "hold" | "exhale">("inhale");
+  const [selectedSoundscape, setSelectedSoundscape] = useState<"rain" | "forest" | "bowl">("rain");
+  const [journalInput, setJournalInput] = useState("");
+  const [journalSaved, setJournalSaved] = useState(false);
+
+  // Community Sandbox State
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Breathing simulation loop
   useEffect(() => {
-    if (activeView === "chat") {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages, activeView]);
+    if (!isPlayingBreath) return;
+
+    const interval = setInterval(() => {
+      setBreathTimer((prev) => (prev > 0 ? prev - 1 : 240));
+    }, 1000);
+
+    const phaseInterval = setInterval(() => {
+      setBreathPhase((prev) => {
+        if (prev === "inhale") return "hold";
+        if (prev === "hold") return "exhale";
+        return "inhale";
+      });
+    }, 4000);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(phaseInterval);
+    };
+  }, [isPlayingBreath]);
+
+  function formatTime(seconds: number) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  }
+
+  function handleSaveJournal(e: React.FormEvent) {
+    e.preventDefault();
+    if (!journalInput.trim()) return;
+    setJournalSaved(true);
+    setTimeout(() => setJournalSaved(false), 3000);
+    setJournalInput("");
+  }
 
   function handleSendMessage(e: React.FormEvent) {
     e.preventDefault();
@@ -168,99 +185,51 @@ export default function DesignSandboxPreviewPage() {
 
     setMessages((prev) => [...prev, newMsg]);
     setInputText("");
-    // Reward with +5 kindness drops when contributing in Duolingo concept
-    if (styleMode === "duolingo") {
-      setKindnessDrops((d) => d + 5);
-      setGardenBloom((g) => Math.min(100, g + 2));
-    }
-  }
-
-  function handleDropCheer() {
-    if (!cheeredStep3) {
-      setCheeredStep3(true);
-      setKindnessDrops((d) => d + 5);
-      setGardenBloom((g) => Math.min(100, g + 4));
-      setShowCheerToast(true);
-      setTimeout(() => setShowCheerToast(false), 3000);
-    }
-  }
-
-  function handleWaterGarden() {
-    setKindnessDrops((d) => d + 5);
-    setGardenBloom((g) => Math.min(100, g + 5));
-    setShowCheerToast(true);
-    setTimeout(() => setShowCheerToast(false), 3000);
   }
 
   return (
-    <div className="min-h-screen bg-[#f3f6f3] text-[#14221f] antialiased">
-      {/* Top Floating Sandbox Control Bar */}
-      <header className="sticky top-0 z-50 border-b border-[#e2e8e4] bg-white/95 px-4 py-2.5 backdrop-blur-md shadow-xs">
+    <div className="min-h-screen bg-[#f3f5f3] text-[#14221f] antialiased">
+      {/* Top Floating Control Bar */}
+      <header className="sticky top-0 z-50 border-b border-[#e1e7e3] bg-white/95 px-4 py-2.5 backdrop-blur-md shadow-xs">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="flex size-7 items-center justify-center rounded-lg bg-[#245242] text-white shadow-xs">
               <Leaf size={15} />
             </span>
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-[#245242]">
-                AROM Sandbox
+              <span className="text-xs font-black uppercase tracking-wider text-[#245242]">
+                AROM Studio Preview
               </span>
               <span className="ml-2 hidden text-xs text-gray-500 sm:inline">
-                (Isolated Preview, No Code Modified)
+                (Zero Code Impact Sandbox)
               </span>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {/* Style Selector: Duolingo Concept vs Sanctuary */}
+            {/* Screen Selector: Home Redesign vs Community */}
             <div className="flex rounded-full bg-[#e8eee9] p-0.5 text-xs font-extrabold">
               <button
                 type="button"
-                onClick={() => setStyleMode("duolingo")}
+                onClick={() => setActiveScreen("home")}
                 className={`flex items-center gap-1 rounded-full px-3 py-1 transition-all ${
-                  styleMode === "duolingo"
+                  activeScreen === "home"
                     ? "bg-[#245242] text-white shadow-xs"
                     : "text-gray-600 hover:text-[#245242]"
                 }`}
               >
-                <span>🌱 Duolingo Concept</span>
+                <span>🏠 {isKhmer ? "គំរូទំព័រដើម (Home Sample)" : "Home Sample"}</span>
               </button>
               <button
                 type="button"
-                onClick={() => setStyleMode("sanctuary")}
+                onClick={() => setActiveScreen("community")}
                 className={`flex items-center gap-1 rounded-full px-3 py-1 transition-all ${
-                  styleMode === "sanctuary"
-                    ? "bg-[#255243] text-white shadow-xs"
-                    : "text-gray-600 hover:text-[#255243]"
+                  activeScreen === "community"
+                    ? "bg-[#245242] text-white shadow-xs"
+                    : "text-gray-600 hover:text-[#245242]"
                 }`}
               >
-                <span>🌿 Calm Sanctuary</span>
-              </button>
-            </div>
-
-            {/* View Switcher */}
-            <div className="flex rounded-full bg-[#f2f4f2] border border-gray-200 p-0.5 text-xs font-semibold text-gray-700">
-              <button
-                type="button"
-                onClick={() => setActiveView("overview")}
-                className={`rounded-full px-2.5 py-1 transition-all ${
-                  activeView === "overview"
-                    ? "bg-white text-gray-900 shadow-xs font-bold"
-                    : "hover:text-gray-900"
-                }`}
-              >
-                {isKhmer ? "ផ្លូវសតិ (Journey)" : "Journey"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveView("chat")}
-                className={`rounded-full px-2.5 py-1 transition-all ${
-                  activeView === "chat"
-                    ? "bg-white text-gray-900 shadow-xs font-bold"
-                    : "hover:text-gray-900"
-                }`}
-              >
-                {isKhmer ? "ជជែកក្រុម (Chat)" : "Chat"}
+                <span>👥 {isKhmer ? "សហគមន៍ (Community)" : "Community"}</span>
               </button>
             </div>
 
@@ -268,7 +237,7 @@ export default function DesignSandboxPreviewPage() {
             <button
               type="button"
               onClick={() => setIsKhmer(!isKhmer)}
-              className="rounded-full border-2 border-b-3 border-[#d0ded5] bg-white px-2.5 py-1 text-xs font-extrabold text-[#245242] hover:bg-gray-50 active:translate-y-0.5 transition-all"
+              className="rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-black text-[#245242] hover:bg-gray-50 active:translate-y-0.5 transition-all shadow-2xs"
             >
               {isKhmer ? "🇰🇭 ខ្មែរ" : "🇺🇸 EN"}
             </button>
@@ -278,10 +247,10 @@ export default function DesignSandboxPreviewPage() {
               type="button"
               onClick={() => setIsMobileFrame(!isMobileFrame)}
               title="Toggle Mobile Screen Frame"
-              className={`hidden size-8 items-center justify-center rounded-xl border-2 border-b-3 transition-all sm:flex ${
+              className={`hidden size-8 items-center justify-center rounded-xl border transition-all sm:flex ${
                 isMobileFrame
-                  ? "border-[#245242] bg-[#245242] text-white border-b-[#143026]"
-                  : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50 border-b-[#d5d5d5]"
+                  ? "border-[#245242] bg-[#245242] text-white"
+                  : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
               }`}
             >
               <Smartphone size={16} />
@@ -289,8 +258,8 @@ export default function DesignSandboxPreviewPage() {
 
             {/* Link back to Main Live Application */}
             <Link
-              href="/community"
-              className="rounded-full bg-white border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+              href="/"
+              className="rounded-full bg-white border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-2xs"
             >
               {isKhmer ? "← ត្រឡប់ទៅកម្មវិធីពិត" : "← Back to Live App"}
             </Link>
@@ -298,442 +267,541 @@ export default function DesignSandboxPreviewPage() {
         </div>
       </header>
 
-      {/* Floating Toast Notification */}
-      {showCheerToast && (
-        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 rounded-2xl border-2 border-[#a7d1b6] bg-[#eaf5ee] px-4 py-2 text-xs font-black text-[#1e4839] shadow-lg animate-bounce">
-          💧 {isKhmer ? "បានបន្ថែម +5 តំណក់សេចក្តីល្អទៅកាន់សួនសហគមន៍!" : "+5 Kindness Drops added to Community Garden!"}
-        </div>
-      )}
-
       {/* Main Sandbox Canvas */}
       <main className="py-6 px-3 sm:px-6">
         <div
           className={`mx-auto transition-all duration-300 ${
             isMobileFrame
-              ? styleMode === "duolingo"
-                ? "max-w-[420px] rounded-[42px] border-[8px] border-[#1e4436] bg-[#fbfcf9] shadow-[0_24px_60px_rgba(30,75,55,0.22)] overflow-hidden min-h-[790px]"
-                : "max-w-[420px] rounded-[36px] border-[6px] border-[#223d32] bg-[#fdfcf9] shadow-[0_24px_60px_rgba(20,40,30,0.18)] overflow-hidden min-h-[780px]"
-              : "max-w-2xl rounded-3xl border-2 border-[#e5e5e5] bg-white shadow-md p-4 sm:p-6"
+              ? "max-w-[420px] rounded-[42px] border-[8px] border-[#183a2f] bg-[#faf9f6] shadow-[0_24px_70px_rgba(20,50,40,0.2)] overflow-hidden min-h-[820px]"
+              : "max-w-3xl rounded-3xl border border-[#e1e8e2] bg-[#faf9f6] shadow-md p-4 sm:p-8"
           }`}
         >
           {/* ========================================================================= */}
-          {/* STYLE A: DUOLINGO CONCEPT (Path Roadmap, Gentle Mascot, Tactile 3D Cards) */}
+          {/* SCREEN 1: SERENE, EDITORIAL HOME PAGE REDESIGN                            */}
           {/* ========================================================================= */}
-          {styleMode === "duolingo" && (
-            <div className="pb-10 font-sans">
-              {/* Soothing Wellness Counters (Duolingo Mechanics, AROM Palette) */}
-              <div className="sticky top-0 z-20 flex items-center justify-between border-b-2 border-[#e6ece7] bg-white/95 px-5 py-3 backdrop-blur-sm">
-                {/* Mindfulness Streak */}
-                <div
-                  className="flex items-center gap-1.5 font-extrabold text-[#245242]"
-                  title={isKhmer ? "សតិប្រចាំថ្ងៃ" : "Mindfulness Streak"}
-                >
-                  <span className="flex size-7 items-center justify-center rounded-lg bg-[#eaf4ed] text-[#245242]">
-                    <Leaf size={16} />
-                  </span>
+          {activeScreen === "home" && (
+            <div className="pb-12 text-[#14221f] font-sans">
+              {/* Top Greeting Header */}
+              <div className="flex items-center justify-between px-5 pt-6 pb-2">
+                <div className="flex items-center gap-3">
+                  {/* Avatar with Soft Calming Halo */}
+                  <div className="relative flex size-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#245242] to-[#407e66] text-white font-extrabold shadow-sm ring-4 ring-[#e5f0ea]">
+                    <span className="text-sm">ML</span>
+                    <span className="absolute bottom-0 right-0 size-3 rounded-full bg-[#52b788] ring-2 ring-white" />
+                  </div>
                   <div>
-                    <span className="text-sm font-black">{mindfulnessStreak}</span>
-                    <span className="text-[10px] text-gray-500 ml-1">{isKhmer ? "ថ្ងៃ" : "d"}</span>
+                    <h1 className="text-lg font-black tracking-tight text-[#14221f] sm:text-xl">
+                      {isKhmer ? "អរុណសួស្តី Muoyly!" : "Good morning Muoyly!"}
+                    </h1>
+                    <p className="text-xs text-gray-500 font-medium">
+                      {isKhmer ? "តើថ្ងៃនេះអារម្មណ៍របស់អ្នកយ៉ាងណាដែរ?" : "How is your mind feeling right now?"}
+                    </p>
                   </div>
                 </div>
 
-                {/* Kindness Drops */}
-                <div
-                  className="flex items-center gap-1.5 font-extrabold text-[#2a7b9b]"
-                  title={isKhmer ? "តំណក់សេចក្តីល្អ" : "Kindness Drops"}
-                >
-                  <span className="flex size-7 items-center justify-center rounded-lg bg-[#e8f4f8] text-[#2a7b9b]">
-                    <Droplets size={16} />
-                  </span>
-                  <div>
-                    <span className="text-sm font-black">{kindnessDrops}</span>
-                    <span className="text-[10px] text-gray-500 ml-1">{isKhmer ? "តំណក់" : "pts"}</span>
-                  </div>
-                </div>
-
-                {/* Heart Blooms / Inner Harmony */}
-                <div
-                  className="flex items-center gap-1.5 font-extrabold text-[#cb684c]"
-                  title={isKhmer ? "ថាមពលចិត្ត" : "Heart Blooms"}
-                >
-                  <span className="flex size-7 items-center justify-center rounded-lg bg-[#fbeee9] text-[#cb684c]">
-                    <Heart size={16} />
-                  </span>
-                  <div>
-                    <span className="text-sm font-black">{heartBlooms}</span>
-                    <span className="text-[10px] text-gray-500 ml-1">{isKhmer ? "ផ្កា" : "blooms"}</span>
-                  </div>
-                </div>
+                <span className="rounded-full bg-[#eef4f0] px-3 py-1 text-xs font-black text-[#245242]">
+                  {isKhmer ? "ថ្ងៃច័ន្ទ, ០៥ តុលា" : "Mon, Oct 5"}
+                </span>
               </div>
 
-              {activeView === "overview" && (
-                <div className="px-4 pt-4 space-y-4">
-                  {/* Header Title Banner */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h1 className="text-xl font-black tracking-tight text-[#14221f]">
-                        {isKhmer ? "ផ្លូវសតិសហគមន៍" : "Community Journey"}
-                      </h1>
-                      <p className="text-xs font-bold text-gray-500">
-                        {isKhmer
-                          ? "បោះជំហានសតិមួយៗជាមួយមិត្តភក្តិក្នុងសហគមន៍"
-                          : "Take gentle mindful steps together"}
-                      </p>
-                    </div>
+              {/* SECTION 1: ELEGANT MOOD CHECK-IN PEBBLES */}
+              <section className="mt-5 px-5" aria-label="Mood Check-in">
+                <div className="flex items-center justify-between mb-2.5">
+                  <h2 className="text-xs font-black uppercase tracking-wider text-gray-400">
+                    {isKhmer ? "ការពិនិត្យអារម្មណ៍ (Mood Check-in)" : "Mood Check-in"}
+                  </h2>
+                  <span className="text-[11px] font-bold text-[#245242]">
+                    {isKhmer ? "កត់ត្រាដោយស្ងប់ចិត្ត" : "Gentle reflection"}
+                  </span>
+                </div>
 
-                    <span className="rounded-2xl border-2 border-b-3 border-[#cce0d4] bg-[#eef6f1] px-2.5 py-1 text-[11px] font-black text-[#245242]">
-                      🔒 {isKhmer ? "អនាមិក" : "Anonymous"}
+                {/* Horizontal Scroll / Flex Pebbles */}
+                <div className="grid grid-cols-5 gap-2">
+                  {[
+                    {
+                      id: "calm",
+                      labelKhmer: "ស្ងប់សុខ",
+                      labelEn: "Calm",
+                      bg: "bg-[#eaf4ed]",
+                      border: "border-[#b9dcbf]",
+                      activeBorder: "border-[#245242] ring-2 ring-[#245242]/20",
+                      textColor: "text-[#1d4436]",
+                      icon: "🌿",
+                    },
+                    {
+                      id: "joyful",
+                      labelKhmer: "រីករាយ",
+                      labelEn: "Joyful",
+                      bg: "bg-[#fef8e7]",
+                      border: "border-[#f7e09e]",
+                      activeBorder: "border-[#d49726] ring-2 ring-[#d49726]/20",
+                      textColor: "text-[#875d0f]",
+                      icon: "☀️",
+                    },
+                    {
+                      id: "balanced",
+                      labelKhmer: "មានលំនឹង",
+                      labelEn: "Balanced",
+                      bg: "bg-[#edf2ef]",
+                      border: "border-[#cbd9d1]",
+                      activeBorder: "border-[#406856] ring-2 ring-[#406856]/20",
+                      textColor: "text-[#2e4c3e]",
+                      icon: "⚖️",
+                    },
+                    {
+                      id: "anxious",
+                      labelKhmer: "ថប់បារម្ភ",
+                      labelEn: "Anxious",
+                      bg: "bg-[#fbf0ea]",
+                      border: "border-[#f3cfc0]",
+                      activeBorder: "border-[#cb684c] ring-2 ring-[#cb684c]/20",
+                      textColor: "text-[#8d3e26]",
+                      icon: "🌊",
+                    },
+                    {
+                      id: "tired",
+                      labelKhmer: "ហត់នឿយ",
+                      labelEn: "Tired",
+                      bg: "bg-[#f4eff8]",
+                      border: "border-[#ded0e8]",
+                      activeBorder: "border-[#7e5c9b] ring-2 ring-[#7e5c9b]/20",
+                      textColor: "text-[#543b6b]",
+                      icon: "🌙",
+                    },
+                  ].map((mood) => {
+                    const isSelected = selectedMood === mood.id;
+
+                    return (
+                      <button
+                        key={mood.id}
+                        type="button"
+                        onClick={() => setSelectedMood(mood.id as MoodType)}
+                        className={`flex flex-col items-center justify-center rounded-2xl p-2.5 text-center transition-all duration-200 border ${
+                          mood.bg
+                        } ${isSelected ? `${mood.activeBorder} scale-102 shadow-sm` : `${mood.border} hover:opacity-90`}`}
+                      >
+                        <span className="text-lg leading-none">{mood.icon}</span>
+                        <span className={`mt-1.5 text-[11px] font-black leading-tight ${mood.textColor}`}>
+                          {isKhmer ? mood.labelKhmer : mood.labelEn}
+                        </span>
+                        <span className="text-[9px] text-gray-500 font-medium">
+                          {isKhmer ? `(${mood.labelEn})` : `(${mood.labelKhmer})`}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Empathetic Insight Response Banner */}
+                <div className="mt-3 rounded-2xl bg-white border border-[#e8eee9] p-3 shadow-2xs">
+                  <div className="flex items-start gap-2.5">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#eef6f1] text-[#245242]">
+                      <Heart size={14} />
                     </span>
-                  </div>
-
-                  {/* DUOLINGO STEPPING STONES PATHWAY */}
-                  <div className="relative py-4 px-2">
-                    {/* Organic Connecting Curved S-Path Line */}
-                    <svg
-                      className="absolute inset-0 w-full h-full pointer-events-none"
-                      viewBox="0 0 360 480"
-                      fill="none"
-                      preserveAspectRatio="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M 180 50 C 260 80, 270 120, 240 160 C 180 220, 90 220, 110 280 C 130 340, 240 340, 220 390 C 200 430, 180 430, 180 450"
-                        stroke="#d5e5db"
-                        strokeWidth="10"
-                        strokeLinecap="round"
-                        strokeDasharray="4 8"
-                      />
-                    </svg>
-
-                    {/* NODE 1: Grounding Check-in (Completed) */}
-                    <div className="flex flex-col items-center relative z-10">
-                      <div className="size-15 rounded-full border-2 border-b-4 border-[#5a9c70] border-b-[#427a55] bg-[#78b98e] flex items-center justify-center text-white shadow-xs">
-                        <Check size={26} strokeWidth={3} />
-                      </div>
-                      <span className="mt-1.5 rounded-full bg-white/90 border border-[#cfe2d6] px-2 py-0.5 text-[10px] font-black text-[#2e573e] shadow-xs">
-                        1. {isKhmer ? "ពិនិត្យអារម្មណ៍ (Check-in) ✓" : "Daily Check-in ✓"}
-                      </span>
-                    </div>
-
-                    {/* NODE 2: Active Peer Circle with Mascot Aromi */}
-                    <div className="mt-6 flex items-center justify-end pr-2 sm:pr-4 relative z-10">
-                      {/* Aromi Mascot Speech Balloon Card */}
-                      <div className="mr-2 flex items-center gap-2 max-w-[215px] rounded-2xl border-2 border-b-3 border-[#cde0d4] bg-white p-2.5 shadow-sm text-left">
-                        <div className="shrink-0 -ml-1">
-                          <AromiSproutMascot className="size-13 drop-shadow-xs" />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="rounded-md bg-[#eaf4ed] px-1.5 py-0.2 text-[9px] font-black uppercase tracking-wider text-[#245242]">
-                            {isKhmer ? "រង្វង់សកម្ម" : "Active Circle"}
-                          </span>
-                          <p className="mt-0.5 text-xs font-black text-[#14221f] leading-tight">
-                            {isKhmer ? "ក្រុមគាំទ្រភាពតានតឹង" : "Stress & Burnout"}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={() => setActiveView("chat")}
-                            className="mt-1.5 inline-flex items-center gap-1 rounded-xl border border-b-2 border-[#163629] border-b-[#0e231b] bg-[#245242] px-2.5 py-1 text-[10px] font-black uppercase text-white shadow-xs hover:bg-[#2c6350] active:translate-y-0.5"
-                          >
-                            <span>{isKhmer ? "ចូលជជែក" : "Enter Chat"}</span>
-                            <ChevronRight size={11} strokeWidth={2.5} />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Tactile Circle Node Button */}
-                      <button
-                        type="button"
-                        onClick={() => setActiveView("chat")}
-                        aria-label="Open Stress & Burnout Circle Chat"
-                        className="relative size-17 rounded-full border-3 border-b-6 border-[#183d2e] border-b-[#0e241b] bg-[#245242] flex items-center justify-center text-white shadow-md hover:bg-[#2d6652] active:translate-y-1 active:border-b-3 transition-all shrink-0"
-                      >
-                        <MessageSquare size={24} strokeWidth={2.5} />
-                      </button>
-                    </div>
-
-                    {/* NODE 3: Interactive Cheer Drop (Micro-Action) */}
-                    <div className="mt-7 flex items-center justify-start pl-2 sm:pl-4 relative z-10">
-                      <div className="flex items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={handleDropCheer}
-                          aria-label="Drop 1 supportive cheer"
-                          className={`size-16 rounded-full border-2 border-b-5 flex items-center justify-center transition-all active:translate-y-1 shrink-0 ${
-                            cheeredStep3
-                              ? "border-[#276e8e] border-b-[#1b4b60] bg-[#3a8ab2] text-white"
-                              : "border-[#3f88a9] border-b-[#265e77] bg-[#5ba4c8] text-white hover:bg-[#4d97bb]"
-                          }`}
-                        >
-                          <Droplets size={24} strokeWidth={2.5} />
-                        </button>
-
-                        <div className="rounded-2xl border-2 border-b-3 border-[#cde0d4] bg-white p-2.5 shadow-sm max-w-[190px]">
-                          <span className="text-[9px] font-black uppercase tracking-wider text-[#2a7b9b]">
-                            {isKhmer ? "ជំហានទី ៣ • មីក្រូសកម្មភាព" : "Step 3 • Micro Action"}
-                          </span>
-                          <p className="text-xs font-black text-[#14221f]">
-                            {isKhmer ? "ផ្ញើតំណក់លើកទឹកចិត្ត ១" : "Drop 1 Cheer"}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={handleDropCheer}
-                            className={`mt-1 inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px] font-black transition-all ${
-                              cheeredStep3
-                                ? "bg-[#e8f4f8] text-[#2a7b9b]"
-                                : "bg-[#2a7b9b] text-white active:translate-y-0.5"
-                            }`}
-                          >
-                            {cheeredStep3
-                              ? isKhmer
-                                ? "✓ បានចែករំលែក (+5 💧)"
-                                : "✓ Completed (+5 💧)"
-                              : isKhmer
-                              ? "ចុចដើម្បីផ្ញើ (+5 💧)"
-                              : "Tap to Cheer (+5 💧)"}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* NODE 4: Evening Decompress Circle (Scheduled tonight) */}
-                    <div className="mt-7 flex items-center justify-end pr-8 sm:pr-12 relative z-10">
-                      <div className="flex items-center gap-2.5 flex-row-reverse text-right">
-                        <div className="size-14 rounded-full border-2 border-b-3 border-[#c8d4cd] border-b-[#aebfb6] bg-[#e2ebe5] flex items-center justify-center text-[#74877e] shrink-0">
-                          <Lock size={17} strokeWidth={2.5} />
-                        </div>
-                        <div className="rounded-2xl border-2 border-b-3 border-[#e0e8e2] bg-white/80 p-2 shadow-2xs max-w-[160px]">
-                          <span className="text-[9px] font-black uppercase tracking-wider text-gray-400">
-                            {isKhmer ? "ម៉ោង 8:00 យប់" : "8:00 PM Tonight"}
-                          </span>
-                          <p className="text-xs font-bold text-gray-700 leading-tight">
-                            {isKhmer ? "រង្វង់ស្ងប់ចិត្តពេលយប់" : "Evening Calm"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* NODE 5: Wellness Harmony Milestone Gift */}
-                    <div className="mt-7 flex flex-col items-center justify-center relative z-10">
-                      <div className="size-15 rounded-full border-2 border-b-4 border-[#9e4a33] border-b-[#773322] bg-[#c86246] flex items-center justify-center text-white shadow-xs">
-                        <Award size={24} strokeWidth={2.5} />
-                      </div>
-                      <span className="mt-1.5 rounded-full bg-white/90 border border-[#eed0c8] px-2.5 py-0.5 text-[10px] font-black text-[#873a26] shadow-xs">
-                        {isKhmer ? "រង្វាន់សុខុមាលភាព (Harmony Seed)" : "Milestone Harmony Seed"}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* DUOLINGO "FRIENDS QUEST" CONCEPT: COMMUNITY KINDNESS GARDEN */}
-                  <div className="rounded-3xl border-2 border-b-4 border-[#dce8e0] border-b-[#c4d6cb] bg-white p-5 shadow-xs">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="flex size-8 items-center justify-center rounded-xl bg-[#eaf4ed] text-[#245242]">
-                          <Leaf size={17} />
-                        </span>
-                        <div>
-                          <h3 className="text-sm font-black text-[#14221f]">
-                            {isKhmer ? "សួនសេចក្តីល្អសហគមន៍" : "Community Kindness Garden"}
-                          </h3>
-                          <p className="text-[10px] font-bold text-gray-500">
-                            {isKhmer
-                              ? "ស្រោចទឹកសួនរួមគ្នាដោយការលើកទឹកចិត្ត"
-                              : "Watering our collective wellness together"}
-                          </p>
-                        </div>
-                      </div>
-                      <span className="rounded-xl border border-[#cbe0d3] bg-[#f0f7f2] px-2.5 py-1 text-xs font-black text-[#245242]">
-                        {gardenBloom}% {isKhmer ? "រីកស្គុះស្គាយ" : "Bloomed"}
-                      </span>
-                    </div>
-
-                    {/* Garden Bloom Progress Bar */}
-                    <div className="relative h-4 w-full overflow-hidden rounded-full bg-[#e8efe9]">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-[#78b98e] via-[#5a9c70] to-[#245242] transition-all duration-500"
-                        style={{ width: `${gardenBloom}%` }}
-                      />
-                      <div className="absolute top-0.5 right-1 size-3 rounded-full bg-white opacity-40" />
-                    </div>
-
-                    {/* Peer Supporters & Water Action Button */}
-                    <div className="mt-4 flex items-center justify-between gap-2">
-                      <div className="flex items-center -space-x-1.5">
-                        {[
-                          { name: "Bopha", bg: "bg-[#78b98e]" },
-                          { name: "Virak", bg: "bg-[#5ba4c8]" },
-                          { name: "Chann", bg: "bg-[#c86246]" },
-                          { name: "You", bg: "bg-[#245242]" },
-                        ].map((peer) => (
-                          <div
-                            key={peer.name}
-                            title={peer.name}
-                            className={`flex size-6 items-center justify-center rounded-full ${peer.bg} text-[9px] font-black text-white ring-2 ring-white`}
-                          >
-                            {peer.name[0]}
-                          </div>
-                        ))}
-                        <span className="pl-3 text-[11px] font-bold text-gray-500">
-                          {isKhmer ? "+32 នាក់បានស្រោចទឹក" : "+32 shared today"}
-                        </span>
-                      </div>
-
-                      {/* Tactile Water Garden Button */}
-                      <button
-                        type="button"
-                        onClick={handleWaterGarden}
-                        className="rounded-xl border-2 border-b-3 border-[#205e7a] border-b-[#144256] bg-[#2a7b9b] px-3 py-1.5 text-xs font-black text-white shadow-xs active:translate-y-0.5 hover:bg-[#348ba9] transition-all shrink-0"
-                      >
-                        💧 {isKhmer ? "ស្រោចទឹក (+5)" : "Water (+5)"}
-                      </button>
+                    <div>
+                      <p className="text-xs font-bold text-[#14221f] leading-snug">
+                        {selectedMood === "calm" &&
+                          (isKhmer
+                            ? "អារម្មណ៍ស្ងប់ជាមូលដ្ឋានគ្រឹះនៃសេចក្តីសុខផ្លូវចិត្ត។ រក្សាដង្ហើមវែងៗ និងរីករាយនឹងភាពស្ងប់នេះ។"
+                            : "Calm is the peaceful foundation of wellness. Savor this mindful stillness.")}
+                        {selectedMood === "joyful" &&
+                          (isKhmer
+                            ? "សូមអបអរសាទរថាមពលវិជ្ជមានរបស់អ្នកថ្ងៃនេះ! ចែករំលែកស្នាមញញឹមនេះជាមួយអ្នកជុំវិញខ្លួន។"
+                            : "Celebrate your positive energy today! Let this warmth uplift your day.")}
+                        {selectedMood === "balanced" &&
+                          (isKhmer
+                            ? "តុល្យភាពចិត្តជួយឱ្យអ្នកដោះស្រាយបញ្ហាប្រចាំថ្ងៃដោយភាពច្បាស់លាស់ និងគ្មានភាពប្រញាប់ប្រញាល់។"
+                            : "Inner balance gives you clarity to navigate whatever comes your way.")}
+                        {selectedMood === "anxious" &&
+                          (isKhmer
+                            ? "សូមដកដង្ហើមវែងៗមួយ។ ការមានអារម្មណ៍ថប់បារម្ភគឺជារឿងធម្មជាតិទេ។ អ្នកមានសុវត្ថិភាពនៅទីនេះ។"
+                            : "Take a slow, deep breath. Your feelings are valid and you are completely safe.")}
+                        {selectedMood === "tired" &&
+                          (isKhmer
+                            ? "ការសម្រាកមិនមែនជាការខ្ជះខ្ជាយពេលទេ តែជាការផ្តល់កម្លាំងថ្មីដល់ចិត្ត និងរាងកាយរបស់អ្នក។"
+                            : "Rest is necessary medicine for the mind. Be gentle with yourself today.")}
+                      </p>
                     </div>
                   </div>
                 </div>
-              )}
+              </section>
 
-              {/* DUOLINGO CONCEPT: BUBBLY TACTILE CHAT HUB */}
-              {activeView === "chat" && (
-                <div className="flex flex-col h-[700px]">
-                  {/* Chat Top Bar with 3D Back Button */}
-                  <div className="flex items-center justify-between border-b-2 border-[#e5ece7] bg-white px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setActiveView("overview")}
-                        className="flex size-9 items-center justify-center rounded-2xl border-2 border-b-3 border-[#d0ded5] border-b-[#b8ccbf] bg-white text-[#245242] active:translate-y-0.5"
-                        aria-label="Back"
-                      >
-                        <ArrowLeft size={18} strokeWidth={2.5} />
-                      </button>
-                      <div>
-                        <h2 className="text-sm font-black text-[#14221f]">
-                          {isKhmer ? "រង្វង់ភាពតានតឹង" : "Stress & Burnout Circle"}
-                        </h2>
-                        <span className="text-[11px] font-bold text-[#245242]">
-                          ● 8 {isKhmer ? "នាក់កំពុងចូលរួម" : "members online"}
-                        </span>
-                      </div>
+              {/* SECTION 2: HERO MORNING CLARITY RESET WITH BREATHING SIMULATOR */}
+              <section className="mt-5 px-5" aria-label="Morning Reset">
+                <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#1b4332] via-[#245242] to-[#2f6753] p-5 text-white shadow-md">
+                  {/* Subtle Background Pattern */}
+                  <div className="absolute -top-12 -right-12 size-48 rounded-full bg-white/5 blur-2xl" />
+
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold text-[#c8eedb] backdrop-blur-md">
+                        <Wind size={12} />
+                        {isKhmer ? "វគ្គសតិប្រចាំព្រឹក" : "Morning Clarity Reset"}
+                      </span>
+
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-bold text-white/90">
+                        <Volume2 size={12} />
+                        <span>{formatTime(breathTimer)}</span>
+                      </span>
                     </div>
 
-                    <span className="rounded-xl border-2 border-[#cce0d4] bg-[#eef6f1] px-2 py-0.5 text-[10px] font-black text-[#245242]">
-                      🔒 {isKhmer ? "អនាមិក" : "Anonymous"}
-                    </span>
-                  </div>
-
-                  {/* Pinned Kindness Guidelines */}
-                  <div className="p-3 bg-[#f7f9f7]">
-                    <div className="rounded-2xl border-2 border-[#cce0d4] bg-[#f0f7f2] p-3 text-xs font-bold text-[#245242]">
-                      <div className="flex items-center gap-1.5 font-black text-[#245242] mb-1">
-                        <ShieldCheck size={16} />
-                        <span>{isKhmer ? "គោលការណ៍សហគមន៍" : "Circle Guidelines"}</span>
-                      </div>
-                      <p className="text-[11px] text-gray-600 leading-snug">
-                        {isKhmer
-                          ? "ទីកន្លែងសុវត្ថិភាព គ្មានការរិះគន់។ គោរព និងលើកទឹកចិត្តគ្នាទៅវិញទៅមក។"
-                          : "Kind, non-judgmental space. Respect and support one another."}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Messages Stream */}
-                  <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
-                    {messages.map((msg) => {
-                      const isMentor = msg.role === "mentor";
-
-                      return (
+                    <div className="mt-4 flex flex-col items-center justify-center text-center">
+                      {/* Animated Breathing Circle */}
+                      <div className="relative my-2 flex size-36 items-center justify-center">
+                        {/* Outer Glow Ring */}
                         <div
-                          key={msg.id}
-                          className={`flex flex-col ${msg.isSelf ? "items-end" : "items-start"}`}
-                        >
-                          <div className="flex items-center gap-1.5 mb-1 text-[11px] font-black text-gray-400">
-                            {!msg.isSelf && (
-                              isMentor ? (
-                                <span className="flex size-4 items-center justify-center rounded-full bg-[#245242] text-white">
-                                  <Check size={10} strokeWidth={3} />
-                                </span>
-                              ) : (
-                                <DominoMaskIcon className="size-3.5 text-gray-500" />
-                              )
-                            )}
-                            <span>{msg.sender}</span>
-                            {isMentor && (
-                              <span className="rounded-md bg-[#245242] px-1.5 py-0.2 text-[9px] font-black text-white">
-                                Mentor
-                              </span>
-                            )}
-                          </div>
-
-                          <div
-                            className={`max-w-[85%] rounded-3xl p-3.5 text-xs font-bold leading-relaxed border-2 border-b-4 ${
-                              msg.isSelf
-                                ? "bg-[#245242] border-[#163629] text-white rounded-br-xs"
-                                : isMentor
-                                ? "bg-[#eaf4ed] border-[#c0dcd1] text-[#14221f] rounded-bl-xs"
-                                : "bg-white border-[#d8e5dc] border-b-[#c0d4c6] text-gray-800 rounded-bl-xs"
-                            }`}
-                          >
-                            {msg.text}
-                          </div>
+                          className={`absolute inset-0 rounded-full bg-[#52b788]/20 transition-all duration-1000 ${
+                            isPlayingBreath
+                              ? breathPhase === "inhale"
+                                ? "scale-110 opacity-80"
+                                : breathPhase === "hold"
+                                ? "scale-105 opacity-60"
+                                : "scale-90 opacity-30"
+                              : "scale-100 opacity-40"
+                          }`}
+                        />
+                        {/* Middle Ring */}
+                        <div
+                          className={`absolute inset-3 rounded-full border border-[#52b788]/40 transition-all duration-1000 ${
+                            isPlayingBreath
+                              ? breathPhase === "inhale"
+                                ? "scale-105"
+                                : breathPhase === "hold"
+                                ? "scale-100"
+                                : "scale-95"
+                              : "scale-100"
+                          }`}
+                        />
+                        {/* Core Ripple Circle */}
+                        <div className="relative z-10 flex size-24 items-center justify-center rounded-full bg-gradient-to-br from-[#3b7e65] to-[#1e4838] shadow-inner text-center">
+                          {isPlayingBreath ? (
+                            <div className="px-1 text-center">
+                              <p className="text-[10px] font-black uppercase tracking-wider text-[#a7f3d0]">
+                                {breathPhase === "inhale" && (isKhmer ? "ដកចូល" : "Inhale")}
+                                {breathPhase === "hold" && (isKhmer ? "ទប់ចិត្ត" : "Hold")}
+                                {breathPhase === "exhale" && (isKhmer ? "បញ្ចេញ" : "Exhale")}
+                              </p>
+                              <p className="text-xs font-extrabold text-white">4s</p>
+                            </div>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setIsPlayingBreath(true)}
+                              className="flex size-14 items-center justify-center rounded-full bg-white text-[#1b4332] shadow-md hover:scale-105 transition-transform"
+                              aria-label="Start Morning Reset"
+                            >
+                              <Play size={20} className="ml-1 fill-[#1b4332]" />
+                            </button>
+                          )}
                         </div>
-                      );
-                    })}
-                    <div ref={messagesEndRef} />
-                  </div>
+                      </div>
 
-                  {/* Quick Cheer Reaction Bar */}
-                  <div className="px-4 py-1.5 flex gap-2 overflow-x-auto bg-white border-t border-gray-100">
-                    {[
-                      { emoji: "💧", label: isKhmer ? "តំណក់ក្តីស្រលាញ់" : "Drop" },
-                      { emoji: "🌱", label: isKhmer ? "រីកចម្រើន" : "Grow" },
-                      { emoji: "❤️", label: isKhmer ? "លើកទឹកចិត្ត" : "Cheer" },
-                      { emoji: "🙏", label: isKhmer ? "អរគុណ" : "Gratitude" },
-                    ].map((item) => (
+                      <h3 className="mt-1 text-base font-extrabold tracking-tight text-white">
+                        {isKhmer
+                          ? "លំហាត់ដកដង្ហើមស្ងប់ចិត្ត ៤ នាទី"
+                          : "4-Minute Mindful Reset"}
+                      </h3>
+                      <p className="mt-0.5 text-xs text-white/80 max-w-xs leading-relaxed">
+                        {isKhmer
+                          ? "ស្រូបយកខ្យល់បរិសុទ្ធ បញ្ចេញភាពតានតឹង និងចាប់ផ្តើមថ្ងៃថ្មីដោយភាពស្រស់ថ្លា។"
+                          : "Inhale tranquility, exhale tension, and begin your day centered."}
+                      </p>
+
+                      {/* Control Bar & Soundscape Picker */}
+                      <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setIsPlayingBreath(!isPlayingBreath)}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-black text-[#1b4332] shadow-sm hover:bg-[#f0f7f3] transition-colors"
+                        >
+                          {isPlayingBreath ? (
+                            <>
+                              <Pause size={13} className="fill-[#1b4332]" />
+                              <span>{isKhmer ? "ផ្អាក" : "Pause"}</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play size={13} className="fill-[#1b4332]" />
+                              <span>{isKhmer ? "ចាប់ផ្តើមហាត់" : "Start Session"}</span>
+                            </>
+                          )}
+                        </button>
+
+                        {/* Soundscapes */}
+                        <div className="flex items-center gap-1 rounded-full bg-white/10 p-0.5 text-[11px] font-bold backdrop-blur-xs">
+                          {[
+                            { id: "rain", label: isKhmer ? "ទឹកភ្លៀង" : "Rain" },
+                            { id: "forest", label: isKhmer ? "ព្រៃព្រឹក្សា" : "Forest" },
+                            { id: "bowl", label: isKhmer ? "កណ្តឹងសតិ" : "Bell" },
+                          ].map((sound) => (
+                            <button
+                              key={sound.id}
+                              type="button"
+                              onClick={() => setSelectedSoundscape(sound.id as any)}
+                              className={`rounded-full px-2.5 py-1 transition-all ${
+                                selectedSoundscape === sound.id
+                                  ? "bg-white text-[#1b4332] shadow-2xs font-black"
+                                  : "text-white/80 hover:text-white"
+                              }`}
+                            >
+                              {sound.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* SECTION 3: TODAY'S MINDFUL PRACTICES (BENTO GRID) */}
+              <section className="mt-6 px-5" aria-label="Today's Mindful Practices">
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="text-xs font-black uppercase tracking-wider text-gray-400">
+                    {isKhmer ? "លំហាត់សតិប្រចាំថ្ងៃ (Today's Practices)" : "Today's Practices"}
+                  </h2>
+                  <span className="text-[11px] font-bold text-[#245242]">
+                    {isKhmer ? "វគ្គណែនាំខ្លីៗ" : "Curated sessions"}
+                  </span>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {/* Practice 1: 4-7-8 Breathing */}
+                  <div className="group rounded-[22px] border border-[#e5ece7] bg-white p-4 shadow-2xs hover:border-[#245242]/30 transition-all">
+                    <div className="flex items-start justify-between">
+                      <div className="min-w-0 flex-1">
+                        <span className="rounded-md bg-[#eaf4ed] px-2 py-0.5 text-[10px] font-bold text-[#245242]">
+                          {isKhmer ? "៥ នាទី • ដកដង្ហើម" : "5 mins • Breathing"}
+                        </span>
+                        <h3 className="mt-1.5 text-sm font-extrabold text-[#14221f]">
+                          {isKhmer ? "ដកដង្ហើម 4-7-8" : "4-7-8 Relaxation Breath"}
+                        </h3>
+                        <p className="mt-0.5 text-[11px] text-gray-500 leading-snug">
+                          {isKhmer
+                            ? "កាត់បន្ថយភាពតានតឹង និងជួយឱ្យប្រព័ន្ធប្រសាទស្ងប់។"
+                            : "De-escalate stress and regulate your nervous system."}
+                        </p>
+                      </div>
+                      <div className="shrink-0 -mt-1 ml-2">
+                        <BreathingLineArt className="size-13 text-[#245242]" />
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-2.5">
+                      <span className="text-[10px] font-bold text-gray-400">
+                        {isKhmer ? "សតិប្រព័ន្ធប្រសាទ" : "Vagus reset"}
+                      </span>
                       <button
-                        key={item.emoji}
                         type="button"
-                        onClick={() => {
-                          setInputText((prev) => `${prev} ${item.emoji}`);
-                        }}
-                        className="rounded-full border-2 border-b-3 border-[#d0ded5] bg-white px-2.5 py-1 text-xs font-black text-[#245242] active:translate-y-0.5 hover:bg-[#f7faf8] shrink-0"
+                        onClick={() => setIsPlayingBreath(true)}
+                        className="inline-flex items-center gap-1 text-xs font-black text-[#245242] hover:underline"
                       >
-                        {item.emoji} {item.label}
+                        <span>{isKhmer ? "ហាត់ឥឡូវនេះ" : "Practice"}</span>
+                        <ChevronRight size={13} strokeWidth={2.5} />
                       </button>
-                    ))}
+                    </div>
                   </div>
 
-                  {/* Input Bar with Tactile Green Send Button */}
-                  <div className="p-3 bg-white border-t-2 border-[#e5ece7]">
-                    <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+                  {/* Practice 2: Sleep Meditation */}
+                  <div className="group rounded-[22px] border border-[#e5ece7] bg-white p-4 shadow-2xs hover:border-[#245242]/30 transition-all">
+                    <div className="flex items-start justify-between">
+                      <div className="min-w-0 flex-1">
+                        <span className="rounded-md bg-[#f2eef8] px-2 py-0.5 text-[10px] font-bold text-[#684b85]">
+                          {isKhmer ? "១២ នាទី • ដំណេក" : "12 mins • Sleep"}
+                        </span>
+                        <h3 className="mt-1.5 text-sm font-extrabold text-[#14221f]">
+                          {isKhmer ? "សមាធិមុនចូលគេង" : "Deep Sleep Wind Down"}
+                        </h3>
+                        <p className="mt-0.5 text-[11px] text-gray-500 leading-snug">
+                          {isKhmer
+                            ? "រំសាយគំនិតដែលវិលវល់ សម្រាកសាច់ដុំដើម្បីដំណេកស្កប់។"
+                            : "Unwind busy thoughts and drift into deep, restorative sleep."}
+                        </p>
+                      </div>
+                      <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-[#f2eef8] text-[#684b85] ml-2">
+                        <Moon size={20} />
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-2.5">
+                      <span className="text-[10px] font-bold text-gray-400">
+                        {isKhmer ? "សំឡេងមគ្គុទ្ទេសក៍" : "Guided audio"}
+                      </span>
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-1 text-xs font-black text-[#684b85] hover:underline"
+                      >
+                        <span>{isKhmer ? "ស្តាប់ឥឡូវនេះ" : "Listen"}</span>
+                        <ChevronRight size={13} strokeWidth={2.5} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Practice 3: Reflection Journal Card */}
+                  <div className="group rounded-[22px] border border-[#e5ece7] bg-white p-4 shadow-2xs sm:col-span-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="flex size-7 items-center justify-center rounded-lg bg-[#fbf0ea] text-[#cb684c]">
+                          <BookOpen size={15} />
+                        </span>
+                        <div>
+                          <h3 className="text-xs font-black text-[#14221f]">
+                            {isKhmer ? "កំណត់ត្រាដឹងគុណប្រចាំថ្ងៃ" : "Daily Reflection Prompt"}
+                          </h3>
+                          <p className="text-[10px] text-gray-500">
+                            {isKhmer ? "តើអ្វីដែលបានធ្វើឱ្យចិត្តរបស់អ្នកស្ងប់ថ្ងៃនេះ?" : "What brought peace to your heart today?"}
+                          </p>
+                        </div>
+                      </div>
+
+                      {journalSaved && (
+                        <span className="rounded-full bg-[#eaf4ed] px-2.5 py-0.5 text-[10px] font-black text-[#245242]">
+                          ✓ {isKhmer ? "បានរក្សាទុក" : "Saved"}
+                        </span>
+                      )}
+                    </div>
+
+                    <form onSubmit={handleSaveJournal} className="mt-2 flex gap-2">
                       <input
                         type="text"
-                        value={inputText}
-                        onChange={(e) => setInputText(e.target.value)}
+                        value={journalInput}
+                        onChange={(e) => setJournalInput(e.target.value)}
                         placeholder={
                           isKhmer
-                            ? "សរសេរសារលើកទឹកចិត្ត... (+5 💧)"
-                            : "Write a supportive cheer... (+5 💧)"
+                            ? "សរសេរការឆ្លុះបញ្ចាំងខ្លីមួយ... (ឧ. ពែងតែពេលព្រឹក)"
+                            : "Write a short reflection... (e.g. peaceful morning tea)"
                         }
-                        className="flex-1 rounded-2xl border-2 border-b-3 border-[#d0ded5] border-b-[#b8ccbf] bg-[#f7faf8] px-4 py-2.5 text-xs font-bold text-gray-800 placeholder:text-gray-400 focus:border-[#245242] focus:bg-white focus:outline-none"
+                        className="flex-1 rounded-xl border border-gray-200 bg-[#f9fbf9] px-3 py-2 text-xs font-medium text-gray-800 placeholder:text-gray-400 focus:border-[#245242] focus:bg-white focus:outline-none"
                       />
-
                       <button
                         type="submit"
-                        disabled={!inputText.trim()}
-                        className="flex size-10 shrink-0 items-center justify-center rounded-2xl border-2 border-b-3 border-[#163629] bg-[#245242] text-white disabled:opacity-40 transition-all active:translate-y-0.5 hover:bg-[#2e6350]"
+                        disabled={!journalInput.trim()}
+                        className="rounded-xl bg-[#245242] px-3.5 py-2 text-xs font-black text-white disabled:opacity-40 hover:bg-[#1a3d31] transition-colors shrink-0"
                       >
-                        <SendHorizontal size={17} strokeWidth={2.5} />
+                        {isKhmer ? "កត់ត្រា" : "Save"}
                       </button>
                     </form>
                   </div>
                 </div>
-              )}
+              </section>
+
+              {/* SECTION 4: WEEKLY EMOTIONAL BALANCE RHYTHM */}
+              <section className="mt-6 px-5" aria-label="Weekly Emotional Rhythm">
+                <div className="rounded-[24px] border border-[#e5ece7] bg-white p-5 shadow-2xs">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-gray-400">
+                        {isKhmer ? "ស្ថិតិអារម្មណ៍សប្តាហ៍នេះ" : "Weekly Rhythm"}
+                      </span>
+                      <h3 className="text-sm font-black text-[#14221f]">
+                        {isKhmer ? "តុល្យភាពអារម្មណ៍ប្រចាំសប្តាហ៍" : "Emotional Balance Rhythm"}
+                      </h3>
+                    </div>
+                    <span className="rounded-full bg-[#eaf4ed] px-2.5 py-1 text-xs font-black text-[#245242]">
+                      76% {isKhmer ? "មានលំនឹងល្អ" : "Balanced"}
+                    </span>
+                  </div>
+
+                  {/* Clean SVG Mood Rhythm Wave */}
+                  <div className="relative pt-2 pb-1">
+                    <svg viewBox="0 0 320 80" className="w-full h-20 overflow-visible" fill="none">
+                      <defs>
+                        <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#245242" stopOpacity="0.25" />
+                          <stop offset="100%" stopColor="#245242" stopOpacity="0.0" />
+                        </linearGradient>
+                      </defs>
+
+                      {/* Area Fill */}
+                      <path
+                        d="M 10 55 Q 50 20 90 40 T 170 30 T 250 20 T 310 35 L 310 80 L 10 80 Z"
+                        fill="url(#waveGradient)"
+                      />
+
+                      {/* Wave Line */}
+                      <path
+                        d="M 10 55 Q 50 20 90 40 T 170 30 T 250 20 T 310 35"
+                        stroke="#245242"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+
+                      {/* Day Markers */}
+                      {[
+                        { cx: 10, cy: 55, day: isKhmer ? "ច" : "M" },
+                        { cx: 60, cy: 28, day: isKhmer ? "អ" : "T" },
+                        { cx: 110, cy: 42, day: isKhmer ? "ព" : "W" },
+                        { cx: 160, cy: 32, day: isKhmer ? "ព្រ" : "T" },
+                        { cx: 210, cy: 22, day: isKhmer ? "សុ" : "F" },
+                        { cx: 260, cy: 24, day: isKhmer ? "ស" : "S" },
+                        { cx: 310, cy: 35, day: isKhmer ? "អា" : "S" },
+                      ].map((pt, i) => (
+                        <g key={i}>
+                          <circle cx={pt.cx} cy={pt.cy} r="4" fill="#ffffff" stroke="#245242" strokeWidth="2" />
+                          <text
+                            x={pt.cx}
+                            y={78}
+                            textAnchor="middle"
+                            fontSize="9"
+                            fontWeight="bold"
+                            fill="#8d9993"
+                          >
+                            {pt.day}
+                          </text>
+                        </g>
+                      ))}
+                    </svg>
+                  </div>
+
+                  <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3 text-xs text-gray-500">
+                    <div className="flex items-center gap-1.5">
+                      <Compass size={14} className="text-[#245242]" />
+                      <span>
+                        {isKhmer ? "ការណែនាំពី MindGuide" : "MindGuide Clinical Note"}
+                      </span>
+                    </div>
+                    <span className="font-bold text-[#245242]">
+                      {isKhmer ? "ស្ថិរភាពល្អប្រសើរ +១២%" : "+12% Stability"}
+                    </span>
+                  </div>
+                </div>
+              </section>
+
+              {/* SECTION 5: THERAPIST CONSULTATION CALLOUT */}
+              <section className="mt-6 px-5 pb-6" aria-label="Professional Support">
+                <div className="rounded-[24px] border border-[#d6e5dc] bg-[#eef6f1] p-4.5 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-[#245242] text-white">
+                      <UserCheck size={20} />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black text-[#14221f]">
+                        {isKhmer ? "ត្រូវការការពិភាក្សាជាមួយអ្នកជំនាញ?" : "Need to speak with a therapist?"}
+                      </h4>
+                      <p className="text-[11px] text-gray-600 leading-snug">
+                        {isKhmer
+                          ? "កក់ការពិគ្រោះយោបល់អនឡាញជាមួយអ្នកចិត្តសាស្រ្តមានអាជ្ញាប័ណ្ណ។"
+                          : "Confidential 1-on-1 sessions with licensed Cambodian counselors."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <Link
+                    href="/therapists"
+                    className="shrink-0 rounded-xl bg-[#245242] px-3 py-2 text-xs font-black text-white hover:bg-[#1a3d31] transition-colors"
+                  >
+                    {isKhmer ? "កក់ការណាត់" : "Book"}
+                  </Link>
+                </div>
+              </section>
             </div>
           )}
 
-          {/* ======================================================== */}
-          {/* STYLE B: SANCTUARY STYLE (Calm, Soft Sage, Minimalist)    */}
-          {/* ======================================================== */}
-          {styleMode === "sanctuary" && (
-            <div className="pb-10">
+          {/* ========================================================================= */}
+          {/* SCREEN 2: COMMUNITY REDESIGN SANCTUARY                                    */}
+          {/* ========================================================================= */}
+          {activeScreen === "community" && (
+            <div className="pb-10 font-sans">
               {/* Organic Soft Sage Curved Arch Header */}
               <div className="relative overflow-hidden rounded-b-[36px] bg-gradient-to-br from-[#245242] via-[#2d6150] to-[#397260] px-5 pt-6 pb-8 text-white shadow-sm">
                 <div className="flex items-center justify-between">
@@ -789,15 +857,27 @@ export default function DesignSandboxPreviewPage() {
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setActiveView("chat")}
+                    <Link
+                      href="/community"
                       className="inline-flex items-center gap-1 rounded-full bg-[#255243] px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-[#1a3d31]"
                     >
                       <span>{isKhmer ? "ចូលរង្វង់" : "Enter Circle"}</span>
                       <ChevronRight size={14} />
-                    </button>
+                    </Link>
                   </div>
+                </div>
+
+                {/* Kindness Guidelines Reminder */}
+                <div className="mt-4 rounded-2xl border border-[#cfe2d7] bg-[#f0f7f2] p-4 text-xs text-[#245242]">
+                  <div className="flex items-center gap-2 font-black mb-1">
+                    <ShieldCheck size={16} />
+                    <span>{isKhmer ? "គោលការណ៍សហគមន៍សុវត្ថិភាព" : "Safe Circle Guidelines"}</span>
+                  </div>
+                  <p className="text-[11px] text-gray-600 leading-snug">
+                    {isKhmer
+                      ? "ការរក្សាការសម្ងាត់ គ្មានការវិនិច្ឆ័យ និងការគោរពបទពិសោធន៍របស់សមាជិកគ្រប់រូប។"
+                      : "Zero judgment, full confidentiality, and deep empathy for every member's lived experience."}
+                  </p>
                 </div>
               </div>
             </div>
