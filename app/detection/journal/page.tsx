@@ -19,6 +19,7 @@ import {
   Trash2,
   Check,
   MessageSquarePlus,
+  Languages,
 } from "lucide-react";
 import { FigmaIcon } from "../../components/figma-icon";
 import { DesktopNavigation } from "../../_components/app-navigation";
@@ -349,6 +350,38 @@ function generateAiJournalSummary(entries: JournalEntry[], revision = 0): AiSumm
   return summaries[revision % summaries.length];
 }
 
+/**
+ * Formats raw speech-to-text transcripts for natural Khmer and English orthography.
+ * For Khmer: collapses artificial token spaces between adjacent Khmer words and transforms
+ * western periods into authentic Khmer punctuation Khan (។). Preserves spaces around English words and numbers.
+ */
+function formatSpeechTranscript(raw: string, isKhmer: boolean): string {
+  if (!raw) return "";
+
+  if (isKhmer || /[\u1780-\u17FF]/.test(raw)) {
+    let clean = raw;
+    // 1. Remove artificial spaces between two Khmer characters
+    // e.g. "ថ្ងៃ នេះ ខ្ញុំ មាន អារម្មណ៍ ចិត្ត" -> "ថ្ងៃនេះខ្ញុំមានអារម្មណ៍ចិត្ត"
+    clean = clean.replace(/([\u1780-\u17FF])\s+(?=[\u1780-\u17FF])/g, "$1");
+
+    // 2. Remove space before Khmer punctuation marks or signs
+    clean = clean.replace(/\s+([\u17D4\u17D5\u17D6\u17D7\u17D8\u17D9\u17DA])/g, "$1");
+
+    // 3. Convert western full stop following Khmer character to authentic Khmer Khan (។)
+    clean = clean.replace(/([\u1780-\u17FF])\.\s*/g, "$1។ ");
+
+    // 4. Clean up any trailing space before Khan
+    clean = clean.replace(/\s+។/g, "។");
+
+    // 5. Clean up duplicate spaces
+    clean = clean.replace(/\s{2,}/g, " ");
+
+    return clean.trim();
+  }
+
+  return raw.trim();
+}
+
 function JournalContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -376,10 +409,44 @@ function JournalContent() {
   // Guided Questions State with default Happy & Difficult questions (matching user design)
   const [questions, setQuestions] = useState<JournalQuestionItem[]>(DEFAULT_QUESTIONS);
   const [additionalNotes, setAdditionalNotes] = useState("");
-  const [recordingFieldId, setRecordingFieldId] = useState<string | null>(null);
   const [showAddQuestionModal, setShowAddQuestionModal] = useState(false);
   const [customQuestionInput, setCustomQuestionInput] = useState("");
   const [voiceNotice, setVoiceNotice] = useState<string | null>(null);
+
+  // Speech to Text (Voice Recording) State & Controls
+  const [speechLang, setSpeechLang] = useState<"km" | "en">(language === "km" ? "km" : "en");
+  const [recordingFieldId, setRecordingFieldId] = useState<string | null>(null);
+  const [recordingDuration, setRecordingDuration] = useState(0);
+
+  const recognitionRef = useRef<{ stop: () => void; abort?: () => void } | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const baseTextRef = useRef<string>("");
+  const accumulatedTranscriptRef = useRef<string>("");
+
+  useEffect(() => {
+    setSpeechLang(language === "km" ? "km" : "en");
+  }, [language]);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {
+          // ignore
+        }
+      }
+    };
+  }, []);
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
   // Saved Entry & List State with lazy local storage hydration
   const [savedEntry, setSavedEntry] = useState<JournalEntry | null>(null);
@@ -485,134 +552,251 @@ function JournalContent() {
     setQuestions((prev) => prev.filter((q) => q.id !== id));
   };
 
-  // Voice recording simulation / Web Speech API for individual questions
-  const recognitionRef = useRef<{ stop: () => void } | null>(null);
-
-  const handleToggleVoiceForField = (fieldId: string) => {
-    if (recordingFieldId === fieldId) {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-      setRecordingFieldId(null);
-      setVoiceNotice(null);
-      return;
+  // Bilingual Voice to Text (Speech Recognition) Engine
+  const stopRecording = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
     }
-
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
+      try {
+        recognitionRef.current.stop();
+      } catch {
+        // ignore
+      }
+      recognitionRef.current = null;
     }
+    setRecordingFieldId(null);
+    setRecordingDuration(0);
+  };
 
-    const windowObj = window as unknown as Record<string, new () => {
-      continuous: boolean;
-      interimResults: boolean;
-      lang: string;
-      onstart: () => void;
-      onresult: (e: { resultIndex: number; results: { [key: number]: { [key: number]: { transcript: string } } } }) => void;
-      onerror: (err: unknown) => void;
-      onend: () => void;
-      start: () => void;
-      stop: () => void;
-    }>;
+  const startRecording = (fieldId: string, targetLang?: "km" | "en") => {
+    stopRecording();
+
+    const activeLang = targetLang || speechLang;
+
+    if (typeof window === "undefined") return;
+    const windowObj = window as unknown as {
+      SpeechRecognition?: new () => {
+        continuous: boolean;
+        interimResults: boolean;
+        lang: string;
+        maxAlternatives: number;
+        onstart: () => void;
+        onresult: (e: {
+          resultIndex: number;
+          results: {
+            length: number;
+            [key: number]: {
+              isFinal: boolean;
+              [key: number]: { transcript: string };
+            };
+          };
+        }) => void;
+        onerror: (err: { error?: string }) => void;
+        onend: () => void;
+        start: () => void;
+        stop: () => void;
+      };
+      webkitSpeechRecognition?: new () => {
+        continuous: boolean;
+        interimResults: boolean;
+        lang: string;
+        maxAlternatives: number;
+        onstart: () => void;
+        onresult: (e: {
+          resultIndex: number;
+          results: {
+            length: number;
+            [key: number]: {
+              isFinal: boolean;
+              [key: number]: { transcript: string };
+            };
+          };
+        }) => void;
+        onerror: (err: { error?: string }) => void;
+        onend: () => void;
+        start: () => void;
+        stop: () => void;
+      };
+    };
 
     const SpeechRec = windowObj.SpeechRecognition || windowObj.webkitSpeechRecognition;
 
-    if (SpeechRec) {
-      try {
-        const recognition = new SpeechRec();
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.lang = km ? "km-KH" : "en-US";
+    if (!SpeechRec) {
+      setVoiceNotice(
+        km
+          ? "កម្មវិធីរុករករបស់អ្នកមិនគាំទ្រមុខងារ Web Speech ទេ។ សូមប្រើ Google Chrome ឬ Microsoft Edge។"
+          : "Your browser does not support Web Speech. Please use Google Chrome or Microsoft Edge."
+      );
+      return;
+    }
 
-        recognition.onstart = () => {
-          setRecordingFieldId(fieldId);
-          setVoiceNotice(km ? "កំពុងស្តាប់... សូមនិយាយ" : "Listening... speak freely");
-        };
+    // Set baseline text so newly spoken words append cleanly without duplicates
+    if (fieldId === "additional_notes") {
+      baseTextRef.current = additionalNotes.trim();
+    } else {
+      const q = questions.find((item) => item.id === fieldId);
+      baseTextRef.current = q?.answer.trim() || "";
+    }
+    accumulatedTranscriptRef.current = "";
 
-        recognition.onresult = (event) => {
-          let transcript = "";
-          for (let i = event.resultIndex; i in event.results; i++) {
-            transcript += event.results[i][0].transcript;
+    try {
+      const recognition = new SpeechRec();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = activeLang === "km" ? "km-KH" : "en-US";
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        setRecordingFieldId(fieldId);
+        setRecordingDuration(0);
+        if (timerRef.current) clearInterval(timerRef.current);
+        timerRef.current = setInterval(() => {
+          setRecordingDuration((prev) => prev + 1);
+        }, 1000);
+
+        setVoiceNotice(
+          activeLang === "km"
+            ? (km ? "កំពុងស្តាប់ជាភាសាខ្មែរ... សូមនិយាយ" : "Listening in Khmer... please speak")
+            : (km ? "កំពុងស្តាប់ជាភាសាអង់គ្លេស... សូមនិយាយ" : "Listening in English... please speak")
+        );
+      };
+
+      recognition.onresult = (event) => {
+        let interimText = "";
+        let finalChunk = "";
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const res = event.results[i];
+          const text = res[0]?.transcript || "";
+          if (res.isFinal) {
+            finalChunk += text;
+          } else {
+            interimText += text;
           }
+        }
+
+        if (finalChunk) {
+          accumulatedTranscriptRef.current +=
+            (accumulatedTranscriptRef.current ? " " : "") + finalChunk;
+        }
+
+        const rawSpoken = (accumulatedTranscriptRef.current + " " + interimText).trim();
+        const formattedSpoken = formatSpeechTranscript(rawSpoken, activeLang === "km");
+
+        const base = baseTextRef.current;
+        let combined = formattedSpoken;
+        if (base) {
+          if (activeLang === "km" || /[\u1780-\u17FF]/.test(formattedSpoken)) {
+            if (/[\u17D4\u17D5\u17D6!?.,]\s*$/.test(base) || /\s$/.test(base)) {
+              combined = `${base.trim()} ${formattedSpoken}`;
+            } else {
+              combined = `${base} ${formattedSpoken}`;
+            }
+          } else {
+            combined = `${base} ${formattedSpoken}`;
+          }
+        }
+
+        if (fieldId === "additional_notes") {
+          setAdditionalNotes(combined.slice(0, 500));
+        } else {
+          setQuestions((prev) =>
+            prev.map((q) =>
+              q.id === fieldId ? { ...q, answer: combined.slice(0, 300) } : q
+            )
+          );
+        }
+      };
+
+      recognition.onerror = (event) => {
+        const errType = event?.error;
+        stopRecording();
+        if (errType === "not-allowed" || errType === "permission-denied") {
+          setVoiceNotice(
+            km
+              ? "ការអនុញ្ញាតមីក្រូហ្វូនត្រូវបានបដិសេធ។ សូមបើកសិទ្ធិមីក្រូហ្វូនក្នុងការកំណត់ Browser។"
+              : "Microphone access was denied. Please allow microphone permissions in your browser settings."
+          );
+        } else if (errType === "no-speech") {
+          setVoiceNotice(
+            km
+              ? "មិនបានឮសំឡេងទេ។ សូមព្យាយាមនិយាយម្តងទៀត។"
+              : "No speech detected. Please speak closer to your microphone."
+          );
+        } else if (errType === "network") {
+          setVoiceNotice(
+            km
+              ? "មានបញ្ហាតភ្ជាប់បណ្តាញក្នុងការបម្លែងសំឡេង។ សូមពិនិត្យអ៊ីនធឺណិត។"
+              : "Network connection error with speech service. Please check your internet connection."
+          );
+        } else {
+          setVoiceNotice(
+            km
+              ? "មិនអាចចាប់សំឡេងបានទេ។ សូមព្យាយាមម្តងទៀត។"
+              : "Voice recognition encountered an issue. Please try again."
+          );
+        }
+      };
+
+      recognition.onend = () => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+        setRecordingFieldId((current) => (current === fieldId ? null : current));
+        recognitionRef.current = null;
+
+        // Final polish pass to guarantee authentic Khmer punctuation and spacing
+        if (activeLang === "km") {
           if (fieldId === "additional_notes") {
-            setAdditionalNotes((prev) => ((prev ? prev + " " : "") + transcript).slice(0, 500));
+            setAdditionalNotes((prev) => formatSpeechTranscript(prev, true));
           } else {
             setQuestions((prev) =>
-              prev.map((q) => {
-                if (q.id === fieldId) {
-                  const updatedAnswer = ((q.answer ? q.answer + " " : "") + transcript).slice(0, 300);
-                  return { ...q, answer: updatedAnswer };
-                }
-                return q;
-              })
+              prev.map((q) =>
+                q.id === fieldId
+                  ? { ...q, answer: formatSpeechTranscript(q.answer, true) }
+                  : q
+              )
             );
           }
-        };
+        }
+      };
 
-        recognition.onerror = () => {
-          setRecordingFieldId(null);
-          setVoiceNotice(
-            km ? "មិនអាចចាប់សំឡេងបានទេ។ សូមព្យាយាមម្តងទៀត។" : "Could not detect voice. Please try again."
-          );
-        };
-
-        recognition.onend = () => {
-          setRecordingFieldId(null);
-        };
-
-        recognitionRef.current = recognition;
-        recognition.start();
-      } catch {
-        simulateVoiceInputForField(fieldId);
-      }
-    } else {
-      simulateVoiceInputForField(fieldId);
+      recognitionRef.current = recognition;
+      recognition.start();
+    } catch {
+      stopRecording();
+      setVoiceNotice(
+        km
+          ? "មិនអាចបើកដំណើរការមីក្រូហ្វូនបានទេ។ សូមព្យាយាមម្តងទៀត។"
+          : "Could not activate microphone. Please try again."
+      );
     }
   };
 
-  const simulateVoiceInputForField = (fieldId: string) => {
-    setRecordingFieldId(fieldId);
-    setVoiceNotice(km ? "កំពុងស្តាប់... (គំរូសំឡេង)" : "Listening... (voice sample)");
-    setTimeout(() => {
-      let sample = "";
-      if (fieldId === "q_happy") {
-        sample = km
-          ? "មិត្តភក្តិញញឹមដាក់ និងបានញ៉ាំកាហ្វេជុំគ្នាពេលព្រឹក"
-          : "A friend smiled at me and we had a great morning coffee together.";
-      } else if (fieldId === "q_difficult") {
-        sample = km
-          ? "សម្ពាធរៀនសូត្រ និងកិច្ចការដែលត្រូវប្រគល់បន្ទាន់"
-          : "Felt pressure from studies and an urgent assignment deadline.";
-      } else if (fieldId === "additional_notes") {
-        sample = km
-          ? "ខ្ញុំបានដកដង្ហើមវែងៗ ហើយមានអារម្មណ៍ស្ងប់ចិត្តជាងមុន។"
-          : "I took a few deep breaths and now feel much more centered.";
-      } else {
-        const foundPreset = PRESET_ADDITIONAL_QUESTIONS.find((p) => p.id === fieldId);
-        if (foundPreset) {
-          sample = km ? foundPreset.sampleKm : foundPreset.sampleEn;
-        } else {
-          sample = km
-            ? "ខ្ញុំមានអារម្មណ៍ធូរស្រាលច្រើនបន្ទាប់ពីបានឆ្លុះបញ្ចាំង។"
-            : "I feel much clearer and more at peace after reflecting.";
-        }
-      }
+  const handleToggleVoiceForField = (fieldId: string) => {
+    if (recordingFieldId === fieldId) {
+      stopRecording();
+      setVoiceNotice(
+        km ? "បានបញ្ចប់ការកត់ត្រាជាសំឡេង។" : "Voice recording completed."
+      );
+      setTimeout(() => setVoiceNotice(null), 3000);
+    } else {
+      startRecording(fieldId);
+    }
+  };
 
-      if (fieldId === "additional_notes") {
-        setAdditionalNotes((prev) => (prev ? prev + " " + sample : sample).slice(0, 500));
-      } else {
-        setQuestions((prev) =>
-          prev.map((q) =>
-            q.id === fieldId
-              ? { ...q, answer: (q.answer ? q.answer + " " + sample : sample).slice(0, 300) }
-              : q
-          )
-        );
-      }
-
-      setRecordingFieldId(null);
-      setVoiceNotice(km ? "សំឡេងត្រូវបានបញ្ចូលដោយជោគជ័យ!" : "Voice transcribed successfully!");
-      setTimeout(() => setVoiceNotice(null), 2500);
-    }, 1800);
+  const handleSwitchSpeechLang = (lang: "km" | "en") => {
+    setSpeechLang(lang);
+    if (recordingFieldId) {
+      const activeField = recordingFieldId;
+      stopRecording();
+      setTimeout(() => {
+        startRecording(activeField, lang);
+      }, 150);
+    }
   };
 
   const handleSave = () => {
@@ -781,21 +965,57 @@ function JournalContent() {
                 </div>
               </div>
 
-              {/* Section 3: Guided Reflection Questions (matching user design) */}
+              {/* Section 3: Guided Reflection Questions & Global Voice Language Switcher */}
               <div className="mt-7">
-                <div className="flex items-center justify-between">
-                  <label className="block text-sm font-semibold text-[#374151]">
-                    {km ? "សំណួរឆ្លុះបញ្ចាំង និងកំណត់ត្រា (Guided Reflection)" : "Guided Reflection Questions"}
-                  </label>
-                  <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
-                    {km ? "ឆ្លើយ ឬកត់ត្រាជាសំឡេង (Voice or Text)" : "Type or speak by voice"}
-                  </span>
+                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <label className="block text-sm font-semibold text-[#374151]">
+                        {km ? "សំណួរឆ្លុះបញ្ចាំង និងកំណត់ត្រា (Guided Reflection)" : "Guided Reflection Questions"}
+                      </label>
+                      <span className="text-[11px] font-medium text-[#1f6f5b] bg-[#e6f6f1] px-2.5 py-0.5 rounded-full">
+                        {km ? "ឆ្លើយ ឬកត់ត្រាជាសំឡេង (Voice or Text)" : "Type or speak by voice"}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-xs text-[#6b7280]">
+                      {km
+                        ? "ចុចរូបមេក្រូហ្វូននៅតាមសំណួរនីមួយៗ ដើម្បីនិយាយចម្លើយម្តងមួយៗដោយងាយស្រួល"
+                        : "Tap the microphone on each question to speak your answers one by one."}
+                    </p>
+                  </div>
+
+                  {/* Voice Language Switcher (Moved Up for Easy Access) */}
+                  <div className="inline-flex items-center gap-1 self-start sm:self-auto rounded-xl border border-gray-200 bg-gray-50/90 p-1 text-xs font-semibold shadow-2xs">
+                    <div className="flex items-center gap-1 pl-1 text-[#6b7280]">
+                      <Languages size={13} className="text-[#1f6f5b]" />
+                      <span className="hidden sm:inline text-[11px] font-medium text-gray-500">
+                        {km ? "ភាសានិយាយ:" : "Voice:"}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleSwitchSpeechLang("km")}
+                      className={`rounded-lg px-2.5 py-1 text-xs transition-all ${
+                        speechLang === "km"
+                          ? "bg-white text-[#1f6f5b] shadow-xs font-bold ring-1 ring-black/5"
+                          : "text-gray-500 hover:text-gray-800"
+                      }`}
+                    >
+                      🇰🇭 ភាសាខ្មែរ (Khmer)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSwitchSpeechLang("en")}
+                      className={`rounded-lg px-2.5 py-1 text-xs transition-all ${
+                        speechLang === "en"
+                          ? "bg-white text-[#1f6f5b] shadow-xs font-bold ring-1 ring-black/5"
+                          : "text-gray-500 hover:text-gray-800"
+                      }`}
+                    >
+                      🇺🇸 English
+                    </button>
+                  </div>
                 </div>
-                <p className="mt-1 text-xs text-[#6b7280]">
-                  {km
-                    ? "ចុចរូបមេក្រូហ្វូននៅតាមសំណួរនីមួយៗ ដើម្បីនិយាយចម្លើយម្តងមួយៗដោយងាយស្រួល"
-                    : "Tap the microphone on each question to speak your answers one by one."}
-                </p>
 
                 {/* Question Inputs Grid */}
                 <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -854,9 +1074,18 @@ function JournalContent() {
 
                         {/* Active listening indicator */}
                         {isRecordingThis && (
-                          <div className="mt-2 flex items-center gap-1.5 text-[11px] font-semibold text-rose-600 animate-in fade-in">
-                            <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
-                            <span>{km ? "កំពុងស្តាប់... សូមនិយាយ" : "Listening... speak now"}</span>
+                          <div className="mt-2 flex items-center justify-between text-[11px] font-semibold text-rose-600 animate-in fade-in">
+                            <div className="flex items-center gap-1.5">
+                              <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
+                              <span>
+                                {speechLang === "km"
+                                  ? (km ? "កំពុងស្តាប់ជាភាសាខ្មែរ... សូមនិយាយ" : "Listening in Khmer... speak now")
+                                  : (km ? "កំពុងស្តាប់ជាភាសាអង់គ្លេស... សូមនិយាយ" : "Listening in English... speak now")}
+                              </span>
+                            </div>
+                            <span className="font-mono text-rose-600 font-bold">
+                              {formatDuration(recordingDuration)}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -953,9 +1182,16 @@ function JournalContent() {
                     <div className="flex items-center justify-between border-t border-gray-100 pt-2 text-xs text-gray-400">
                       <span>
                         {recordingFieldId === "additional_notes" ? (
-                          <span className="flex items-center gap-1.5 font-semibold text-red-600 animate-in fade-in">
-                            <span className="size-1.5 rounded-full bg-red-500 animate-ping" />
-                            {km ? "កំពុងស្តាប់កំណត់ហេតុបន្ថែម... សូមនិយាយ" : "Listening to additional notes... speak now"}
+                          <span className="flex items-center gap-1.5 font-semibold text-rose-600 animate-in fade-in">
+                            <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
+                            <span>
+                              {speechLang === "km"
+                                ? (km ? "កំពុងស្តាប់ជាភាសាខ្មែរ... សូមនិយាយ" : "Listening in Khmer... speak now")
+                                : (km ? "កំពុងស្តាប់ជាភាសាអង់គ្លេស... សូមនិយាយ" : "Listening in English... speak now")}
+                            </span>
+                            <span className="font-mono text-rose-600 font-bold">
+                              ({formatDuration(recordingDuration)})
+                            </span>
                           </span>
                         ) : (
                           km ? "កំណត់ត្រាបន្ថែម (ស្រេចចិត្ត) (Additional Notes)" : "Additional notes (optional)"
@@ -965,22 +1201,31 @@ function JournalContent() {
                     </div>
                   </div>
 
-                  {/* Section 4: Record with voice Button (Old Voice Button Style) */}
+                  {/* Section 4: Record with voice Button */}
                   <div className="mt-3.5 sm:mt-4">
                     <button
                       type="button"
                       onClick={() => handleToggleVoiceForField("additional_notes")}
                       className={`flex w-full items-center justify-center gap-2.5 rounded-2xl border py-3.5 px-4 font-medium shadow-sm transition-all duration-150 active:scale-[0.99] ${
                         recordingFieldId === "additional_notes"
-                          ? "border-red-400 bg-red-50 text-red-700 animate-pulse"
+                          ? "border-rose-400 bg-rose-50 text-rose-700 shadow-rose-100"
                           : "border-gray-200 bg-white text-[#111827] hover:bg-gray-50 hover:border-gray-300"
                       }`}
                     >
                       {recordingFieldId === "additional_notes" ? (
                         <>
-                          <MicOff size={18} className="text-red-600" />
-                          <span className="text-sm font-semibold">
+                          <span className="flex items-center gap-1">
+                            <span className="w-1 h-3.5 bg-rose-600 rounded-full animate-bounce [animation-delay:0ms]" />
+                            <span className="w-1 h-5 bg-rose-600 rounded-full animate-bounce [animation-delay:150ms]" />
+                            <span className="w-1 h-4 bg-rose-600 rounded-full animate-bounce [animation-delay:300ms]" />
+                            <span className="w-1 h-2 bg-rose-600 rounded-full animate-bounce [animation-delay:450ms]" />
+                          </span>
+                          <MicOff size={18} className="text-rose-600" />
+                          <span className="text-sm font-semibold text-rose-700">
                             {km ? "បញ្ឈប់ការថតសំឡេង (Stop)" : "Stop recording"}
+                          </span>
+                          <span className="rounded-full bg-rose-200/80 px-2 py-0.5 text-xs font-mono font-bold text-rose-800">
+                            {formatDuration(recordingDuration)}
                           </span>
                         </>
                       ) : (
@@ -988,6 +1233,9 @@ function JournalContent() {
                           <Mic size={18} className="text-[#1f6f5b]" />
                           <span className="text-sm font-semibold">
                             {km ? "កត់ត្រាជាសំឡេង (Record with Voice)" : "Record with voice"}
+                          </span>
+                          <span className="rounded-full bg-[#e6f6f1] px-2 py-0.5 text-[11px] font-medium text-[#1f6f5b]">
+                            {speechLang === "km" ? "ភាសាខ្មែរ" : "English"}
                           </span>
                         </>
                       )}

@@ -9,6 +9,47 @@ Each entry lists the commit it landed in, so you can match it to a version of th
 
 ---
 
+## 6 Oct 2026: Bilingual Voice to Text (Speech Recognition) on Journal Reflection Page
+
+Commit `fd306fd`. No database step: client-side Web Speech API integration in /detection/journal route.
+
+**Why.** Typing long reflections on mobile or keyboard can feel exhausting when experiencing emotional overwhelm, burnout, or fatigue. Offering a real bilingual voice-to-text feature allows users to speak their thoughts naturally in either Khmer or English, making daily emotional journaling accessible, quick, and effortless.
+
+**What changed for users:**
+
+- **Top-Level Voice Language Selector.** An intuitive switch (`🇰🇭 ភាសាខ្មែរ (Khmer)` and `🇺🇸 English`) positioned directly at the top of the Guided Reflection Questions section, making language selection immediately visible and applicable for both individual questions and additional notes.
+- **Natural Khmer Orthography (No Artificial Spaces).** Automatically collapses artificial token spaces emitted by the browser engine between adjacent Khmer words (`ថ្ងៃនេះខ្ញុំមានអារម្មណ៍...` instead of `ថ្ងៃ នេះ ខ្ញុំ មាន...`), producing fluent, continuous Khmer text.
+- **Authentic Khmer Punctuation.** Converts Western periods (`.`) placed after Khmer sentences into the proper Khmer punctuation mark Khan (`។`).
+- **Bilingual Spacing Preservation.** Smartly preserves standard spaces around English words and numbers when speaking bilingually.
+- **Real-Time Speech-to-Text Transcription.** Speaking now streams words directly into the targeted reflection field in real time without stuttering or duplicating sentences.
+- **Animated Audio Wave Visualizer.** When recording is active, a vibrant bouncing sound wave animation and pulsing indicator confirm that the microphone is actively listening.
+- **Live Recording Duration Timer.** Displays minutes and seconds counter (`00:05`) during recording so users know how long they have been speaking.
+- **Clear Microphone Guidance.** If microphone permissions are denied or if the browser lacks Web Speech API support, friendly bilingual alerts guide users on how to enable microphone access or use Google Chrome and Microsoft Edge.
+- **Individual Question Voice Input.** Each guided reflection question card supports direct voice-to-text with its own microphone button and live listening timer.
+
+**What changed for the team:**
+
+- **Moved Voice Language Switcher Up.** Repositioned the language toggle to the Guided Reflection header so users do not have to scroll to the bottom before speaking into the top reflection questions.
+- **Added `formatSpeechTranscript` Post-Processor.** Automatically formats raw Speech Recognition output to match authentic Khmer continuous orthography without breaking English spacing.
+- **Fixed Interim Transcription Accumulation.** Completely resolved interim transcription repetition by tracking final results separately from interim speech tokens.
+- **Preserved Existing Draft Text.** Speech transcription smoothly appends to existing text rather than overwriting previous reflections.
+- **Strict Anti-AI Typography Compliance.** Copy, labels, and notices follow strict anti-AI punctuation standards with Khmer terms followed by English in parentheses, without em dashes or generic stars.
+
+**What to re-test:**
+
+- Open `http://localhost:3000/detection/journal` in Google Chrome or Microsoft Edge;
+- Look at the top of the Guided Reflection Questions section;
+- Notice the `ភាសានិយាយ (Voice):` selector with `🇰🇭 ភាសាខ្មែរ (Khmer)` and `🇺🇸 English`;
+- Click `🇰🇭 ភាសាខ្មែរ (Khmer)` and click `កត់ត្រាជាសំឡេង (Record with Voice)`;
+- Allow microphone permissions when prompted by the browser;
+- Speak a sentence in Khmer (for example: "ខ្ញុំមានអារម្មណ៍ធូរស្រាល និងស្ងប់ចិត្តជាងមុន");
+- Verify that the Khmer words transcribe into the text box and the animated wave bars bounce;
+- Click `បញ្ឈប់ការថតសំឡេង (Stop)` and verify the recording stops cleanly;
+- Switch to `🇺🇸 English`, click `Record with voice`, speak in English, and verify English speech transcribes cleanly;
+- Click the microphone icon on any individual guided question and verify voice input updates that specific question.
+
+---
+
 ## 5 Oct 2026: Gamified Home Page Design Sample in /preview Sandbox
 
 Commit `b518b1e`. No database step: client-side gamified wellness exploration inside /preview route.
